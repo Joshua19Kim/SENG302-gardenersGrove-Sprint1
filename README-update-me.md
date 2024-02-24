@@ -1,9 +1,5 @@
-# SENG302 Example Project
+# SENG302 Team-F Project
 basic project using ```gradle```, ```Spring Boot```, ```Thymeleaf```, and ```GitLab CI```.
-
-> This should be your project's README (renamed to `README.md`) that your team will continually update as your team progresses throughout the year.
->
-> Update this document as necessary.
 
 ## How to run
 ### 1 - Running the project
@@ -49,6 +45,10 @@ By default, the application will run on local port 8080 [http://localhost:8080](
 ## Contributors
 
 - SENG302 teaching team
+- Kush Desai
+- Benjamin Moore
+- Sam Dawson
+- Joshua Kim
 
 ## References
 
