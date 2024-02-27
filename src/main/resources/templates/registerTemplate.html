@@ -5,11 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Login</h1>
+<h1>Register</h1>
 
 <div>
     <div>
-        <form th:action="@{loginform}" method="post">
+        <form th:action="@{register}" method="post">
             <label for="firstName"> First Name: </label>
             <input type="text" class="form-control" id="firstName" placeholder="Last Name"
                    th:name="firstName" th:value="*{firstName}" data-cy="firstName" required autofocus>
@@ -30,8 +30,8 @@
             <input type="password" class="form-control" id="password" placeholder="Password"
                    th:name="password" th:value="*{password}" data-cy="password" autofocus>
             <br/>
-            <button type="submit">Log In!</button>
-            <a th:href="@{register}">Register Now!</a>
+            <button type="submit">Register!</button>
+            <a th:href="@{login}">Log In!</a>
         </form>
     </div>
 </div>
