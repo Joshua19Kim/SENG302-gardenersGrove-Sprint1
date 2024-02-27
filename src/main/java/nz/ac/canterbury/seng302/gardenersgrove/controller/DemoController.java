@@ -22,7 +22,7 @@ public class DemoController {
     @GetMapping("/")
     public String home() {
         logger.info("GET /");
-        return "redirect:./demo";
+        return "redirect:./login";
     }
 
     /**
@@ -36,6 +36,16 @@ public class DemoController {
         logger.info("GET /demo");
         model.addAttribute("name", name);
         return "demoTemplate";
+    }
+
+    /**
+     * Gets the thymeleaf page representing the /demo page (a basic welcome screen with some links)
+     * @return thymeleaf demoTemplate
+     */
+    @GetMapping("/login")
+    public String getLogin() {
+        logger.info("GET /login");
+        return "loginTemplate";
     }
 
 }
