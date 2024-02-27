@@ -12,21 +12,27 @@ import org.springframework.web.bind.annotation.RequestParam;
  * This controller defines endpoints as functions with specific HTTP mappings
  */
 @Controller
-public class DemoController {
-    Logger logger = LoggerFactory.getLogger(DemoController.class);
+public class LoginController {
+    Logger logger = LoggerFactory.getLogger(LoginController.class);
 
+    /**
+     * Redirects GET default url '/' to '/login'
+     * @return redirect to /demo
+     */
+    @GetMapping("/")
+    public String home() {
+        logger.info("GET /");
+        return "redirect:./login";
+    }
 
     /**
      * Gets the thymeleaf page representing the /demo page (a basic welcome screen with some links)
-     * @param name url query parameter of user's name
-     * @param model (map-like) representation of data to be used in thymeleaf display
      * @return thymeleaf demoTemplate
      */
-    @GetMapping("/demo")
-    public String getTemplate(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
-        logger.info("GET /demo");
-        model.addAttribute("name", name);
-        return "demoTemplate";
+    @GetMapping("/login")
+    public String getLogin() {
+        logger.info("GET /login");
+        return "loginTemplate";
     }
 
 }
