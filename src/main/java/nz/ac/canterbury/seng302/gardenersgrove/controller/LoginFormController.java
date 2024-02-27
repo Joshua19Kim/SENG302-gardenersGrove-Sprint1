@@ -78,16 +78,17 @@ public class LoginFormController {
 
     /**
      * Store user information into DataBase
-     * @param gardner
+     * @param gardner getting user information
      * @return String value including
      */
     public String storeUserInDataBase(Gardener gardner) {
 
-        String gardnerInfo = "INSERT INTO gardener (" + gardner.getFirstName() + ", "+ gardner.getLastName() + ", "
-                + gardner.getDoB() + ", "+ gardner.getEmail() + ", "+ gardner.getPassword()+")";
+//        String gardnerInfo = ;
 
-        return gardnerInfo;
+        return "INSERT INTO gardener (" + gardner.getFirstName() + ", "+ gardner.getLastName() + ", "
+                + gardner.getDoB().toString() + ", "+ gardner.getEmail() + ", "+ gardner.getPassword()+")";
     }
 
+//    INSERT INTO gardener (first_name, last_name, DoB, email, password) VALUES ('Kush', 'Desai', DATE '2004-01-07', 'kush@gmail.com', 1);
 
 }

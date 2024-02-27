@@ -2,7 +2,7 @@ package nz.ac.canterbury.seng302.gardenersgrove.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Entity class reflecting an entry of firstName, optional lastName, date of birth, email, and password
@@ -21,7 +21,7 @@ public class Gardener {
     private String lastName;
 
     @Column(nullable = false)
-    private Date DoB;
+    private LocalDate DoB;
 
     @Column(nullable = false)
     private String email;
@@ -41,7 +41,7 @@ public class Gardener {
      * @param email user's email
      * @param password user's password
      */
-    public Gardener(String firstName, String lastName, Date DoB, String email, String password) {
+    public Gardener(String firstName, String lastName, LocalDate DoB, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.DoB = DoB;
@@ -61,7 +61,7 @@ public class Gardener {
         return lastName;
     }
 
-    public Date getDoB() {
+    public LocalDate getDoB() {
         return DoB;
     }
 
@@ -81,7 +81,7 @@ public class Gardener {
             gardenerString += ", lastName='" + lastName + '\'';
         }
 
-        gardenerString += ", DoB='" + DoB + '\'' +
+        gardenerString += ", DoB='" + DoB.toString() + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 "}";
