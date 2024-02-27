@@ -1,6 +1,7 @@
 package nz.ac.canterbury.seng302.gardenersgrove.controller;
 
 import nz.ac.canterbury.seng302.gardenersgrove.entity.FormResult;
+import nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener;
 import nz.ac.canterbury.seng302.gardenersgrove.service.FormService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,4 +75,19 @@ public class LoginFormController {
         model.addAttribute("responses", formService.getFormResults());
         return "demoResponsesTemplate";
     }
+
+    /**
+     * Store user information into DataBase
+     * @param gardner
+     * @return String value including
+     */
+    public String storeUserInDataBase(Gardener gardner) {
+
+        String gardnerInfo = "INSERT INTO gardener (" + gardner.getFirstName() + ", "+ gardner.getLastName() + ", "
+                + gardner.getDoB() + ", "+ gardner.getEmail() + ", "+ gardner.getPassword()+")";
+
+        return gardnerInfo;
+    }
+
+
 }
