@@ -10,6 +10,81 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class InputValidationTest {
 
     @Test
+    void testMatchingPassword() {
+        InputValidation validate = new InputValidation();
+        String password1 = "password";
+        String password2 = "password";
+        boolean isValid = validate.checkPasswordsMatch(password1, password2);
+        assertTrue(isValid);
+    }
+
+    @Test
+    void testDifferentCapitalisation() {
+        InputValidation validate = new InputValidation();
+        String password1 = "password";
+        String password2 = "PASSWORD";
+        boolean isValid = validate.checkPasswordsMatch(password1, password2);
+        assertFalse(isValid);
+    }
+
+    @Test
+    void testDifferentPassword() {
+        InputValidation validate = new InputValidation();
+        String password1 = "HelloWorld";
+        String password2 = "ByeMoon";
+        boolean isValid = validate.checkPasswordsMatch(password1, password2);
+        assertFalse(isValid);
+    }
+
+    @Test
+    void testNullPassword() {
+        InputValidation validate = new InputValidation();
+        String password = "";
+        boolean isValid = validate.checkStrongPassword(password);
+        assertFalse(isValid);
+    }
+
+    @Test
+    void testLongPasswordNoSpecial() {
+        InputValidation validate = new InputValidation();
+        String password = "morethaneight";
+        boolean isValid = validate.checkStrongPassword(password);
+        assertFalse(isValid);
+    }
+
+    @Test
+    void testLongSpecialNoLetter() {
+        InputValidation validate = new InputValidation();
+        String password = "!@#$%^&**()";
+        boolean isValid = validate.checkStrongPassword(password);
+        assertFalse(isValid);
+    }
+
+    @Test
+    void testLongSpecialNoLowercase() {
+        InputValidation validate = new InputValidation();
+        String password = "ABCDEG!@#$";
+        boolean isValid = validate.checkStrongPassword(password);
+        assertFalse(isValid);
+    }
+
+    @Test
+    void testLongSpecialAlphaNoNumber() {
+        InputValidation validate = new InputValidation();
+        String password = "ABCDEG!@#$aa";
+        boolean isValid = validate.checkStrongPassword(password);
+        assertFalse(isValid);
+    }
+
+    @Test
+    void testValidPassword() {
+        InputValidation validate = new InputValidation();
+        String password = "ABC123sd!";
+        boolean isValid = validate.checkStrongPassword(password);
+        assertTrue(isValid);
+    }
+
+    @Test
     void testNormalName() {
         InputValidation validate = new InputValidation();
         String name = "Brad";
@@ -119,6 +194,33 @@ public class InputValidationTest {
         InputValidation validate = new InputValidation();
         String email = "longsuffix@uc.christchurch";
         boolean isValid = validate.checkValidEmail(email);
+        assertFalse(isValid);
+    }
+
+    @Test
+    void testMatchingEmail() {
+        InputValidation validate = new InputValidation();
+        String email1 = "potato@gmail.com";
+        String email2 = "potato@gmail.com";
+        boolean isValid = validate.checkEmailsMatch(email1, email2);
+        assertTrue(isValid);
+    }
+
+    @Test
+    void testDifferentCapitalisationEmail() {
+        InputValidation validate = new InputValidation();
+        String email1 = "potato@gmail.com";
+        String email2 = "POtato@gmail.COM";
+        boolean isValid = validate.checkEmailsMatch(email1, email2);
+        assertFalse(isValid);
+    }
+
+    @Test
+    void testDifferentEmail() {
+        InputValidation validate = new InputValidation();
+        String email1 = "HelloWorld@hotmail.com";
+        String email2 = "ByeWorld@canterbury.ac.nz";
+        boolean isValid = validate.checkEmailsMatch(email1, email2);
         assertFalse(isValid);
     }
 
