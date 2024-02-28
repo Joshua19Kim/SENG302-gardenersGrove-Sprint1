@@ -15,7 +15,7 @@ import java.time.LocalDate;
 
 /**
  * Controller for form example.
- * Note the @link{Autowired} annotation giving us access to the @lnik{FormService} class automatically
+ * Note the @link{Autowired} annotation giving us access to the @link{FormService} class automatically
  */
 @Controller
 public class LoginFormController {
@@ -34,14 +34,14 @@ public class LoginFormController {
      * @param DoB user's date of birth
      * @param email user's email
      * @param password user's password
-     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
+     * @param model (map-like) representation of first name, last name, DoB, email and password for use in thymeleaf
      * @return thymeleaf demoFormTemplate
      */
     @GetMapping("/login")
     public String form(@RequestParam(name="firstName", required = false, defaultValue = "") String firstName,
                        @RequestParam(name="lastName", required = false, defaultValue = "") String lastName,
-                       @RequestParam(name="email", required = false, defaultValue = "") String email,
                        @RequestParam(name="DoB", required = false, defaultValue = "") LocalDate DoB,
+                       @RequestParam(name="email", required = false, defaultValue = "") String email,
                        @RequestParam(name="password", required = false, defaultValue = "") String password,
                        Model model) {
         logger.info("GET /login");
@@ -60,15 +60,15 @@ public class LoginFormController {
      * @param DoB user's date of birth
      * @param email user's email
      * @param password user's password
-     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf,
+     * @param model (map-like) representation of first name, last name, DoB, email and password for use in thymeleaf
      *              with values being set to relevant parameters provided
      * @return thymeleaf demoFormTemplate
      */
     @PostMapping("/login")
     public String submitForm( @RequestParam(name="firstName") String firstName,
                               @RequestParam(name="lastName") String lastName,
-                              @RequestParam(name="email") String email,
                               @RequestParam(name="DoB") LocalDate DoB,
+                              @RequestParam(name="email") String email,
                               @RequestParam(name="password") String password,
                               Model model) {
         logger.info("POST /login");
@@ -95,13 +95,13 @@ public class LoginFormController {
 
     /**
      * Store user information into DataBase
-     * @param gardner getting user information
+     * @param gardener getting user information
      * @return String value including
      */
-    public String storeUserInDataBase(Gardener gardner) {
+    public String storeUserInDataBase(Gardener gardener) {
 
         //INSERT INTO gardener (first_name, last_name, DoB, email, password) VALUES ('Kush', 'Desai', DATE '2004-01-07', 'kush@gmail.com', 1);
-        return "INSERT INTO gardener (" + gardner.getFirstName() + ", "+ gardner.getLastName() + ", "
-                + gardner.getDoB().toString() + ", "+ gardner.getEmail() + ", "+ gardner.getPassword()+")";
+        return "INSERT INTO gardener (" + gardener.getFirstName() + ", "+ gardener.getLastName() + ", "
+                + gardener.getDoB().toString() + ", "+ gardener.getEmail() + ", "+ gardener.getPassword()+")";
     }
 }
