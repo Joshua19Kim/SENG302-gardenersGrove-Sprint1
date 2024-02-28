@@ -12,9 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LoginFormControllerTest {
     @Test
     void testStoringInfo() {
-        Gardener testGardener = new Gardener("fakeMan", "King", LocalDate.of(2000, 2,20), "fakeMan@gmail.com", "fakeMan1234");
+        String testPassword = "fakeMan1234";
+        Gardener testGardener = new Gardener("fakeMan", "King", LocalDate.of(2000, 2,20), "fakeMan@gmail.com", testPassword);
         LoginFormController controller = new LoginFormController(null);
         String testResult = controller.storeUserInDataBase(testGardener);
-        assertEquals(testResult, "INSERT INTO gardener (fakeMan, King, 2000-02-20, fakeMan@gmail.com, fakeMan1234)");
+        int hashedTestPassword = testPassword.hashCode();
+        String result = "INSERT INTO gardener (fakeMan, King, 2000-02-20, fakeMan@gmail.com, "+ String.valueOf(hashedTestPassword)+ ")";
+        assertEquals(testResult, result);
+
     }
 }
