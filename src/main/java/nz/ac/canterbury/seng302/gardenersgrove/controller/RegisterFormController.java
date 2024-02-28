@@ -18,13 +18,13 @@ import java.time.LocalDate;
  * Note the @link{Autowired} annotation giving us access to the @lnik{FormService} class automatically
  */
 @Controller
-public class LoginFormController {
-    Logger logger = LoggerFactory.getLogger(LoginFormController.class);
+public class RegisterFormController {
+    Logger logger = LoggerFactory.getLogger(RegisterFormController.class);
 
     private final GardenerFormService gardenerFormService;
 
     @Autowired
-    public LoginFormController(GardenerFormService gardenerFormService) {
+    public RegisterFormController(GardenerFormService gardenerFormService) {
         this.gardenerFormService = gardenerFormService;
     }
     /**
@@ -37,20 +37,20 @@ public class LoginFormController {
      * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
      * @return thymeleaf demoFormTemplate
      */
-    @GetMapping("/login")
+    @GetMapping("/register")
     public String form(@RequestParam(name="firstName", required = false, defaultValue = "") String firstName,
                        @RequestParam(name="lastName", required = false, defaultValue = "") String lastName,
                        @RequestParam(name="email", required = false, defaultValue = "") String email,
                        @RequestParam(name="DoB", required = false, defaultValue = "") LocalDate DoB,
                        @RequestParam(name="password", required = false, defaultValue = "") String password,
                        Model model) {
-        logger.info("GET /login");
+        logger.info("GET /register");
         model.addAttribute("firstName", firstName);
         model.addAttribute("lastName", lastName);
         model.addAttribute("DoB", DoB);
         model.addAttribute("email", email);
         model.addAttribute("password", password);
-        return "loginTemplate";
+        return "registerTemplate";
     }
 
     /**
@@ -64,21 +64,22 @@ public class LoginFormController {
      *              with values being set to relevant parameters provided
      * @return thymeleaf demoFormTemplate
      */
-    @PostMapping("/login")
+    @PostMapping("/register")
     public String submitForm( @RequestParam(name="firstName") String firstName,
                               @RequestParam(name="lastName") String lastName,
                               @RequestParam(name="email") String email,
                               @RequestParam(name="DoB") LocalDate DoB,
                               @RequestParam(name="password") String password,
                               Model model) {
-        logger.info("POST /login");
+        logger.info("POST /register");
         model.addAttribute("firstName", firstName);
         model.addAttribute("lastName", lastName);
         model.addAttribute("DoB", DoB);
         model.addAttribute("email", email);
         model.addAttribute("password", password);
+        gardenerFormService.addGardener(new Gardener(firstName, lastName, DoB, email, password));
 
-        return "loginTemplate";
+        return "registerTemplate";
     }
 
     /**
@@ -86,22 +87,10 @@ public class LoginFormController {
      * @param model (map-like) representation of results to be used by thymeleaf
      * @return thymeleaf demoResponseTemplate
      */
-    @GetMapping("/login/responses")
+    @GetMapping("/register/responses")
     public String responses(Model model) {
         logger.info("GET /form/responses");
         model.addAttribute("responses", gardenerFormService.getGardeners());
         return "registerResponsesTemplate";
-    }
-
-    /**
-     * Store user information into DataBase
-     * @param gardner getting user information
-     * @return String value including
-     */
-    public String storeUserInDataBase(Gardener gardner) {
-
-        //INSERT INTO gardener (first_name, last_name, DoB, email, password) VALUES ('Kush', 'Desai', DATE '2004-01-07', 'kush@gmail.com', 1);
-        return "INSERT INTO gardener (" + gardner.getFirstName() + ", "+ gardner.getLastName() + ", "
-                + gardner.getDoB().toString() + ", "+ gardner.getEmail() + ", "+ gardner.getPassword()+")";
     }
 }
