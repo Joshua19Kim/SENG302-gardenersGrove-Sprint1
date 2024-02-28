@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" context="text/html; charset=UTF-8">
+    <title>User Profile</title>
+
+</head>
+<body>
+<h1>User Profile</h1>
+
+<form id="profileForm" action="/updateProfile" method="post">
+    <table>
+        <thead class="table-head">
+        <tr>
+            <td>First Name</td>
+            <td>
+                <span id="firstNameSpan" th:text="${model.firstName}"></span>
+                <input type="text" id="firstNameInput" th:field="*{firstName}" style="display: none;" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>Last Name</td>
+            <td>
+                <span id="lastNameSpan" th:text="${model.lastName}"></span>
+                <input type="text" id="lastNameInput" th:field="*{lastName}" style="display: none;" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>Date of Birth</td>
+            <td>
+                <span id="dobSpan" th:text="${model.DoB}"></span>
+                <input type="date" id="dobInput" th:field="*{DoB}" style="display: none;" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>Email</td>
+            <td>
+                <span id="emailSpan" th:text="${model.email}"></span>
+                <input type="email" id="emailInput" th:field="*{email}" style="display: none;" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>Password</td>
+            <td>
+                <span id="passwordSpan" th:text="*{new String(new char[__${#strings.length(model.password)}__]).replace('\0', '*')}"></span>
+                <input type="password" id="passwordInput" th:field="*{password}" style="display: none;" />
+            </td>
+        </tr>
+        </thead>
+    </table>
+
+    <div id="editButtonDiv">
+        <button type="button" onclick="enableEditing()">Edit</button>
+    </div>
+    <div id="saveCancelButtonDiv" style="display: none;">
+        <button type="submit" onclick="saveProfile()">Save</button>
+        <button type="button" onclick="disableEditing()">Cancel</button>
+    </div>
+</form>
+
+<script>
+    function enableEditing() {
+        document.getElementById('editButtonDiv').style.display = 'none';
+        document.getElementById('saveCancelButtonDiv').style.display = 'block';
+
+        document.getElementById('firstNameSpan').style.display = 'none';
+        document.getElementById('firstNameInput').style.display = 'inline';
+
+        document.getElementById('lastNameSpan').style.display = 'none';
+        document.getElementById('lastNameInput').style.display = 'inline';
+
+        document.getElementById('dobSpan').style.display = 'none';
+        document.getElementById('dobInput').style.display = 'inline';
+
+        document.getElementById('emailSpan').style.display = 'none';
+        document.getElementById('emailInput').style.display = 'inline';
+
+        document.getElementById('passwordSpan').style.display = 'none';
+        document.getElementById('passwordInput').style.display = 'inline';
+    }
+
+    function disableEditing() {
+        document.getElementById('editButtonDiv').style.display = 'block';
+        document.getElementById('saveCancelButtonDiv').style.display = 'none';
+
+        document.getElementById('firstNameSpan').style.display = 'inline';
+        document.getElementById('firstNameInput').style.display = 'none';
+
+        document.getElementById('lastNameSpan').style.display = 'inline';
+        document.getElementById('lastNameInput').style.display = 'none';
+
+        document.getElementById('dobSpan').style.display = 'inline';
+        document.getElementById('dobInput').style.display = 'none';
+
+        document.getElementById('emailSpan').style.display = 'inline';
+        document.getElementById('emailInput').style.display = 'none';
+
+        document.getElementById('passwordSpan').style.display = 'inline';
+        document.getElementById('passwordInput').style.display = 'none';
+    }
+    function saveProfile() {
+        document.getElementById('profileForm').submit();
+    }
+</script>
+
+</body>
+</html>
