@@ -1,8 +1,7 @@
 package nz.ac.canterbury.seng302.gardenersgrove.controller;
 
-import nz.ac.canterbury.seng302.gardenersgrove.entity.FormResult;
 import nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener;
-import nz.ac.canterbury.seng302.gardenersgrove.service.FormService;
+import nz.ac.canterbury.seng302.gardenersgrove.service.GardenerFormService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+
 /**
  * Controller for form example.
  * Note the @link{Autowired} annotation giving us access to the @lnik{FormService} class automatically
@@ -20,48 +21,65 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginFormController {
     Logger logger = LoggerFactory.getLogger(LoginFormController.class);
 
-    private final FormService formService;
+    private final GardenerFormService gardenerFormService;
 
     @Autowired
-    public LoginFormController(FormService formService) {
-        this.formService = formService;
+    public LoginFormController(GardenerFormService gardenerFormService) {
+        this.gardenerFormService = gardenerFormService;
     }
     /**
      * Gets form to be displayed, includes the ability to display results of previous form when linked to from POST form
-     * @param displayName previous name entered into form to be displayed
-     * @param displayLanguage previous favourite programming language entered into form to be displayed
+     * @param firstName first name of user to be entered in the form
+     * @param lastName last name of user
+     * @param DoB user's date of birth
+     * @param email user's email
+     * @param password user's password
      * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
      * @return thymeleaf demoFormTemplate
      */
-    @GetMapping("/loginform")
-    public String form(@RequestParam(name="displayName", required = false, defaultValue = "") String displayName,
-                       @RequestParam(name="displayFavouriteLanguage", required = false, defaultValue = "") String displayLanguage,
+    @GetMapping("/login")
+    public String form(@RequestParam(name="firstName", required = false, defaultValue = "") String firstName,
+                       @RequestParam(name="lastName", required = false, defaultValue = "") String lastName,
+                       @RequestParam(name="email", required = false, defaultValue = "") String email,
+                       @RequestParam(name="DoB", required = false, defaultValue = "") LocalDate DoB,
+                       @RequestParam(name="password", required = false, defaultValue = "") String password,
                        Model model) {
-        logger.info("GET /loginform");
-        model.addAttribute("displayName", displayName);
-        model.addAttribute("displayFavouriteLanguage", displayLanguage);
-        model.addAttribute("isJava", displayLanguage.equalsIgnoreCase("java"));
-        return "demoFormTemplate";
+        logger.info("GET /login");
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("DoB", DoB);
+        model.addAttribute("email", email);
+        model.addAttribute("password", password);
+        return "loginTemplate";
     }
 
     /**
      * Posts a form response with name and favourite language
-     * @param name name if user
-     * @param favouriteLanguage users favourite programming language
+     * @param firstName first name of user
+     * @param lastName last name of user
+     * @param DoB user's date of birth
+     * @param email user's email
+     * @param password user's password
      * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf,
      *              with values being set to relevant parameters provided
      * @return thymeleaf demoFormTemplate
      */
-    @PostMapping("/loginform")
-    public String submitForm( @RequestParam(name="name") String name,
-                              @RequestParam(name = "favouriteLanguage") String favouriteLanguage,
+    @PostMapping("/login")
+    public String submitForm( @RequestParam(name="firstName") String firstName,
+                              @RequestParam(name="lastName") String lastName,
+                              @RequestParam(name="email") String email,
+                              @RequestParam(name="DoB") LocalDate DoB,
+                              @RequestParam(name="password") String password,
                               Model model) {
-        logger.info("POST /form");
-        formService.addFormResult(new FormResult(name, favouriteLanguage));
-        model.addAttribute("displayName", name);
-        model.addAttribute("displayFavouriteLanguage", favouriteLanguage);
-        model.addAttribute("isJava", favouriteLanguage.equalsIgnoreCase("java"));
-        return "demoFormTemplate";
+        logger.info("POST /login");
+        gardenerFormService.addGardener(new Gardener(firstName, lastName, DoB, email, password));
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("DoB", DoB);
+        model.addAttribute("email", email);
+        model.addAttribute("password", password);
+
+        return "loginTemplate";
     }
 
     /**
@@ -69,11 +87,11 @@ public class LoginFormController {
      * @param model (map-like) representation of results to be used by thymeleaf
      * @return thymeleaf demoResponseTemplate
      */
-    @GetMapping("/loginform/responses")
+    @GetMapping("/login/responses")
     public String responses(Model model) {
         logger.info("GET /form/responses");
-        model.addAttribute("responses", formService.getFormResults());
-        return "demoResponsesTemplate";
+        model.addAttribute("responses", gardenerFormService.getGardeners());
+        return "loginResponsesTemplate";
     }
 
     /**
@@ -83,12 +101,8 @@ public class LoginFormController {
      */
     public String storeUserInDataBase(Gardener gardner) {
 
-//        String gardnerInfo = ;
-
+        //INSERT INTO gardener (first_name, last_name, DoB, email, password) VALUES ('Kush', 'Desai', DATE '2004-01-07', 'kush@gmail.com', 1);
         return "INSERT INTO gardener (" + gardner.getFirstName() + ", "+ gardner.getLastName() + ", "
                 + gardner.getDoB().toString() + ", "+ gardner.getEmail() + ", "+ gardner.getPassword()+")";
     }
-
-//    INSERT INTO gardener (first_name, last_name, DoB, email, password) VALUES ('Kush', 'Desai', DATE '2004-01-07', 'kush@gmail.com', 1);
-
 }

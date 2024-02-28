@@ -36,7 +36,7 @@ public class Gardener {
 
     /**
      * Creates a new Gardener object
-     * @param firstName firstName of user
+     * @param firstName first name of user
      * @param DoB user's date of birth
      * @param email user's email
      * @param password user's password

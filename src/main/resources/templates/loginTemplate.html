@@ -9,7 +9,7 @@
 
 <div>
     <div>
-        <form th:action="@{loginform}" method="post">
+        <form th:action="@{login}" method="post">
             <label for="firstName"> First Name: </label>
             <input type="text" class="form-control" id="firstName" placeholder="Last Name"
                    th:name="firstName" th:value="*{firstName}" data-cy="firstName" required autofocus>
