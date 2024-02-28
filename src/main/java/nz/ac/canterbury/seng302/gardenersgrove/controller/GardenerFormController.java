@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Controller for form example.
@@ -67,15 +67,15 @@ public class GardenerFormController {
     @PostMapping("/form")
     public String submitForm( @RequestParam(name="first name") String firstName,
                               @RequestParam(name="last name") String lastName,
-//                              @RequestParam(name=15-12-2021) Date DoB,
+                              @RequestParam(name="2021-12-15") LocalDate DoB,
                               @RequestParam(name="name@gmail.com") String email,
                               @RequestParam(name="BadPassword") String password,
                               Model model) {
         logger.info("POST /form");
-        gardenerFormService.addGardener(new Gardener(firstName, lastName, new Date(), email, password));
+        gardenerFormService.addGardener(new Gardener(firstName, lastName, DoB , email, password));
         model.addAttribute("displayFirstName", firstName);
         model.addAttribute("displayLastName", lastName);
-//        model.addAttribute("displayDoB", DoB);
+        model.addAttribute("displayDoB", DoB);
         model.addAttribute("displayEmail", email);
         model.addAttribute("displayPassword", password);
         return "demoFormTemplate";
