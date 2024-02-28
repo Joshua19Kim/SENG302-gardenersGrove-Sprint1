@@ -16,8 +16,8 @@
             <br/>
             <label for="lastName"> Last Name: </label>
             <input type="text" class="form-control" id="lastName" placeholder="Last Name"
-                   th:name="lastName" th:value="*{lastName}" data-cy="lastName" autofocus>
-            <input type="checkbox" id="lastNameCheck" name="lastNameCheck"/>
+                   th:name="lastName" th:value="*{lastName}" data-cy="lastName">
+            <input type="checkbox" class="form-control" id="lastNameCheck" name="lastNameCheck" />
             <label for="lastNameCheck">I have no surname</label>
             <script>
                 document.getElementById('lastNameCheck').checked = false;
@@ -28,15 +28,15 @@
             <br/>
             <label for="DoB"> Email: </label>
             <input type="date" class="form-control" id="DoB"
-                   th:name="DoB" th:value="*{DoB}" data-cy="DoB" autofocus>
+                   th:name="DoB" th:value="*{DoB}" data-cy="DoB">
             <br/>
             <label for="email"> Email: </label>
             <input type="text" class="form-control" id="email" placeholder="Email"
-                   th:name="email" th:value="*{email}" data-cy="email" autofocus>
+                   th:name="email" th:value="*{email}" data-cy="email">
             <br/>
             <label for="password"> Password: </label>
             <input type="password" class="form-control" id="password" placeholder="Password"
-                   th:name="password" th:value="*{password}" data-cy="password" autofocus>
+                   th:name="password" th:value="*{password}" data-cy="password">
             <br/>
             <button type="submit">Register!</button>
             <a th:href="@{login}">Log In!</a>

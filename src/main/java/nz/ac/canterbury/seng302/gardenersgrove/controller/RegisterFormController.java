@@ -15,7 +15,7 @@ import java.time.LocalDate;
 
 /**
  * Controller for form example.
- * Note the @link{Autowired} annotation giving us access to the @lnik{FormService} class automatically
+ * Note the @link{Autowired} annotation giving us access to the @link{FormService} class automatically
  */
 @Controller
 public class RegisterFormController {
@@ -40,8 +40,8 @@ public class RegisterFormController {
     @GetMapping("/register")
     public String form(@RequestParam(name="firstName", required = false, defaultValue = "") String firstName,
                        @RequestParam(name="lastName", required = false, defaultValue = "") String lastName,
-                       @RequestParam(name="email", required = false, defaultValue = "") String email,
                        @RequestParam(name="DoB", required = false, defaultValue = "") LocalDate DoB,
+                       @RequestParam(name="email", required = false, defaultValue = "") String email,
                        @RequestParam(name="password", required = false, defaultValue = "") String password,
                        Model model) {
         logger.info("GET /register");
@@ -66,9 +66,9 @@ public class RegisterFormController {
      */
     @PostMapping("/register")
     public String submitForm( @RequestParam(name="firstName") String firstName,
-                              @RequestParam(name="lastName") String lastName,
-                              @RequestParam(name="email") String email,
+                              @RequestParam(name="lastName", required = false) String lastName,
                               @RequestParam(name="DoB") LocalDate DoB,
+                              @RequestParam(name="email") String email,
                               @RequestParam(name="password") String password,
                               Model model) {
         logger.info("POST /register");
