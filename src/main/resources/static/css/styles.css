@@ -27,7 +27,7 @@ input {
 }
 
 button {
-    background-color: cornflowerblue; /* Green */
+    background-color: cornflowerblue;
     border: none;
     color: white;
     padding: 5px 2px;
@@ -39,6 +39,11 @@ button {
     align-items: end;
     margin-left: 40%;
     margin-right: 10px;
+}
+
+#cancel {
+    background-color: indianred;
+    color: black;
 }
 
 div {
