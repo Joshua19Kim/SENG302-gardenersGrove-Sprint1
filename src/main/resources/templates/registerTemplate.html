@@ -29,6 +29,7 @@
             <label for="DoB"> Date of Birth: </label>
             <input type="date" class="form-control" id="DoB"
                    th:name="DoB" th:value="*{DoB}" data-cy="DoB">
+            <p>Email address must be in the form ‘jane@doe.nz</p>
             <br/>
             <label for="email"> Email: </label>
             <input type="text" class="form-control" id="email" placeholder="Email"
@@ -36,11 +37,14 @@
             <br/>
             <label for="password"> Password: </label>
             <input type="password" class="form-control" id="password" placeholder="Password"
-                   th:name="password" th:value="*{password}" data-cy="password">
+                   th:name="password" data-cy="password">
             <br/>
-            <label for="password"> Confirm Password: </label>
-            <input type="password" class="form-control" id="passwordConfirm" placeholder="Password"
-                   th:name="passwordConfirm" th:value="*{passwordConfirm}" data-cy="passwordConfirm">
+            <label for="passwordConfirm"> Confirm Password: </label>
+            <input type="passwordConfirm" class="form-control" id="passwordConfirm" placeholder="Repeat password"
+                   th:name="passwordConfirm" data-cy="passwordConfirm">
+            <p th:value="*{passwordsMatch}" th:text="${passwordsMatch}"></p>
+            <br/>
+
             <br/>
             <button type="submit">Register!</button>
             <a th:href="@{login}">Log In!</a>

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import nz.ac.canterbury.seng302.gardenersgrove.service.InputValidation; // DELETE
+
 /**
  * Controller for form example.
  * Note the @link{Autowired} annotation giving us access to the @lnik{FormService} class automatically
@@ -21,9 +23,12 @@ public class DemoFormController {
 
     private final FormService formService;
 
+    private InputValidation inputValidator = new InputValidation();
+
     @Autowired
     public DemoFormController(FormService formService) {
         this.formService = formService;
+        this.inputValidator = inputValidator; //DELETE
     }
     /**
      * Gets form to be displayed, includes the ability to display results of previous form when linked to from POST form
@@ -56,7 +61,13 @@ public class DemoFormController {
                               @RequestParam(name = "favouriteLanguage") String favouriteLanguage,
                               Model model) {
         logger.info("POST /form");
+
+        if (!inputValidator.checkValidName(name)) {
+            name = "Fail";
+        };
         formService.addFormResult(new FormResult(name, favouriteLanguage));
+
+
         model.addAttribute("displayName", name);
         model.addAttribute("displayFavouriteLanguage", favouriteLanguage);
         model.addAttribute("isJava", favouriteLanguage.equalsIgnoreCase("java"));
