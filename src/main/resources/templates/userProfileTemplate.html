@@ -8,7 +8,7 @@
 <body>
 <h1>User Profile</h1>
 
-<form id="profileForm" action="/updateProfile" method="post">
+<form id="profileForm" action="/userProfile" method="post">
     <table>
         <thead class="table-head">
         <tr>
@@ -24,6 +24,14 @@
             <td>
                 <span id="lastNameSpan" th:text="${model.lastName}"></span>
                 <input type="text" id="lastNameInput" th:field="*{lastName}" style="display: none;" />
+                <input type="checkbox" class="form-control" id="lastNameCheck" name="lastNameCheck" />
+                <label for="lastNameCheck">I have no surname</label>
+                <script>
+                    document.getElementById('lastNameCheck').checked = false;
+                    document.getElementById('lastNameCheck').onchange = function() {
+                        document.getElementById('lastName').disabled = this.checked;
+                    };
+                </script>
             </td>
         </tr>
 
@@ -43,10 +51,10 @@
             </td>
         </tr>
 
-        <tr>
+        <tr id="passwordRow" style="display: none;">
             <td>Password</td>
             <td>
-                <span id="passwordSpan" th:text="*{new String(new char[__${#strings.length(model.password)}__]).replace('\0', '*')}"></span>
+                <span id="passwordSpan"></span>
                 <input type="password" id="passwordInput" th:field="*{password}" style="display: none;" />
             </td>
         </tr>
@@ -55,6 +63,7 @@
 
     <div id="editButtonDiv">
         <button type="button" onclick="enableEditing()">Edit</button>
+        <button type="button" onclick="goingBackToLogin()">Go Back!</button>
     </div>
     <div id="saveCancelButtonDiv" style="display: none;">
         <button type="submit" onclick="saveProfile()">Save</button>
@@ -79,8 +88,8 @@
         document.getElementById('emailSpan').style.display = 'none';
         document.getElementById('emailInput').style.display = 'inline';
 
-        document.getElementById('passwordSpan').style.display = 'none';
-        document.getElementById('passwordInput').style.display = 'inline';
+        document.getElementById('passwordRow').style.display = 'table-row';
+        document.getElementById('passwordSpan').innerText = '*****'.repeat(document.getElementById('passwordInput').value.length);
     }
 
     function disableEditing() {
@@ -99,11 +108,14 @@
         document.getElementById('emailSpan').style.display = 'inline';
         document.getElementById('emailInput').style.display = 'none';
 
-        document.getElementById('passwordSpan').style.display = 'inline';
-        document.getElementById('passwordInput').style.display = 'none';
+        document.getElementById('passwordRow').style.display = 'none';
     }
     function saveProfile() {
         document.getElementById('profileForm').submit();
+    }
+
+    function goingBackToLogin() {
+        window.location.href = "@{login}";
     }
 </script>
 
