@@ -67,8 +67,8 @@ public class RegisterFormController {
      * @param lastName last name of user
      * @param DoB user's date of birth
      * @param email user's email
-     * @param password1 user's password
-     * @param password2 user's repeated password
+     * @param password user's password
+     * @param passwordConfirm user's repeated password
      * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf,
      *              with values being set to relevant parameters provided
      * @return thymeleaf demoFormTemplate
@@ -78,8 +78,8 @@ public class RegisterFormController {
                               @RequestParam(name="lastName", required = false) String lastName,
                               @RequestParam(name="DoB") LocalDate DoB,
                               @RequestParam(name="email") String email,
-                              @RequestParam(name="password1") String password1,
-                              @RequestParam(name = "password2") String password2,
+                              @RequestParam(name="password") String password,
+                              @RequestParam(name = "passwordConfirm") String passwordConfirm,
                               Model model) {
         logger.info("POST /register");
 
@@ -87,20 +87,20 @@ public class RegisterFormController {
         model.addAttribute("lastName", lastName);
         model.addAttribute("DoB", DoB);
         model.addAttribute("email", email);
-        model.addAttribute("password", password1);
+        model.addAttribute("password", password);
 
         model.addAttribute("firstNameValid", inputValidator.checkValidName(firstName));
         model.addAttribute("lastNameValid", inputValidator.checkValidName(lastName));
         model.addAttribute("DoBValid", DoB);
         model.addAttribute("emailValid", inputValidator.checkValidEmail(email));
 
-        Optional<String> passwordMatchError = inputValidator.checkPasswordsMatch(password1, password2);
+        Optional<String> passwordMatchError = inputValidator.checkPasswordsMatch(password, passwordConfirm);
         model.addAttribute("passwordsMatch", passwordMatchError.isPresent() ? passwordMatchError.get() : "");
-        model.addAttribute("password1Valid", inputValidator.checkStrongPassword(password1));
-        model.addAttribute("password2Valid", inputValidator.checkStrongPassword(password2));
+        model.addAttribute("passwordValid", inputValidator.checkStrongPassword(password));
+        model.addAttribute("passwordConfirmValid", inputValidator.checkStrongPassword(passwordConfirm));
 
 
-        gardenerFormService.addGardener(new Gardener(firstName, lastName, DoB, email, password1));
+        gardenerFormService.addGardener(new Gardener(firstName, lastName, DoB, email, password));
 
         return "registerTemplate";
     }
