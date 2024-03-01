@@ -41,7 +41,7 @@ public class RegisterFormController {
     @GetMapping("/register")
     public String form(@RequestParam(name="firstName", required = false, defaultValue = "") String firstName,
                        @RequestParam(name="lastName", required = false, defaultValue = "") String lastName,
-                       @RequestParam(name="DoB", required = false, defaultValue = "") LocalDate DoB,
+                       @RequestParam(name="DoB", required = false, defaultValue = "2024-01-01") LocalDate DoB,
                        @RequestParam(name="email", required = false, defaultValue = "") String email,
                        @RequestParam(name="password", required = false, defaultValue = "") String password,
                        @RequestParam(name="passwordConfirm", required = false, defaultValue = "") String passwordConfirm,
