@@ -62,9 +62,7 @@ public class DemoFormController {
                               Model model) {
         logger.info("POST /form");
 
-        if (!inputValidator.checkValidName(name)) {
-            name = "Fail";
-        };
+
         formService.addFormResult(new FormResult(name, favouriteLanguage));
 
 

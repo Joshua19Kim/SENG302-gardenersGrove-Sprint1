@@ -13,11 +13,13 @@
             <label for="firstName"> First Name: </label>
             <input type="text" class="form-control" id="firstName" placeholder="First Name"
                    th:name="firstName" th:value="*{firstName}" data-cy="firstName" required autofocus>
+            <p th:value="*{firstNameValid}" th:text="${firstNameValid}"></p>
             <br/>
             <label for="lastName"> Last Name: </label>
             <input type="text" class="form-control" id="lastName" placeholder="Last Name"
                    th:name="lastName" th:value="*{lastName}" data-cy="lastName">
-            <input type="checkbox" class="form-control" id="lastNameCheck" name="lastNameCheck" />
+            <input type="checkbox" class="form-control" id="lastNameCheck" name="lastNameCheck"
+            th:id="lastNameCheck" th:name="lastNameCheck" data-cy="lastNameCheck"/>
             <label for="lastNameCheck">I have no surname</label>
             <script>
                 document.getElementById('lastNameCheck').checked = false;
@@ -25,15 +27,16 @@
                     document.getElementById('lastName').disabled = this.checked;
                 };
             </script>
+            <p th:value="*{lastNameValid}" th:text="${lastNameValid}"></p>
             <br/>
             <label for="DoB"> Date of Birth: </label>
             <input type="date" class="form-control" id="DoB"
                    th:name="DoB" th:value="*{DoB}" data-cy="DoB">
-            <p>Email address must be in the form ‘jane@doe.nz</p>
             <br/>
             <label for="email"> Email: </label>
             <input type="text" class="form-control" id="email" placeholder="Email"
                    th:name="email" th:value="*{email}" data-cy="email">
+            <p th:value="*{emailValid}" th:text="${emailValid}"></p>
             <br/>
             <label for="password"> Password: </label>
             <input type="password" class="form-control" id="password" placeholder="Password"
@@ -43,6 +46,7 @@
             <input type="passwordConfirm" class="form-control" id="passwordConfirm" placeholder="Repeat password"
                    th:name="passwordConfirm" data-cy="passwordConfirm">
             <p th:value="*{passwordsMatch}" th:text="${passwordsMatch}"></p>
+            <p th:value="*{passwordStrong}" th:text="${passwordStrong}"></p>
             <br/>
 
             <br/>

@@ -40,6 +40,7 @@ public class RegisterFormController {
      * @param email user's email
      * @param password user's password
      * @param passwordConfirm user's confirmed password
+     * @param lastNameCheck is the last name checkbox selected
      * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
      * @return thymeleaf demoFormTemplate
      */
@@ -50,8 +51,10 @@ public class RegisterFormController {
                        @RequestParam(name="email", required = false, defaultValue = "") String email,
                        @RequestParam(name="password", required = false, defaultValue = "") String password,
                        @RequestParam(name="passwordConfirm", required = false, defaultValue = "") String passwordConfirm,
+                       @RequestParam(name="lastNameCheck", required = false) boolean lastNameCheck,
                        Model model) {
         logger.info("GET /register");
+
         model.addAttribute("firstName", firstName);
         model.addAttribute("lastName", lastName);
         model.addAttribute("DoB", DoB);
@@ -80,24 +83,30 @@ public class RegisterFormController {
                               @RequestParam(name="email") String email,
                               @RequestParam(name="password") String password,
                               @RequestParam(name = "passwordConfirm") String passwordConfirm,
+                              @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
                               Model model) {
         logger.info("POST /register");
-
         model.addAttribute("firstName", firstName);
         model.addAttribute("lastName", lastName);
         model.addAttribute("DoB", DoB);
         model.addAttribute("email", email);
         model.addAttribute("password", password);
 
-        model.addAttribute("firstNameValid", inputValidator.checkValidName(firstName));
-        model.addAttribute("lastNameValid", inputValidator.checkValidName(lastName));
-        model.addAttribute("DoBValid", DoB);
-        model.addAttribute("emailValid", inputValidator.checkValidEmail(email));
+        Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
+        model.addAttribute("firstNameValid", firstNameError.isPresent() ? firstNameError.get() : "");
 
+        boolean emptyLastName;
+        Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
+        model.addAttribute("lastNameValid", lastNameError.isPresent() ? lastNameError.get() : "");
+
+        model.addAttribute("DoBValid", DoB);
+
+        Optional<String> validEmailError = inputValidator.checkValidEmail(email);
+        model.addAttribute("emailValid", validEmailError.isPresent() ? validEmailError.get() : "");
         Optional<String> passwordMatchError = inputValidator.checkPasswordsMatch(password, passwordConfirm);
         model.addAttribute("passwordsMatch", passwordMatchError.isPresent() ? passwordMatchError.get() : "");
-        model.addAttribute("passwordValid", inputValidator.checkStrongPassword(password));
-        model.addAttribute("passwordConfirmValid", inputValidator.checkStrongPassword(passwordConfirm));
+        Optional<String> passwordStrengthError = inputValidator.checkStrongPassword(password);
+        model.addAttribute("passwordStrong", passwordStrengthError.isPresent() ? passwordStrengthError.get() : "");
 
 
         gardenerFormService.addGardener(new Gardener(firstName, lastName, DoB, email, password));

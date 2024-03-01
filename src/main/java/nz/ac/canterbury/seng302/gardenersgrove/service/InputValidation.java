@@ -19,9 +19,9 @@ public class InputValidation {
      * @param password attempted by user
      * @return true if strong, false if weak
      */
-    public boolean checkStrongPassword (String password) {
+    public Optional<String> checkStrongPassword (String password) {
         String validRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_])[A-Za-z\\d\\W_]{9,}$";
-        return password.matches(validRegex);
+        return (password.matches(validRegex) ? Optional.empty() : Optional.of("Your password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character."));
     }
 
     /**
@@ -31,9 +31,19 @@ public class InputValidation {
      * @param name provided by user input
      * @return true if passes verification
      */
-    public boolean checkValidName (String name) {
+    public Optional<String> checkValidName (String name, String firstOrLast, boolean lastNameCheck) {
         String nameRegex = "^[A-Za-zÄÖÜäöüßĀĒĪŌŪāēīōū]+[A-Za-zÄÖÜäöüßĀĒĪŌŪāēīōū' -]*$";
-        return name.matches(nameRegex) && name.length() < 65;
+        if (lastNameCheck) {
+            return Optional.empty();
+        } else if (name.length() > 64) {
+            return Optional.of(firstOrLast +" name must\n" +
+                    "be 64 characters long or less");
+        } else if (!name.matches(nameRegex)) {
+            return Optional.of(firstOrLast + " name cannot be empty and must only include letters, spaces,\n" +
+                    "hyphens or apostrophes");
+        } else {
+            return Optional.empty();
+        }
     }
 
     /**
@@ -41,9 +51,10 @@ public class InputValidation {
      * @param email provided by user input
      * @return true if passes verification
      */
-    public boolean checkValidEmail (String email) {
+    public Optional<String> checkValidEmail (String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        return email.matches(emailRegex);
+        return (email.matches(emailRegex) ? Optional.empty() : Optional.of("Email address must be in the form ‘jane@doe.nz"));
+
     }
 
     /**
