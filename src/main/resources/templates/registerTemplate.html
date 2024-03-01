@@ -45,11 +45,12 @@
                th:name="password" type="password">
         <br/>
         <label for="passwordConfirm"> Confirm Password: </label>
-        <input class="form-control" data-cy="passwordConfirm" id="passwordConfirm" placeholder="Repeat password">
-        <p th:text="${passwordStrong}" th:value="*{passwordStrong}"></p>
-               th:name="passwordConfirm" type="passwordConfirm">
-        <p th:text="${passwordsMatch}" th:value="*{passwordsMatch}"></p>
+        <input type="password" class="form-control" id="passwordConfirm" placeholder="Repeat password"
+               th:name="passwordConfirm" data-cy="passwordConfirm">
+        <p th:value="*{passwordsMatch}" th:text="${passwordsMatch}"></p>
+        <p th:value="*{passwordStrong}" th:text="${passwordStrong}"></p>
         <br/>
+
 
         <br/>
         <button type="submit">Register!</button>
