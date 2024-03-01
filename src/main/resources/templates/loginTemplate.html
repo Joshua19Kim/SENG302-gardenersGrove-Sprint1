@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Gardener's Grove Login</title>
 </head>
 <body>
 <h1>Login</h1>
@@ -11,14 +11,14 @@
     <div>
         <form th:action="@{login}" method="post">
             <label for="firstName"> First Name: </label>
-            <input type="text" class="form-control" id="firstName" placeholder="Last Name"
+            <input type="text" class="form-control" id="firstName" placeholder="First Name"
                    th:name="firstName" th:value="*{firstName}" data-cy="firstName" required autofocus>
             <br/>
-            <label for="lastName"> Name: </label>
+            <label for="lastName"> Last Name: </label>
             <input type="text" class="form-control" id="lastName" placeholder="Last Name"
                    th:name="lastName" th:value="*{lastName}" data-cy="lastName" autofocus>
             <br/>
-            <label for="DoB"> Email: </label>
+            <label for="DoB"> Date of Birth: </label>
             <input type="date" class="form-control" id="DoB"
                    th:name="DoB" th:value="*{DoB}" data-cy="DoB" autofocus>
             <br/>

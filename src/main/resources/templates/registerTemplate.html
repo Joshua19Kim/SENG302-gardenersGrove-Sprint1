@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Gardener's Grove Register</title>
 </head>
 <body>
 <h1>Register</h1>
@@ -26,7 +26,7 @@
                 };
             </script>
             <br/>
-            <label for="DoB"> Email: </label>
+            <label for="DoB"> Date of Birth: </label>
             <input type="date" class="form-control" id="DoB"
                    th:name="DoB" th:value="*{DoB}" data-cy="DoB">
             <p>Email address must be in the form ‘jane@doe.nz</p>
@@ -43,6 +43,10 @@
             <input type="password2" class="form-control" id="password2" placeholder="Repeat password"
                    th:name="password2" data-cy="password2">
             <p th:value="*{passwordsMatch}" th:text="${passwordsMatch}"></p>
+            <br/>
+            <label for="password"> Confirm Password: </label>
+            <input type="password" class="form-control" id="passwordConfirm" placeholder="Password"
+                   th:name="passwordConfirm" th:value="*{passwordConfirm}" data-cy="passwordConfirm">
             <br/>
             <button type="submit">Register!</button>
             <a th:href="@{login}">Log In!</a>
