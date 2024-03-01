@@ -1,5 +1,7 @@
 package nz.ac.canterbury.seng302.gardenersgrove.service;
 
+import java.util.Optional;
+
 public class InputValidation {
 
     /**
@@ -8,8 +10,8 @@ public class InputValidation {
      * @param passwordTwo second pass entered in form
      * @return boolean true for successful match or false if passwords do not match
      */
-    public boolean checkPasswordsMatch (String passwordOne, String passwordTwo) {
-        return passwordOne.equals(passwordTwo);
+    public Optional<String> checkPasswordsMatch (String passwordOne, String passwordTwo) {
+        return (passwordOne.equals(passwordTwo)) ? Optional.empty() : Optional.of("Passwords do not match.");
     }
 
     /**
@@ -32,7 +34,7 @@ public class InputValidation {
     public boolean checkValidName (String name) {
         String nameRegex = "^[A-Za-zÄÖÜäöüßĀĒĪŌŪāēīōū]+[A-Za-zÄÖÜäöüßĀĒĪŌŪāēīōū' -]*$";
         return name.matches(nameRegex) && name.length() < 65;
-    };
+    }
 
     /**
      * Verifies that email matches IETF guidelines on acceptable addresses
