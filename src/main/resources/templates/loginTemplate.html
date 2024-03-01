@@ -2,38 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gardener's Grove Login</title>
+    <title>Gardeners Grove Login</title>
+    <link rel="stylesheet" th:href="@{css/styles.css}">
 </head>
 <body>
 <h1>Login</h1>
 
 <div>
-    <div>
-        <form th:action="@{login}" method="post">
-            <label for="firstName"> First Name: </label>
-            <input type="text" class="form-control" id="firstName" placeholder="First Name"
-                   th:name="firstName" th:value="*{firstName}" data-cy="firstName" required autofocus>
-            <br/>
-            <label for="lastName"> Last Name: </label>
-            <input type="text" class="form-control" id="lastName" placeholder="Last Name"
-                   th:name="lastName" th:value="*{lastName}" data-cy="lastName" autofocus>
-            <br/>
-            <label for="DoB"> Date of Birth: </label>
-            <input type="date" class="form-control" id="DoB"
-                   th:name="DoB" th:value="*{DoB}" data-cy="DoB" autofocus>
-            <br/>
-            <label for="email"> Email: </label>
-            <input type="text" class="form-control" id="email" placeholder="Email"
-                   th:name="email" th:value="*{email}" data-cy="email" autofocus>
-            <br/>
-            <label for="password"> Password: </label>
-            <input type="password" class="form-control" id="password" placeholder="Password"
-                   th:name="password" th:value="*{password}" data-cy="password" autofocus>
-            <br/>
-            <button type="submit">Log In!</button>
-            <a th:href="@{register}">Register Now!</a>
-        </form>
-    </div>
+
+    <form th:action="@{login}" method="post">
+        <label for="email"> Email: </label>
+        <input type="text" class="form-control" id="email" placeholder="Email"
+               th:name="email" th:value="*{email}" data-cy="email" autofocus>
+        <br/>
+        <label for="password"> Password: </label>
+        <input type="password" class="form-control" id="password" placeholder="Password"
+               th:name="password" th:value="*{password}" data-cy="password" autofocus>
+        <br/>
+        <br/>
+        <button type="submit">Log In!</button>
+        <a th:href="@{register}">Register Now!</a>
+    </form>
+
 </div>
 </body>
 </html>
