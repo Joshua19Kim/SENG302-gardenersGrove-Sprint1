@@ -14,48 +14,28 @@
         <tr>
             <td>First Name</td>
             <td>
-                <span id="firstNameSpan" th:text="${model.firstName}"></span>
-                <input type="text" id="firstNameInput" th:field="*{firstName}" style="display: none;" />
+                <span id="firstNameSpan" th:text="${firstName}"></span>
             </td>
         </tr>
 
         <tr>
             <td>Last Name</td>
             <td>
-                <span id="lastNameSpan" th:text="${model.lastName}"></span>
-                <input type="text" id="lastNameInput" th:field="*{lastName}" style="display: none;" />
-                <input type="checkbox" class="form-control" id="lastNameCheck" name="lastNameCheck" />
-                <label for="lastNameCheck">I have no surname</label>
-                <script>
-                    document.getElementById('lastNameCheck').checked = false;
-                    document.getElementById('lastNameCheck').onchange = function() {
-                        document.getElementById('lastName').disabled = this.checked;
-                    };
-                </script>
+                <span id="lastNameSpan" th:text="${lastName}"></span>
             </td>
         </tr>
 
         <tr>
             <td>Date of Birth</td>
             <td>
-                <span id="dobSpan" th:text="${model.DoB}"></span>
-                <input type="date" id="dobInput" th:field="*{DoB}" style="display: none;" />
+                <span id="dobSpan" th:text="${DoB}"></span>
             </td>
         </tr>
 
         <tr>
             <td>Email</td>
             <td>
-                <span id="emailSpan" th:text="${model.email}"></span>
-                <input type="email" id="emailInput" th:field="*{email}" style="display: none;" />
-            </td>
-        </tr>
-
-        <tr id="passwordRow" style="display: none;">
-            <td>Password</td>
-            <td>
-                <span id="passwordSpan"></span>
-                <input type="password" id="passwordInput" th:field="*{password}" style="display: none;" />
+                <span id="emailSpan" th:text="${email}"></span>
             </td>
         </tr>
         </thead>
@@ -63,61 +43,35 @@
 
     <div id="editButtonDiv">
         <button type="button" onclick="enableEditing()">Edit</button>
-        <button type="button" onclick="goingBackToLogin()">Go Back!</button>
-    </div>
-    <div id="saveCancelButtonDiv" style="display: none;">
-        <button type="submit" onclick="saveProfile()">Save</button>
-        <button type="button" onclick="disableEditing()">Cancel</button>
     </div>
 </form>
 
-<script>
-    function enableEditing() {
-        document.getElementById('editButtonDiv').style.display = 'none';
-        document.getElementById('saveCancelButtonDiv').style.display = 'block';
 
-        document.getElementById('firstNameSpan').style.display = 'none';
-        document.getElementById('firstNameInput').style.display = 'inline';
+<!--for editing part-->
 
-        document.getElementById('lastNameSpan').style.display = 'none';
-        document.getElementById('lastNameInput').style.display = 'inline';
+<!--<script>-->
+<!--    function disableEditing() {-->
+<!--        document.getElementById('editButtonDiv').style.display = 'block';-->
+<!--        document.getElementById('saveCancelButtonDiv').style.display = 'none';-->
 
-        document.getElementById('dobSpan').style.display = 'none';
-        document.getElementById('dobInput').style.display = 'inline';
+<!--        document.getElementById('firstNameSpan').style.display = 'inline';-->
+<!--        document.getElementById('firstNameInput').style.display = 'none';-->
 
-        document.getElementById('emailSpan').style.display = 'none';
-        document.getElementById('emailInput').style.display = 'inline';
+<!--        document.getElementById('lastNameSpan').style.display = 'inline';-->
+<!--        document.getElementById('lastNameInput').style.display = 'none';-->
 
-        document.getElementById('passwordRow').style.display = 'table-row';
-        document.getElementById('passwordSpan').innerText = '*****'.repeat(document.getElementById('passwordInput').value.length);
-    }
+<!--        document.getElementById('dobSpan').style.display = 'inline';-->
+<!--        document.getElementById('dobInput').style.display = 'none';-->
 
-    function disableEditing() {
-        document.getElementById('editButtonDiv').style.display = 'block';
-        document.getElementById('saveCancelButtonDiv').style.display = 'none';
+<!--        document.getElementById('emailSpan').style.display = 'inline';-->
+<!--        document.getElementById('emailInput').style.display = 'none';-->
 
-        document.getElementById('firstNameSpan').style.display = 'inline';
-        document.getElementById('firstNameInput').style.display = 'none';
-
-        document.getElementById('lastNameSpan').style.display = 'inline';
-        document.getElementById('lastNameInput').style.display = 'none';
-
-        document.getElementById('dobSpan').style.display = 'inline';
-        document.getElementById('dobInput').style.display = 'none';
-
-        document.getElementById('emailSpan').style.display = 'inline';
-        document.getElementById('emailInput').style.display = 'none';
-
-        document.getElementById('passwordRow').style.display = 'none';
-    }
-    function saveProfile() {
-        document.getElementById('profileForm').submit();
-    }
-
-    function goingBackToLogin() {
-        window.location.href = "@{login}";
-    }
-</script>
+<!--        document.getElementById('passwordRow').style.display = 'none';-->
+<!--    }-->
+<!--    function goingBackToLogin() {-->
+<!--        window.location.href = "@{login}";-->
+<!--    }-->
+<!--</script>-->
 
 </body>
 </html>
