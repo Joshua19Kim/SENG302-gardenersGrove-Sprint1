@@ -1,5 +1,8 @@
 package nz.ac.canterbury.seng302.gardenersgrove.service;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 public class InputValidation {
 
     /**
@@ -54,4 +57,19 @@ public class InputValidation {
         return emailOne.equals(emailTwo);
     }
 
+    /** Verifies that the user is old enough to register (13 years or more)
+     * @param DoB
+     * @return true if user is old enough
+     */
+    public boolean checkMinAge (LocalDate DoB) {
+        return Period.between(DoB, LocalDate.now()).getYears() >= 13;
+    }
+
+    /** Verifies that the user is young enough to register (120 years or fewer)
+     * @param DoB
+     * @return true if user is young enough
+     */
+    public boolean checkMaxAge (LocalDate DoB) {
+        return Period.between(DoB, LocalDate.now()).getYears() <= 120;
+    }
 }
