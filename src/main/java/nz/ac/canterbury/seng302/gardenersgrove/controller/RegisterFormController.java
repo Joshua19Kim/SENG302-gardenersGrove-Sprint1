@@ -110,7 +110,9 @@ public class RegisterFormController {
         !validEmailError.isPresent() &&
         !passwordMatchError.isPresent() &&
         !passwordStrengthError.isPresent()) {
-            gardenerFormService.addGardener(new Gardener(firstName, lastName, DoB, email, password));
+            Gardener newGardener = new Gardener(firstName, lastName, DoB, email, password);
+            gardenerFormService.addGardener(newGardener);
+            return "redirect:/userProfile/"+ newGardener.getId().toString();
         }
 
         return "registerTemplate";

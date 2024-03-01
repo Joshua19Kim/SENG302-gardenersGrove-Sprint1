@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" context="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>User Profile</title>
     <link rel="stylesheet" th:href="@{css/styles.css}">
 
@@ -43,36 +43,10 @@
     </table>
 
     <div id="editButtonDiv">
-        <button type="button" onclick="enableEditing()">Edit</button>
+        <button type="button">Edit</button>
     </div>
 </form>
 
-
-<!--for editing part-->
-
-<!--<script>-->
-<!--    function disableEditing() {-->
-<!--        document.getElementById('editButtonDiv').style.display = 'block';-->
-<!--        document.getElementById('saveCancelButtonDiv').style.display = 'none';-->
-
-<!--        document.getElementById('firstNameSpan').style.display = 'inline';-->
-<!--        document.getElementById('firstNameInput').style.display = 'none';-->
-
-<!--        document.getElementById('lastNameSpan').style.display = 'inline';-->
-<!--        document.getElementById('lastNameInput').style.display = 'none';-->
-
-<!--        document.getElementById('dobSpan').style.display = 'inline';-->
-<!--        document.getElementById('dobInput').style.display = 'none';-->
-
-<!--        document.getElementById('emailSpan').style.display = 'inline';-->
-<!--        document.getElementById('emailInput').style.display = 'none';-->
-
-<!--        document.getElementById('passwordRow').style.display = 'none';-->
-<!--    }-->
-<!--    function goingBackToLogin() {-->
-<!--        window.location.href = "@{login}";-->
-<!--    }-->
-<!--</script>-->
 
 </body>
 </html>

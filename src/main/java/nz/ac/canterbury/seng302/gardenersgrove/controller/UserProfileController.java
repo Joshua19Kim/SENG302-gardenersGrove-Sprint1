@@ -80,29 +80,4 @@ public class UserProfileController {
         return "userProfileTemplate";
     }
 
-
-
-//<!--for editing part-->
-
-//    @PostMapping("/userProfile")
-//    public String submitForm( @RequestParam(name="firstName") String firstName,
-//                              @RequestParam(name="lastName", required = false) String lastName,
-//                              @RequestParam(name="DoB") LocalDate DoB,
-//                              @RequestParam(name="email") String email,
-//                              @RequestParam(name="password") String password,
-//                              Model model) {
-//        logger.info("POST /userProfile");
-//        model.addAttribute("firstName", firstName);
-//        model.addAttribute("lastName", lastName);
-//        model.addAttribute("DoB", DoB);
-//        model.addAttribute("email", email);
-//        model.addAttribute("password", password);
-//
-//        // have to add "updating Gardener function"
-//
-//
-//        return "userProfileTemplate";
-//    }
-
-
 }
