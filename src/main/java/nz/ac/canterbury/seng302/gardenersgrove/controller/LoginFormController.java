@@ -55,9 +55,6 @@ public class LoginFormController {
 
     /**
      * Posts a form response with name and favourite language
-     * @param firstName first name of user
-     * @param lastName last name of user
-     * @param DoB user's date of birth
      * @param email user's email
      * @param password user's password
      * @param model (map-like) representation of first name, last name, DoB, email and password for use in thymeleaf
@@ -65,16 +62,11 @@ public class LoginFormController {
      * @return thymeleaf demoFormTemplate
      */
     @PostMapping("/login")
-    public String submitForm( @RequestParam(name="firstName") String firstName,
-                              @RequestParam(name="lastName") String lastName,
-                              @RequestParam(name="DoB") LocalDate DoB,
-                              @RequestParam(name="email") String email,
+    public String submitForm( @RequestParam(name="email") String email,
                               @RequestParam(name="password") String password,
                               Model model) {
         logger.info("POST /login");
-        model.addAttribute("firstName", firstName);
-        model.addAttribute("lastName", lastName);
-        model.addAttribute("DoB", DoB);
+
         model.addAttribute("email", email);
         model.addAttribute("password", password);
 
