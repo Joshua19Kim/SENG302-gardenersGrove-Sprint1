@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
-
+/**
+ * Controller for User Profile.
+ * Note the @link{Autowired} annotation giving us access to the @link{GardenerFormService} class automatically
+ */
 
 @Controller
 public class UserProfileController {
@@ -27,20 +30,55 @@ public class UserProfileController {
         this.gardenerFormService = gardenerFormService;
     }
 
+    /**
+     * Display user's details as a profile, including first/last name, DoB, Email
+     * If the id number is not in the database, it shows "Not registered".
+     * @param id id number which is unique for each user in database
+     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
+     * @return thymeleaf userProfileTemplate
+     */
     @GetMapping("/userProfile/{id}")
     public String getUserProfilePage(@PathVariable long id, Model model) {
         logger.info("GET /userProfile{id}");
 
         Optional<Gardener> gardenerOptional = this.gardenerFormService.findById(id);
-        model.addAttribute("firstName", gardenerOptional.get().getFirstName());
-        model.addAttribute("lastName", gardenerOptional.get().getLastName());
-        model.addAttribute("DoB", gardenerOptional.get().getDoB());
-        model.addAttribute("email", gardenerOptional.get().getEmail());
+        if (gardenerOptional.isPresent()) {
+            model.addAttribute("firstName", gardenerOptional.get().getFirstName());
+            model.addAttribute("lastName", gardenerOptional.get().getLastName());
+            model.addAttribute("DoB", gardenerOptional.get().getDoB());
+            model.addAttribute("email", gardenerOptional.get().getEmail());
+        } else {
+            model.addAttribute("firstName", "Not registered");
+        }
 
         return "userProfileTemplate";
     }
 
+    /**
+     * For the case that the server has to show only user profile page, it displays "Not registered"
+     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
+     * @return thymeleaf userProfileTemplate
+     */
+    @GetMapping("/userProfile/")
+    public String getUserProfileIncorrectApproachOne(Model model) {
+        logger.info("GET /userProfile/");
 
+        model.addAttribute("firstName", "Not registered");
+        return "userProfileTemplate";
+    }
+
+    /**
+     * For the case that the server has to show only user profile page, it displays "Not registered"
+     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
+     * @return thymeleaf userProfileTemplate
+     */
+    @GetMapping("/userProfile")
+    public String getUserProfileIncorrectApproachTwo(Model model) {
+        logger.info("GET /userProfile");
+
+        model.addAttribute("firstName", "Not registered");
+        return "userProfileTemplate";
+    }
 
 
 
