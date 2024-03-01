@@ -34,6 +34,7 @@ public class RegisterFormController {
      * @param DoB user's date of birth
      * @param email user's email
      * @param password user's password
+     * @param passwordConfirm user's confirmed password
      * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
      * @return thymeleaf demoFormTemplate
      */
@@ -43,6 +44,7 @@ public class RegisterFormController {
                        @RequestParam(name="DoB", required = false, defaultValue = "") LocalDate DoB,
                        @RequestParam(name="email", required = false, defaultValue = "") String email,
                        @RequestParam(name="password", required = false, defaultValue = "") String password,
+                       @RequestParam(name="passwordConfirm", required = false, defaultValue = "") String passwordConfirm,
                        Model model) {
         logger.info("GET /register");
         model.addAttribute("firstName", firstName);
@@ -50,6 +52,7 @@ public class RegisterFormController {
         model.addAttribute("DoB", DoB);
         model.addAttribute("email", email);
         model.addAttribute("password", password);
+        model.addAttribute("passwordConfirm", passwordConfirm);
         return "registerTemplate";
     }
 
@@ -60,6 +63,7 @@ public class RegisterFormController {
      * @param DoB user's date of birth
      * @param email user's email
      * @param password user's password
+     * @param passwordConfirm user's confirmed password
      * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf,
      *              with values being set to relevant parameters provided
      * @return thymeleaf demoFormTemplate
@@ -70,6 +74,7 @@ public class RegisterFormController {
                               @RequestParam(name="DoB") LocalDate DoB,
                               @RequestParam(name="email") String email,
                               @RequestParam(name="password") String password,
+                              @RequestParam(name="passwordConfirm") String passwordConfirm,
                               Model model) {
         logger.info("POST /register");
         model.addAttribute("firstName", firstName);
@@ -77,6 +82,7 @@ public class RegisterFormController {
         model.addAttribute("DoB", DoB);
         model.addAttribute("email", email);
         model.addAttribute("password", password);
+        model.addAttribute("passwordConfirm", passwordConfirm);
         gardenerFormService.addGardener(new Gardener(firstName, lastName, DoB, email, password));
 
         return "registerTemplate";
