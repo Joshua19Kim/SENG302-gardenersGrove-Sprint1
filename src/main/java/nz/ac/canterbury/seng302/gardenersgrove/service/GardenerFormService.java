@@ -7,6 +7,7 @@ import nz.ac.canterbury.seng302.gardenersgrove.repository.GardenerFormRepository
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service class for FormResults, defined by the @link{Service} annotation.
@@ -35,5 +36,9 @@ public class GardenerFormService {
      */
     public Gardener addGardener(Gardener gardener) {
         return gardenerFormRepository.save(gardener);
+    }
+
+    public Optional<Gardener> findById(long id) {
+        return gardenerFormRepository.findById(id);
     }
 }
