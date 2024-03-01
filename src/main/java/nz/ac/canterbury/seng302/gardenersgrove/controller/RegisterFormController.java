@@ -94,8 +94,6 @@ public class RegisterFormController {
 
         Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
         model.addAttribute("firstNameValid", firstNameError.isPresent() ? firstNameError.get() : "");
-
-        boolean emptyLastName;
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
         model.addAttribute("lastNameValid", lastNameError.isPresent() ? lastNameError.get() : "");
 
@@ -108,10 +106,16 @@ public class RegisterFormController {
         Optional<String> passwordStrengthError = inputValidator.checkStrongPassword(password);
         model.addAttribute("passwordStrong", passwordStrengthError.isPresent() ? passwordStrengthError.get() : "");
 
-
-        gardenerFormService.addGardener(new Gardener(firstName, lastName, DoB, email, password));
+        if (!firstNameError.isPresent() &&
+        !lastNameError.isPresent() &&
+        !validEmailError.isPresent() &&
+        !passwordMatchError.isPresent() &&
+        !passwordStrengthError.isPresent()) {
+            gardenerFormService.addGardener(new Gardener(firstName, lastName, DoB, email, password));
+        }
 
         return "registerTemplate";
+
     }
 
     /**
