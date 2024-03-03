@@ -24,7 +24,7 @@ public class RegisterFormController {
     Logger logger = LoggerFactory.getLogger(RegisterFormController.class);
 
     private final GardenerFormService gardenerFormService;
-    private InputValidation inputValidator = new InputValidation();
+    private final InputValidation inputValidator = new InputValidation();
 
 
     @Autowired
@@ -92,24 +92,24 @@ public class RegisterFormController {
         model.addAttribute("password", password);
 
         Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
-        model.addAttribute("firstNameValid", firstNameError.isPresent() ? firstNameError.get() : "");
+        model.addAttribute("firstNameValid", firstNameError.orElse(""));
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
-        model.addAttribute("lastNameValid", lastNameError.isPresent() ? lastNameError.get() : "");
+        model.addAttribute("lastNameValid", lastNameError.orElse(""));
 
         model.addAttribute("DoBValid", DoB);
 
         Optional<String> validEmailError = inputValidator.checkValidEmail(email);
-        model.addAttribute("emailValid", validEmailError.isPresent() ? validEmailError.get() : "");
+        model.addAttribute("emailValid", validEmailError.orElse(""));
         Optional<String> passwordMatchError = inputValidator.checkPasswordsMatch(password, passwordConfirm);
-        model.addAttribute("passwordsMatch", passwordMatchError.isPresent() ? passwordMatchError.get() : "");
+        model.addAttribute("passwordsMatch", passwordMatchError.orElse(""));
         Optional<String> passwordStrengthError = inputValidator.checkStrongPassword(password);
-        model.addAttribute("passwordStrong", passwordStrengthError.isPresent() ? passwordStrengthError.get() : "");
+        model.addAttribute("passwordStrong", passwordStrengthError.orElse(""));
 
-        if (!firstNameError.isPresent() &&
-        !lastNameError.isPresent() &&
-        !validEmailError.isPresent() &&
-        !passwordMatchError.isPresent() &&
-        !passwordStrengthError.isPresent()) {
+        if (firstNameError.isEmpty() &&
+                lastNameError.isEmpty() &&
+                validEmailError.isEmpty() &&
+                passwordMatchError.isEmpty() &&
+                passwordStrengthError.isEmpty()) {
             Gardener newGardener = new Gardener(firstName, lastName, DoB, email, password);
             gardenerFormService.addGardener(newGardener);
             return "redirect:/userProfile/"+ newGardener.getId().toString();
