@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -96,8 +97,14 @@ public class RegisterFormController {
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
         model.addAttribute("lastNameValid", lastNameError.orElse(""));
 
-        model.addAttribute("DoBValid", DoB);
-
+        if (!inputValidator.checkMinAge(DoB)) {
+            model.addAttribute("DoBValid", "You must be at least 13 years old to register.");
+            return "registerTemplate";
+        }
+        if (!inputValidator.checkMaxAge(DoB)) {
+            model.addAttribute("DoBValid", "You must be at most 120 years old to register.");
+            return "registerTemplate";
+        }
         Optional<String> validEmailError = inputValidator.checkValidEmail(email);
         model.addAttribute("emailValid", validEmailError.orElse(""));
         Optional<String> passwordMatchError = inputValidator.checkPasswordsMatch(password, passwordConfirm);

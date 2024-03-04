@@ -8,45 +8,44 @@
 </head>
 <body>
 <h1>User Profile</h1>
-
 <form id="profileForm" action="/userProfile" method="get">
-    <table>
-        <thead class="table-head">
-        <tr>
-            <td>First Name</td>
-            <td>
-                <span id="firstNameSpan" th:text="${firstName}"></span>
-            </td>
-        </tr>
+    <div class="centered-content">
+        <table>
+            <thead class="table-head">
+            <tr>
+                <td>First Name</td>
+                <td>
+                    <span id="firstName" th:text="${firstName}"></span>
+                </td>
+            </tr>
 
-        <tr>
-            <td>Last Name</td>
-            <td>
-                <span id="lastNameSpan" th:text="${lastName}"></span>
-            </td>
-        </tr>
+            <tr>
+                <td>Last Name</td>
+                <td>
+                    <span id="lastName" th:text="${lastName}"></span>
+                </td>
+            </tr>
 
-        <tr>
-            <td>Date of Birth</td>
-            <td>
-                <span id="dobSpan" th:text="${DoB}"></span>
-            </td>
-        </tr>
+            <tr>
+                <td>Date of Birth</td>
+                <td>
+                    <span id="dob" th:text="${DoB}"></span>
+                </td>
+            </tr>
 
-        <tr>
-            <td>Email</td>
-            <td>
-                <span id="emailSpan" th:text="${email}"></span>
-            </td>
-        </tr>
-        </thead>
-    </table>
-
+            <tr>
+                <td>Email</td>
+                <td>
+                    <span id="email" th:text="${email}"></span>
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </div>
     <div id="editButtonDiv">
         <button type="button">Edit</button>
     </div>
 </form>
-
 
 </body>
 </html>

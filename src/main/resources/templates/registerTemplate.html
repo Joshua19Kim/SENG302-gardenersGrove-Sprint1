@@ -34,6 +34,7 @@
         <label for="DoB"> Date of Birth: </label>
         <input class="form-control" data-cy="DoB" id="DoB"
                th:name="DoB" th:value="*{DoB}" type="date">
+        <p th:text="${DoBValid}" th:value="*{DoBValid}"></p>
         <br/>
         <label for="email"> Email: </label>
         <input class="form-control" data-cy="email" id="email" placeholder="Email"
