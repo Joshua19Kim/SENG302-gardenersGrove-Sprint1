@@ -45,6 +45,7 @@ public class LoginFormController {
                        @RequestParam(name="password", required = false, defaultValue = "") String password,
                        Model model) {
         logger.info("GET /login");
+        logger.info(String.valueOf("1".hashCode()));
         model.addAttribute("firstName", firstName);
         model.addAttribute("lastName", lastName);
         model.addAttribute("DoB", DoB);
@@ -53,25 +54,25 @@ public class LoginFormController {
         return "loginTemplate";
     }
 
-    /**
-     * Posts a form response with name and favourite language
-     * @param email user's email
-     * @param password user's password
-     * @param model (map-like) representation of first name, last name, DoB, email and password for use in thymeleaf
-     *              with values being set to relevant parameters provided
-     * @return thymeleaf demoFormTemplate
-     */
-    @PostMapping("/login")
-    public String submitForm( @RequestParam(name="email") String email,
-                              @RequestParam(name="password") String password,
-                              Model model) {
-        logger.info("POST /login");
-
-        model.addAttribute("email", email);
-        model.addAttribute("password", password);
-
-        return "loginTemplate";
-    }
+//    /**
+//     * Posts a form response with name and favourite language
+//     * @param email user's email
+//     * @param password user's password
+//     * @param model (map-like) representation of first name, last name, DoB, email and password for use in thymeleaf
+//     *              with values being set to relevant parameters provided
+//     * @return thymeleaf demoFormTemplate
+//     */
+//    @PostMapping("/login")
+//    public String submitForm( @RequestParam(name="email") String email,
+//                              @RequestParam(name="password") String password,
+//                              Model model) {
+//        logger.info("POST /login");
+//
+//        model.addAttribute("email", email);
+//        model.addAttribute("password", password);
+//
+//        return "loginTemplate";
+//    }
 
     /**
      * Gets all form responses

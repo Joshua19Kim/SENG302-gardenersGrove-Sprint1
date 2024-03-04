@@ -1,8 +1,12 @@
 package nz.ac.canterbury.seng302.gardenersgrove.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Entity class reflecting an entry of firstName, optional lastName, date of birth, email, and password
@@ -12,6 +16,7 @@ import java.time.LocalDate;
 public class Gardener {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "gardener_id")
     private Long id;
 
     @Column(nullable = false)
@@ -28,6 +33,11 @@ public class Gardener {
 
     @Column(nullable = false)
     private int password;
+
+    @Column()
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "gardener_id")
+    private List<Authority> userRoles;
 
     /**
      * JPA required no-args constructor
@@ -48,6 +58,17 @@ public class Gardener {
         this.email = email;
         this.password = password.hashCode();
     }
+
+    public void grantAuthority(String authority) {
+         if ( userRoles == null )
+             userRoles = new ArrayList<>();
+         userRoles.add(new Authority(authority));
+         }
+ public List<GrantedAuthority> getAuthorities(){
+         List<GrantedAuthority> authorities = new ArrayList<>();
+         this.userRoles.forEach(authority -> authorities.add(new SimpleGrantedAuthority(authority.getRole())));
+         return authorities;
+         }
 
     public Long getId() {
         return id;

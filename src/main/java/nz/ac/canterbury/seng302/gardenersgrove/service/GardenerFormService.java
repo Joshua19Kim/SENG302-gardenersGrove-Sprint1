@@ -1,8 +1,6 @@
 package nz.ac.canterbury.seng302.gardenersgrove.service;
 
-import nz.ac.canterbury.seng302.gardenersgrove.entity.FormResult;
 import nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener;
-import nz.ac.canterbury.seng302.gardenersgrove.repository.FormRepository;
 import nz.ac.canterbury.seng302.gardenersgrove.repository.GardenerFormRepository;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +42,9 @@ public class GardenerFormService {
 
     public Optional<Gardener> findByEmail(String email) {
         return gardenerFormRepository.findByEmail(email);
+    }
+
+    public Optional<Gardener> getUserByEmailAndPassword(String email, String password) {
+        return gardenerFormRepository.findByEmailAndPassword(email, password.hashCode());
     }
 }
