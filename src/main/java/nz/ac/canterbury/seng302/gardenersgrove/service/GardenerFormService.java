@@ -41,4 +41,8 @@ public class GardenerFormService {
     public Optional<Gardener> findById(long id) {
         return gardenerFormRepository.findById(id);
     }
+
+    public Optional<Gardener> findByEmail(String email) {
+        return gardenerFormRepository.findByEmail(email);
+    }
 }

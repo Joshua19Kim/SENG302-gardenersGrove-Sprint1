@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import nz.ac.canterbury.seng302.gardenersgrove.service.InputValidation; // DELETE
+import nz.ac.canterbury.seng302.gardenersgrove.service.InputValidationService; // DELETE
 
 /**
  * Controller for form example.
@@ -23,12 +23,10 @@ public class DemoFormController {
 
     private final FormService formService;
 
-    private InputValidation inputValidator = new InputValidation();
 
     @Autowired
     public DemoFormController(FormService formService) {
         this.formService = formService;
-        this.inputValidator = inputValidator; //DELETE
     }
     /**
      * Gets form to be displayed, includes the ability to display results of previous form when linked to from POST form

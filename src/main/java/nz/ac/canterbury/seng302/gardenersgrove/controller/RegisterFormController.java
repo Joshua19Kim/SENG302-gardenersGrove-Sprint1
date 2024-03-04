@@ -2,7 +2,7 @@ package nz.ac.canterbury.seng302.gardenersgrove.controller;
 
 import nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener;
 import nz.ac.canterbury.seng302.gardenersgrove.service.GardenerFormService;
-import nz.ac.canterbury.seng302.gardenersgrove.service.InputValidation;
+import nz.ac.canterbury.seng302.gardenersgrove.service.InputValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -25,7 +24,6 @@ public class RegisterFormController {
     Logger logger = LoggerFactory.getLogger(RegisterFormController.class);
 
     private final GardenerFormService gardenerFormService;
-    private final InputValidation inputValidator = new InputValidation();
 
 
     @Autowired
@@ -86,6 +84,9 @@ public class RegisterFormController {
                               @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
                               Model model) {
         logger.info("POST /register");
+
+        InputValidationService inputValidator = new InputValidationService(gardenerFormService);
+
         model.addAttribute("firstName", firstName);
         model.addAttribute("lastName", lastName);
         model.addAttribute("DoB", DoB);
@@ -105,6 +106,9 @@ public class RegisterFormController {
             model.addAttribute("DoBValid", "You must be at most 120 years old to register.");
             return "registerTemplate";
         }
+
+        Optional<Gardener> gardenerOptional = this.gardenerFormService.findByEmail(email);
+
         Optional<String> validEmailError = inputValidator.checkValidEmail(email);
         model.addAttribute("emailValid", validEmailError.orElse(""));
         Optional<String> passwordMatchError = inputValidator.checkPasswordsMatch(password, passwordConfirm);

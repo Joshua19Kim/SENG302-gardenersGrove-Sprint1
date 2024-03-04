@@ -15,4 +15,5 @@ import java.util.Optional;
 public interface GardenerFormRepository extends CrudRepository<Gardener, Long> {
     Optional<Gardener> findById(long id);
     List<Gardener> findAll();
+    Optional<Gardener> findByEmail(String email);
 }

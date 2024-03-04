@@ -1,11 +1,22 @@
 package nz.ac.canterbury.seng302.gardenersgrove.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import nz.ac.canterbury.seng302.gardenersgrove.service.GardenerFormService;
+
+
 import java.util.Optional;
 
 import java.time.LocalDate;
 import java.time.Period;
 
-public class InputValidation {
+public class InputValidationService {
+
+    private final GardenerFormService gardenerFormService;
+
+    public InputValidationService(GardenerFormService gardenerFormService) {
+        this.gardenerFormService = gardenerFormService;
+    }
+
 
     /**
      * Verify correctness of password entry by checking if match
@@ -56,12 +67,16 @@ public class InputValidation {
      */
     public Optional<String> checkValidEmail (String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        return (email.matches(emailRegex) ? Optional.empty() : Optional.of("Email address must be in the form ‘jane@doe.nz"));
+        if (gardenerFormService.findByEmail(email).isPresent()) {
+            return Optional.of("This email address is already in use");
+        } else {
+            return (email.matches(emailRegex) ? Optional.empty() : Optional.of("Email address must be in the form ‘jane@doe.nz"));
+        }
 
     }
 
     /**
-     * Check emails match, done same as password check
+     * Check emails match, done same as password check. To be used for querying database for duplicates
      * @param emailOne
      * @param emailTwo
      * @return
