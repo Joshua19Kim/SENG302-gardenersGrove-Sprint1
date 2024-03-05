@@ -41,6 +41,11 @@ button {
     margin-right: 10px;
 }
 
+#profileForm {
+    margin: auto;
+    width: 30%;
+}
+
 #cancel {
     background-color: indianred;
     color: black;

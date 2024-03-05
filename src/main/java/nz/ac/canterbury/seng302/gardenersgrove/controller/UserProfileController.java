@@ -39,7 +39,7 @@ public class UserProfileController {
      */
     @GetMapping("/userProfile/{id}")
     public String getUserProfilePage(@PathVariable long id, Model model) {
-        logger.info("GET /userProfile{id}");
+        logger.info("GET /userProfile/{id}");
 
         Optional<Gardener> gardenerOptional = this.gardenerFormService.findById(id);
         if (gardenerOptional.isPresent()) {
