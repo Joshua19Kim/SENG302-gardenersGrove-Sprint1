@@ -18,7 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  */
 @Configuration
 @EnableWebSecurity
-@ComponentScan("com.baeldung.security")
+@ComponentScan(basePackages = {"com.baeldung.security"})
 public class SecurityConfiguration {
 
     /**
@@ -74,7 +74,8 @@ public class SecurityConfiguration {
         http.formLogin(formLogin -> formLogin
                 .loginPage("/login").permitAll()
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/user"));
+                .failureUrl("/login?FAILED")
+                .defaultSuccessUrl("/userProfile"));
 
         // Define logging out, a POST "/logout" endpoint now exists under the hood, redirect to "/login", invalidate session and remove cookie
         http.logout(lOut -> {

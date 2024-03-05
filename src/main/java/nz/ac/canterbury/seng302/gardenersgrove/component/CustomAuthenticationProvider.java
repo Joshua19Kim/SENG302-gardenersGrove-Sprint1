@@ -10,48 +10,47 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 /**
-  * Custom Authentication Provider class, to allow for handling authentication in any way we see fit.
-  * In this case using our existing {@link nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener}
-  */
- @Component
- public class CustomAuthenticationProvider implements AuthenticationProvider {
+* Custom Authentication Provider class, to allow for handling authentication in any way we see fit.
+* In this case using our existing {@link nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener}
+*/
+@Component
+public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-         /**
-  * Autowired user service for custom authentication using our own user objects
-  */
-         @Autowired
- private GardenerFormService gardenerFormService;
+    /**
+    * Autowired user service for custom authentication using our own user objects
+    */
+    @Autowired
+    private GardenerFormService gardenerFormService;
 
-         public CustomAuthenticationProvider() {
-         super();
-        
-         }
+    public CustomAuthenticationProvider() {
+        super();
+    }
 
-         /**
-  * Custom authentication implementation
-  * @param authentication An implementation object that must have non-empty email (name) and password (credentials)
-  * @return A new {@link UsernamePasswordAuthenticationToken} if email and password are valid with users authorities
-  */
-         @Override
- public Authentication authenticate(Authentication authentication) {
-         String email = String.valueOf(authentication.getName());
-         String password = String.valueOf(authentication.getCredentials());
-        
-         if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
-             throw new BadCredentialsException("Bad Credentials");
-             }
-        
-         Gardener u = gardenerFormService.getUserByEmailAndPassword(email, password).orElse(null);
-         if (u == null) {
-             throw new BadCredentialsException("Invalid username or password");
-             }
-         return new UsernamePasswordAuthenticationToken(u.getEmail(), null, u.getAuthorities());
-         }
+    /**
+    * Custom authentication implementation
+    * @param authentication An implementation object that must have non-empty email (name) and password (credentials)
+    * @return A new {@link UsernamePasswordAuthenticationToken} if email and password are valid with users authorities
+    */
+    @Override
+    public Authentication authenticate(Authentication authentication) {
+        String email = String.valueOf(authentication.getName());
+        String password = String.valueOf(authentication.getCredentials());
 
-         @Override
- public boolean supports(Class<?> authentication) {
-         return authentication.equals(UsernamePasswordAuthenticationToken.class);
-         }
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            throw new BadCredentialsException("Bad Credentials");
+        }
 
-         }
+        Gardener u = gardenerFormService.getUserByEmailAndPassword(email, password).orElse(null);
+        if (u == null) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
+        return new UsernamePasswordAuthenticationToken(u.getEmail(), null, u.getAuthorities());
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    }
+
+}
 

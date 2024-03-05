@@ -16,12 +16,9 @@ public class Authority {
     @Column()
     private String role;
 
-    {
-        this.role = role;
-    }
 
     protected Authority() {
-        // JPA empty constructor}
+        // JPA empty constructor
     }
 
     public Authority(String role) {
