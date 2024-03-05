@@ -51,8 +51,7 @@ public class InputValidationService {
         if (lastNameCheck) {
             return Optional.empty();
         } else if (name.length() > 64) {
-            return Optional.of(firstOrLast +" name must\n" +
-                    "be 64 characters long or less");
+            return Optional.of(firstOrLast +" name must be 64 characters long or less");
         } else if (!name.matches(nameRegex)) {
             return Optional.of(firstOrLast + " name cannot be empty and must only include letters, spaces,\n" +
                     "hyphens or apostrophes");
