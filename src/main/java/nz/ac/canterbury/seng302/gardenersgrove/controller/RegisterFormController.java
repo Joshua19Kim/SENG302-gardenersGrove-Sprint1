@@ -123,7 +123,7 @@ public class RegisterFormController {
                 passwordStrengthError.isEmpty()) {
             Gardener newGardener = new Gardener(firstName, lastName, DoB, email, password);
             gardenerFormService.addGardener(newGardener);
-            return "redirect:/userProfile/"+ newGardener.getId().toString();
+            return "redirect:/login";
         }
 
         return "registerTemplate";

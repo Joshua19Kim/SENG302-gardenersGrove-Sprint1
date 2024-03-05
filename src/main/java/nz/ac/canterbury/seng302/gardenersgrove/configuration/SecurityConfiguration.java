@@ -55,11 +55,7 @@ public class SecurityConfiguration {
         // handled below)
         // See https://github.com/spring-projects/spring-security/issues/
         http.authorizeHttpRequests(auth -> auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h/**")).permitAll())
-                .headers(headers -> headers.frameOptions().disable())
                 .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2/**")));
-
-        //        http.headers((headers) -> headers
-        //                .frameOptions().disable()).csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h/**"));
 
         // Allow "/", "/register", and "/login" to anyone (permitAll)
         http.authorizeHttpRequests(auth -> auth.requestMatchers("/", "/register", "/login").permitAll()

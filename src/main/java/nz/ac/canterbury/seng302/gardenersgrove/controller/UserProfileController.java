@@ -5,6 +5,8 @@ import nz.ac.canterbury.seng302.gardenersgrove.service.GardenerFormService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,11 +71,22 @@ public class UserProfileController {
      * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
      * @return thymeleaf userProfileTemplate
      */
-    @GetMapping("/userProfile")
+    @GetMapping("/user")
     public String getUserProfileIncorrectApproachTwo(Model model) {
         logger.info("GET /userProfile");
 
-        model.addAttribute("firstName", "Not registered");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+
+        Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
+        if (gardenerOptional.isPresent()) {
+            model.addAttribute("firstName", gardenerOptional.get().getFirstName());
+            model.addAttribute("lastName", gardenerOptional.get().getLastName());
+            model.addAttribute("DoB", gardenerOptional.get().getDoB());
+            model.addAttribute("email", gardenerOptional.get().getEmail());
+        } else {
+            model.addAttribute("firstName", "Not registered");
+        }
         return "userProfileTemplate";
     }
 

@@ -2,6 +2,8 @@ package nz.ac.canterbury.seng302.gardenersgrove.component;
 
 import nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener;
 import nz.ac.canterbury.seng302.gardenersgrove.service.GardenerFormService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,12 +24,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private GardenerFormService gardenerFormService;
 
+    Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
+
     public CustomAuthenticationProvider() {
         super();
     }
 
     /**
     * Custom authentication implementation
+     *
     * @param authentication An implementation object that must have non-empty email (name) and password (credentials)
     * @return A new {@link UsernamePasswordAuthenticationToken} if email and password are valid with users authorities
     */
@@ -41,6 +46,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
 
         Gardener u = gardenerFormService.getUserByEmailAndPassword(email, password).orElse(null);
+        logger.info(u.getEmail(), u.getPassword());
         if (u == null) {
             throw new BadCredentialsException("Invalid username or password");
         }
