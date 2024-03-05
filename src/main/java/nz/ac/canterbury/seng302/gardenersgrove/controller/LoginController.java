@@ -21,7 +21,7 @@ public class LoginController {
     @GetMapping("/")
     public String home() {
         logger.info("GET /");
-        return "redirect:./login";
+        return "login";
     }
 
 }
