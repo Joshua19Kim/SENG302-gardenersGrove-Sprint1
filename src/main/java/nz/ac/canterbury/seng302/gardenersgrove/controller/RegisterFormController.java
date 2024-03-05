@@ -98,14 +98,9 @@ public class RegisterFormController {
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
         model.addAttribute("lastNameValid", lastNameError.orElse(""));
 
-        if (!inputValidator.checkMinAge(DoB)) {
-            model.addAttribute("DoBValid", "You must be at least 13 years old to register.");
-            return "registerTemplate";
-        }
-        if (!inputValidator.checkMaxAge(DoB)) {
-            model.addAttribute("DoBValid", "You must be at most 120 years old to register.");
-            return "registerTemplate";
-        }
+        Optional<String> DoBError = inputValidator.checkDoB(DoB);
+        model.addAttribute("DoBValid", DoBError.orElse(""));
+
 
         Optional<Gardener> gardenerOptional = this.gardenerFormService.findByEmail(email);
 
