@@ -3,49 +3,114 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>User Profile</title>
-    <link rel="stylesheet" th:href="@{css/styles.css}">
-
+    <link rel="stylesheet" th:href="@{~/css/styles.css}">
 </head>
 <body>
 <h1>User Profile</h1>
-<form id="profileForm" action="/userProfile" method="get">
-    <div class="centered-content">
-        <table>
-            <thead class="table-head">
-            <tr>
-                <td>First Name</td>
-                <td>
-                    <span id="firstName" th:text="${firstName}"></span>
-                </td>
-            </tr>
+<div>
 
-            <tr>
-                <td>Last Name</td>
-                <td>
-                    <span id="lastName" th:text="${lastName}"></span>
-                </td>
-            </tr>
+    <form id="profileForm" action="/user" method="post">
 
-            <tr>
-                <td>Date of Birth</td>
-                <td>
-                    <span id="dob" th:text="${DoB}"></span>
-                </td>
-            </tr>
+        <label for="firstName"> First Name: </label>
+        <span id="firstName" th:text="${firstName}"></span>
+        <input autofocus class="form-control" data-cy="firstName" id="firstNameEdit"
+               placeholder="First Name" required th:name="firstName" th:value="*{firstName}" type="text" style="display: none;">
+        <p th:text="${firstNameValid}" th:value="*{firstNameValid}"></p>
+        <br/>
+        <label for="lastName"> Last Name: </label>
+        <span id="lastName" th:text="${lastName}"></span>
+        <input class="form-control" data-cy="lastName" id="lastNameEdit" placeholder="Last Name"
+               th:name="lastName" th:value="*{lastName}" type="text" style="display: none">
+        <br/>
+        <input class="form-control" data-cy="lastNameCheck" id="lastNameTickBox" name="lastNameCheck" placeholder="Last Name Tick Box Check"
+               th:name="lastNameCheck" th:value="lastNameCheck" type="checkbox" style="display: none;">
+        <label id="lastNameCheckLabelEdit" style="display: none;">I have no surname</label>
+        <script>
+            document.getElementById('lastNameTickBox').checked = false;
+            document.getElementById('lastNameTickBox').onchange = function () {
+                document.getElementById('lastNameEdit').disabled = this.checked;
+            };
+        </script>
+        <p th:text="${lastNameValid}" th:value="*{lastNameValid}"></p>
+        <br/>
+        <label for="DoB"> Date of Birth: </label>
+        <span id="dob" th:text="${DoB}"></span>
+        <input class="form-control" data-cy="DoB" id="dobEdit"
+               th:name="DoB" th:value="*{DoB}" type="date" style="display: none;">
+        <p th:text="${DoBValid}" th:value="*{DoBValid}"></p>
+        <br/>
+        <label for="email"> Email: </label>
+        <span id="email" th:text="${email}"></span>
+        <input class="form-control" data-cy="email" id="emailEdit" placeholder="Email"
+               th:name="email" th:value="*{email}" type="text" style="display: none;">
+        <p th:text="${emailValid}" th:value="*{emailValid}"></p>
+        <br/>
 
-            <tr>
-                <td>Email</td>
-                <td>
-                    <span id="email" th:text="${email}"></span>
-                </td>
-            </tr>
-            </thead>
-        </table>
-    </div>
-    <div id="editButtonDiv">
-        <button type="button">Edit</button>
-    </div>
-</form>
+        <div id="editButtonDiv">
+            <button type="button" onclick="enableEditing()">Edit</button>
+            <button type="reset" id="backToLogin" onclick="window.location='./'">Go Back!</button>
+        </div>
+        <div id="saveCancelButtonDiv" style="display: none;">
+            <button type="submit" onclick="saveProfile()">Save</button>
+            <button type="button" onclick="disableEditing()">Cancel</button>
+        </div>
+        <input type="hidden" id="editMode" name="editMode" th:value="${editMode}">
+    </form>
+</div>
+<script>
+    function enableEditing() {
+        document.getElementById('editButtonDiv').style.display = 'none';
+        document.getElementById('saveCancelButtonDiv').style.display = 'block';
+
+        document.getElementById('firstName').style.display = 'none';
+        document.getElementById('firstNameEdit').style.display = 'inline';
+
+        document.getElementById('lastName').style.display = 'none';
+        document.getElementById('lastNameEdit').style.display = 'inline';
+        document.getElementById('lastNameTickBox').style.display = 'inline';
+        document.getElementById('lastNameCheckLabelEdit').style.display = 'inline';
+        var lName = document.getElementById('lastNameEdit');
+        if (lName.value.trim() === "") {
+            document.getElementById('lastNameTickBox').checked = true;
+            document.getElementById('lastNameEdit').disabled = true;
+        }
+
+        document.getElementById('dob').style.display = 'none';
+        document.getElementById('dobEdit').style.display = 'inline';
+
+        document.getElementById('email').style.display = 'none';
+        document.getElementById('emailEdit').style.display = 'inline';
+
+        document.getElementById('passwordTitle').style.display = 'inline';
+        document.getElementById('passwordInput').style.display = 'inline';
+    }
+
+    function disableEditing() {
+        document.getElementById('editButtonDiv').style.display = 'block';
+        document.getElementById('saveCancelButtonDiv').style.display = 'none';
+
+        document.getElementById('firstName').style.display = 'inline';
+        document.getElementById('firstNameEdit').style.display = 'none';
+
+        document.getElementById('lastName').style.display = 'inline';
+        document.getElementById('lastNameEdit').style.display = 'none';
+        document.getElementById('lastNameTickBox').style.display = 'none';
+        document.getElementById('lastNameCheckLabelEdit').style.display = 'none';
+
+        document.getElementById('dob').style.display = 'inline';
+        document.getElementById('dobEdit').style.display = 'none';
+
+        document.getElementById('email').style.display = 'inline';
+        document.getElementById('emailEdit').style.display = 'none';
+
+        document.getElementById('passwordTitle').style.display = 'None';
+        document.getElementById('passwordInput').style.display = 'none';
+    }
+    function saveProfile() {
+        document.getElementById('profileForm').submit();
+    }
+
+</script>
 
 </body>
 </html>
