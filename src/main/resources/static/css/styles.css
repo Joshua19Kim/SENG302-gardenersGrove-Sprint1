@@ -9,6 +9,7 @@ h1 {
     margin: 5%;
     justify-content: center;
     display: flex;
+    background-color: red;
 }
 
 label {

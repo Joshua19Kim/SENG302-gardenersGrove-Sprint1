@@ -29,6 +29,8 @@ public class Gardener {
     @Column(nullable = false)
     private int password;
 
+
+
     /**
      * JPA required no-args constructor
      */
@@ -70,6 +72,7 @@ public class Gardener {
     }
 
     public int getPassword() {return password; }
+
 
 
     @Override
