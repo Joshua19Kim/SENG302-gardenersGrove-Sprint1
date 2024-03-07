@@ -11,6 +11,7 @@
 <div>
 
     <form method="post" th:action="@{register}">
+
         <label for="firstName"> First Name: </label>
         <input autofocus class="form-control" data-cy="firstName" id="firstName"
                placeholder="First Name" required th:name="firstName" th:value="*{firstName}" type="text">
@@ -46,17 +47,16 @@
                th:name="password" type="password">
         <br/>
         <label for="passwordConfirm"> Confirm Password: </label>
-        <input type="password" class="form-control" id="passwordConfirm" placeholder="Repeat password"
-               th:name="passwordConfirm" data-cy="passwordConfirm">
-        <p th:value="*{passwordsMatch}" th:text="${passwordsMatch}"></p>
-        <p th:value="*{passwordStrong}" th:text="${passwordStrong}"></p>
-        <br/>
+        <input class="form-control" data-cy="passwordConfirm" id="passwordConfirm" placeholder="Repeat password"
+               th:name="passwordConfirm" type="password">
+        <p th:text="${passwordsMatch}" th:value="*{passwordsMatch}"></p>
+        <p th:text="${passwordStrong}" th:value="*{passwordStrong}"></p>
 
-
-        <br/>
-        <button type="submit">Submit!</button>
-        <!-- Removing this rq <a th:href="@{login}">Log In!</a> -->
-        <button type="reset" id="cancel" onclick="window.location='./'">Cancel</button>
+        <div>
+            <input type="submit" value="Register!"/>
+            <!-- Removing this rq <a th:href="@{login}">Log In!</a> -->
+            <button id="cancel" onclick="window.location='./'" type="reset">Cancel</button>
+        </div>
     </form>
 
 
