@@ -7,34 +7,35 @@
 
 </head>
 <body>
+
 <h1>User Profile</h1>
 <form id="profileForm" action="/userProfile" method="get">
     <div class="centered-content">
         <table>
             <thead class="table-head">
             <tr>
-                <td>First Name</td>
+                <td>First Name: </td>
                 <td>
                     <span id="firstName" th:text="${firstName}"></span>
                 </td>
             </tr>
 
             <tr>
-                <td>Last Name</td>
+                <td>Last Name: </td>
                 <td>
                     <span id="lastName" th:text="${lastName}"></span>
                 </td>
             </tr>
 
             <tr>
-                <td>Date of Birth</td>
+                <td>Date of Birth: </td>
                 <td>
                     <span id="dob" th:text="${DoB}"></span>
                 </td>
             </tr>
 
             <tr>
-                <td>Email</td>
+                <td>Email: </td>
                 <td>
                     <span id="email" th:text="${email}"></span>
                 </td>
@@ -46,6 +47,5 @@
         <button type="button">Edit</button>
     </div>
 </form>
-
 </body>
 </html>

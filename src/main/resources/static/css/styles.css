@@ -26,24 +26,40 @@ input {
     width: auto;
 }
 
-button {
+input[type=submit] {
     background-color: cornflowerblue;
     border: none;
     color: white;
     padding: 5px 2px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     cursor: pointer;
     font-size: 16px;
-    align-items: end;
-    margin-left: 40%;
-    margin-right: 10px;
+    width: 100px;
+    border-radius: 5px;
+}
+
+#profileForm {
+    margin: auto;
+    width: 30%;
+}
+
+#profileForm {
+    margin: auto;
+    width: 30%;
 }
 
 #cancel {
     background-color: indianred;
-    color: black;
+    border: none;
+    color: white;
+    padding: 5px 2px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100px;
+    border-radius: 5px;
 }
 
 div {
@@ -55,6 +71,9 @@ div {
 form {
     width: 550px;
     overflow: hidden;
+    background-color: rgba(50, 100, 100, 0.3);
+    border-radius: 10px;
+    padding: 15px;
 }
 
 a {
@@ -65,4 +84,9 @@ a {
 p {
     color: red;
     font-size: 12px;
+}
+
+.form {
+    border: aquamarine 2px solid;
+    border-radius: 2px;
 }

@@ -1,6 +1,5 @@
 package nz.ac.canterbury.seng302.gardenersgrove.component;
 
-import nz.ac.canterbury.seng302.gardenersgrove.component.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 /**
  * Custom Security Configuration
  * Such functionality was previously handled by WebSecurityConfigurerAdapter
@@ -50,8 +50,7 @@ public class SecurityConfiguration {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        // Allow h2 console through security. Note: Spring 6 broke the nicer way to do this (i.e. how the authorisation is handled below)
+// Allow h2 console through security. Note: Spring 6 broke the nicer way to do this (i.e. how the authorisation is handled below)
         // See https://github.com/spring-projects/spring-security/issues/12546
         http.authorizeHttpRequests(auth -> auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h2/**")).permitAll())
                 .headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable())
