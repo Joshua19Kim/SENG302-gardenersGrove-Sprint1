@@ -59,7 +59,7 @@ public class RegisterFormController {
         model.addAttribute("email", email);
         model.addAttribute("password", password);
         model.addAttribute("passwordConfirm", passwordConfirm);
-        return "registerTemplate";
+        return "register";
     }
 
     /**
@@ -100,11 +100,11 @@ public class RegisterFormController {
 
         if (!inputValidator.checkMinAge(DoB)) {
             model.addAttribute("DoBValid", "You must be at least 13 years old to register.");
-            return "registerTemplate";
+            return "register";
         }
         if (!inputValidator.checkMaxAge(DoB)) {
             model.addAttribute("DoBValid", "You must be at most 120 years old to register.");
-            return "registerTemplate";
+            return "register";
         }
 
         Optional<Gardener> gardenerOptional = this.gardenerFormService.findByEmail(email);
@@ -126,7 +126,7 @@ public class RegisterFormController {
             return "redirect:/login";
         }
 
-        return "registerTemplate";
+        return "register";
 
     }
 

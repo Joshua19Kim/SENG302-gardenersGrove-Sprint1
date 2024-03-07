@@ -50,7 +50,7 @@ public class UserProfileController {
             model.addAttribute("firstName", "Not registered");
         }
 
-        return "userProfileTemplate";
+        return "user";
     }
 
     /**
@@ -63,7 +63,7 @@ public class UserProfileController {
         logger.info("GET /userProfile/");
 
         model.addAttribute("firstName", "Not registered");
-        return "userProfileTemplate";
+        return "user";
     }
 
     /**
@@ -87,7 +87,7 @@ public class UserProfileController {
         } else {
             model.addAttribute("firstName", "Not registered");
         }
-        return "userProfileTemplate";
+        return "user";
     }
 
 
