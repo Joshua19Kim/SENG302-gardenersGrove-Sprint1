@@ -81,40 +81,22 @@ public class RegisterFormController {
                               @RequestParam(name="email") String email,
                               @RequestParam(name="password") String password,
                               @RequestParam(name = "passwordConfirm") String passwordConfirm,
-                              @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
-                              Model model) {
+                              @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck) {
         logger.info("POST /register");
 
         InputValidationService inputValidator = new InputValidationService(gardenerFormService);
-
-        model.addAttribute("firstName", firstName);
-        model.addAttribute("lastName", lastName);
-        model.addAttribute("DoB", DoB);
-        model.addAttribute("email", email);
-        model.addAttribute("password", password);
-
         Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
-        model.addAttribute("firstNameValid", firstNameError.orElse(""));
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
-        model.addAttribute("lastNameValid", lastNameError.orElse(""));
 
         if (!inputValidator.checkMinAge(DoB)) {
-            model.addAttribute("DoBValid", "You must be at least 13 years old to register.");
             return "register";
         }
         if (!inputValidator.checkMaxAge(DoB)) {
-            model.addAttribute("DoBValid", "You must be at most 120 years old to register.");
             return "register";
         }
-
-        Optional<Gardener> gardenerOptional = this.gardenerFormService.findByEmail(email);
-
         Optional<String> validEmailError = inputValidator.checkValidEmail(email);
-        model.addAttribute("emailValid", validEmailError.orElse(""));
         Optional<String> passwordMatchError = inputValidator.checkPasswordsMatch(password, passwordConfirm);
-        model.addAttribute("passwordsMatch", passwordMatchError.orElse(""));
         Optional<String> passwordStrengthError = inputValidator.checkStrongPassword(password);
-        model.addAttribute("passwordStrong", passwordStrengthError.orElse(""));
 
         if (firstNameError.isEmpty() &&
                 lastNameError.isEmpty() &&
