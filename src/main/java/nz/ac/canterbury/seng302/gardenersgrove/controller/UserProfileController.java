@@ -92,8 +92,8 @@ public class UserProfileController {
         ) {
             gardenerFormService.addGardener(gardener);
 
-            return "userProfileTemplate";
+            return "redirect:user";
         }
-        return "user";
+        return "redirect:user";
     }
 }
