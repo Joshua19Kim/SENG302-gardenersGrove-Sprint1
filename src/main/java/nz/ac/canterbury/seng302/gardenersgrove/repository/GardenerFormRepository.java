@@ -18,6 +18,4 @@ public interface GardenerFormRepository extends CrudRepository<Gardener, Long> {
     Optional<Gardener> findByEmail(String email);
     Optional<Gardener> findByEmailAndPassword(String email, int password);
 
-    void updateById(long id);
-
 }
