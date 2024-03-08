@@ -80,23 +80,29 @@ public class EditProfileController {
 
         Optional<String> DoBError = inputValidator.checkDoB(DoB);
         model.addAttribute("DoBValid", DoBError.orElse(""));
-        Optional<String> validEmailError = Optional.empty();
+        Optional<String> emailError = Optional.empty();
         if (!email.equals(gardener.getEmail())) {
-            validEmailError = inputValidator.checkValidEmail(email);
+            emailError = inputValidator.checkValidEmail(email);
         }
-        model.addAttribute("emailValid", validEmailError.orElse(""));
+        model.addAttribute("emailValid", emailError.orElse(""));
 
         if (firstNameError.isEmpty() &&
                 lastNameError.isEmpty() &&
-                validEmailError.isEmpty()) {
+                DoBError.isEmpty()&&
+                emailError.isEmpty()) {
             gardener.setFirstName(firstName);
             gardener.setLastName(lastName);
             gardener.setEmail(email);
             gardener.setDoB(DoB);
             gardenerFormService.addGardener(gardener);
             // Currently Breaks if it goes straight to Profile due to authentication issues
-            return "redirect:/login";
+            return "redirect:/user";
         }
+
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("DoB", DoB);
+        model.addAttribute("email", email);
         return "editProfile";
     }
 }
