@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,42 +22,30 @@ public class EditProfileController {
     Logger logger = LoggerFactory.getLogger(RegisterFormController.class);
 
     private final GardenerFormService gardenerFormService;
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    private Gardener gardener;
     @Autowired
     public EditProfileController(GardenerFormService gardenerFormService) {
         this.gardenerFormService = gardenerFormService;
-    }
 
-    private Gardener gardener;
+    }
 
     /**
      * Gets form to be displayed, includes the ability to display results of previous form when linked to from POST form
      *
-     * @param firstName     first name of user to be entered in the form
-     * @param lastName      last name of user
-     * @param DoB           user's date of birth
-     * @param email         user's email
-     * @param lastNameCheck is the last name checkbox selected
      * @param model         (map-like) representation of name, language and isJava boolean for use in thymeleaf
      * @return thymeleaf demoFormTemplate
      */
     @GetMapping("/editProfile")
-    public String form(@RequestParam(name = "firstName", required = false, defaultValue = "") String firstName,
-                       @RequestParam(name = "lastName", required = false, defaultValue = "") String lastName,
-                       @RequestParam(name = "DoB", required = false, defaultValue = "2024-01-01") LocalDate DoB,
-                       @RequestParam(name = "email", required = false, defaultValue = "") String email,
-                       @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
-                       Model model) {
+    public String form(Model model) {
         logger.info("GET /editProfile");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUserEmail = authentication.getName();
+        gardener = gardenerFormService.findByEmail(authentication.getName()).get();
 
-        Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
-        gardener = gardenerOptional.get();
         model.addAttribute("firstName", gardener.getFirstName());
         model.addAttribute("lastName", gardener.getLastName());
         model.addAttribute("DoB", gardener.getDoB());
         model.addAttribute("email", gardener.getEmail());
+
         return "editProfile";
     }
 
@@ -69,6 +56,8 @@ public class EditProfileController {
      * @param lastName  last name of user
      * @param DoB       user's date of birth
      * @param email     user's email
+     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf,
+     *              with values being set to relevant parameters provided
      * @return thymeleaf demoFormTemplate
      */
     @PostMapping("/editProfile")
@@ -76,37 +65,39 @@ public class EditProfileController {
                              @RequestParam(name = "lastName", required = false) String lastName,
                              @RequestParam(name = "DoB") LocalDate DoB,
                              @RequestParam(name = "email") String email,
-                             @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck) {
+                             @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
+                             Model model) {
         logger.info("POST /editProfile");
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUserEmail = authentication.getName();
-
-        Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
-        gardener = gardenerOptional.get();
+        gardener = gardenerFormService.findByEmail(authentication.getName()).get();
 
         InputValidationService inputValidator = new InputValidationService(gardenerFormService);
         Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
+        model.addAttribute("firstNameValid", firstNameError.orElse(""));
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
+        model.addAttribute("lastNameValid", lastNameError.orElse(""));
 
-        if (!inputValidator.checkMinAge(DoB)) {
-            return "editProfile";
+
+        Optional<String> DoBError = inputValidator.checkDoB(DoB);
+        model.addAttribute("DoBValid", DoBError.orElse(""));
+        Optional<String> validEmailError = Optional.empty();
+        if (!email.equals(gardener.getEmail())) {
+            validEmailError = inputValidator.checkValidEmail(email);
         }
-        if (!inputValidator.checkMaxAge(DoB)) {
-            return "editProfile";
-        }
-        Optional<String> validEmailError = inputValidator.checkValidEmail(email);
+        model.addAttribute("emailValid", validEmailError.orElse(""));
 
         if (firstNameError.isEmpty() &&
                 lastNameError.isEmpty() &&
                 validEmailError.isEmpty()) {
-
-            gardener.updateUserDetails(firstName, lastName, DoB, email);
-            return "redirect:/user";
+            gardener.setFirstName(firstName);
+            gardener.setLastName(lastName);
+            gardener.setEmail(email);
+            gardener.setDoB(DoB);
+            gardenerFormService.addGardener(gardener);
+            // Currently Breaks if it goes straight to Profile due to authentication issues
+            return "redirect:/login";
         }
-
         return "editProfile";
-
     }
 }
 //

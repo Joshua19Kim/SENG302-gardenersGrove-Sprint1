@@ -90,6 +90,22 @@ public class Gardener {
         return email;
     }
 
+    public void setFirstName(String name) {
+        firstName = name;
+    }
+
+    public void setLastName(String name) {
+        lastName = name;
+    }
+
+    public void setEmail(String newEmail) {
+        email = newEmail;
+    }
+
+    public void setDoB(LocalDate newDoB) {
+        DoB = newDoB;
+    }
+
     public int getPassword() {return password; }
 
     public void updateUserDetails(String newFirstName, String newLastName,

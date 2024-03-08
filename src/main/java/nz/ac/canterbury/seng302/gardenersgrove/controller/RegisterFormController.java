@@ -81,22 +81,32 @@ public class RegisterFormController {
                               @RequestParam(name="email") String email,
                               @RequestParam(name="password") String password,
                               @RequestParam(name = "passwordConfirm") String passwordConfirm,
-                              @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck) {
+                              @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
+                              Model model) {
         logger.info("POST /register");
+
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("DoB", DoB);
+        model.addAttribute("email", email);
+        model.addAttribute("password", password);
 
         InputValidationService inputValidator = new InputValidationService(gardenerFormService);
         Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
+        model.addAttribute("firstNameValid", firstNameError.orElse(""));
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
+        model.addAttribute("lastNameValid", lastNameError.orElse(""));
 
-        if (!inputValidator.checkMinAge(DoB)) {
-            return "register";
-        }
-        if (!inputValidator.checkMaxAge(DoB)) {
-            return "register";
-        }
+
+        Optional<String> DoBError = inputValidator.checkDoB(DoB);
+        model.addAttribute("DoBValid", DoBError.orElse(""));
+
         Optional<String> validEmailError = inputValidator.checkValidEmail(email);
+        model.addAttribute("emailValid", validEmailError.orElse(""));
         Optional<String> passwordMatchError = inputValidator.checkPasswordsMatch(password, passwordConfirm);
+        model.addAttribute("passwordsMatch", passwordMatchError.orElse(""));
         Optional<String> passwordStrengthError = inputValidator.checkStrongPassword(password);
+        model.addAttribute("passwordStrong", passwordStrengthError.orElse(""));
 
         if (firstNameError.isEmpty() &&
                 lastNameError.isEmpty() &&
@@ -107,9 +117,7 @@ public class RegisterFormController {
             gardenerFormService.addGardener(newGardener);
             return "redirect:/login";
         }
-
         return "register";
-
     }
 
     /**

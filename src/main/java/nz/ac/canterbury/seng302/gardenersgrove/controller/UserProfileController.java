@@ -41,7 +41,12 @@ public class UserProfileController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
+//        logger.info(currentUserEmail);
+        // This causes errors due to how the user is updated
         Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
+//        logger.info(gardenerFormService.findByEmail("kush@gmail.com").get().getFirstName());
+
+
         gardener = gardenerOptional.get();
         model.addAttribute("firstName", gardener.getFirstName());
         model.addAttribute("lastName", gardener.getLastName());
