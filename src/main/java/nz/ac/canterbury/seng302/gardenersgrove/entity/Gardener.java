@@ -64,7 +64,15 @@ public class Gardener {
              userRoles = new ArrayList<>();
          userRoles.add(new Authority(authority));
          }
- public List<GrantedAuthority> getAuthorities(){
+    public void grantAuthorities(List<String> roles) {
+        if ( userRoles == null )
+            userRoles = new ArrayList<>();
+        for (String s: roles) {
+            userRoles.add(new Authority(s));
+        }
+    }
+
+    public List<GrantedAuthority> getAuthorities(){
          List<GrantedAuthority> authorities = new ArrayList<>();
          this.userRoles.forEach(authority -> authorities.add(new SimpleGrantedAuthority(authority.getRole())));
          return authorities;

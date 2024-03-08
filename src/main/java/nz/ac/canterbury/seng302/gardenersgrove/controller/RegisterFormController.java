@@ -1,11 +1,17 @@
 package nz.ac.canterbury.seng302.gardenersgrove.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener;
 import nz.ac.canterbury.seng302.gardenersgrove.service.GardenerFormService;
 import nz.ac.canterbury.seng302.gardenersgrove.service.InputValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,36 +27,32 @@ import java.util.Optional;
  */
 @Controller
 public class RegisterFormController {
-    Logger logger = LoggerFactory.getLogger(RegisterFormController.class);
-
     private final GardenerFormService gardenerFormService;
+    private final AuthenticationManager authenticationManager;
+    Logger logger = LoggerFactory.getLogger(RegisterFormController.class);
 
 
     @Autowired
-    public RegisterFormController(GardenerFormService gardenerFormService) {
+    public RegisterFormController(GardenerFormService gardenerFormService, AuthenticationManager authenticationManager) {
         this.gardenerFormService = gardenerFormService;
+        this.authenticationManager = authenticationManager;
     }
+
     /**
      * Gets form to be displayed, includes the ability to display results of previous form when linked to from POST form
-     * @param firstName first name of user to be entered in the form
-     * @param lastName last name of user
-     * @param DoB user's date of birth
-     * @param email user's email
-     * @param password user's password
+     *
+     * @param firstName       first name of user to be entered in the form
+     * @param lastName        last name of user
+     * @param DoB             user's date of birth
+     * @param email           user's email
+     * @param password        user's password
      * @param passwordConfirm user's confirmed password
-     * @param lastNameCheck is the last name checkbox selected
-     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
+     * @param lastNameCheck   is the last name checkbox selected
+     * @param model           (map-like) representation of name, language and isJava boolean for use in thymeleaf
      * @return thymeleaf demoFormTemplate
      */
     @GetMapping("/register")
-    public String form(@RequestParam(name="firstName", required = false, defaultValue = "") String firstName,
-                       @RequestParam(name="lastName", required = false, defaultValue = "") String lastName,
-                       @RequestParam(name="DoB", required = false, defaultValue = "2024-01-01") LocalDate DoB,
-                       @RequestParam(name="email", required = false, defaultValue = "") String email,
-                       @RequestParam(name="password", required = false, defaultValue = "") String password,
-                       @RequestParam(name="passwordConfirm", required = false, defaultValue = "") String passwordConfirm,
-                       @RequestParam(name="lastNameCheck", required = false) boolean lastNameCheck,
-                       Model model) {
+    public String form(@RequestParam(name = "firstName", required = false, defaultValue = "") String firstName, @RequestParam(name = "lastName", required = false, defaultValue = "") String lastName, @RequestParam(name = "DoB", required = false, defaultValue = "2024-01-01") LocalDate DoB, @RequestParam(name = "email", required = false, defaultValue = "") String email, @RequestParam(name = "password", required = false, defaultValue = "") String password, @RequestParam(name = "passwordConfirm", required = false, defaultValue = "") String passwordConfirm, @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck, Model model) {
         logger.info("GET /register");
 
         model.addAttribute("firstName", firstName);
@@ -64,25 +66,19 @@ public class RegisterFormController {
 
     /**
      * Posts a form response with name and favourite language
-     * @param firstName first name of user
-     * @param lastName last name of user
-     * @param DoB user's date of birth
-     * @param email user's email
-     * @param password user's password
+     *
+     * @param firstName       first name of user
+     * @param lastName        last name of user
+     * @param DoB             user's date of birth
+     * @param email           user's email
+     * @param password        user's password
      * @param passwordConfirm user's repeated password
-     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf,
-     *              with values being set to relevant parameters provided
+     * @param model           (map-like) representation of name, language and isJava boolean for use in thymeleaf,
+     *                        with values being set to relevant parameters provided
      * @return thymeleaf demoFormTemplate
      */
     @PostMapping("/register")
-    public String submitForm( @RequestParam(name="firstName") String firstName,
-                              @RequestParam(name="lastName", required = false) String lastName,
-                              @RequestParam(name="DoB") LocalDate DoB,
-                              @RequestParam(name="email") String email,
-                              @RequestParam(name="password") String password,
-                              @RequestParam(name = "passwordConfirm") String passwordConfirm,
-                              @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
-                              Model model) {
+    public String submitForm(HttpServletRequest request, @RequestParam(name = "firstName") String firstName, @RequestParam(name = "lastName", required = false) String lastName, @RequestParam(name = "DoB") LocalDate DoB, @RequestParam(name = "email") String email, @RequestParam(name = "password") String password, @RequestParam(name = "passwordConfirm") String passwordConfirm, @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck, Model model) {
         logger.info("POST /register");
 
         InputValidationService inputValidator = new InputValidationService(gardenerFormService);
@@ -112,29 +108,29 @@ public class RegisterFormController {
         model.addAttribute("passwordStrong", passwordStrengthError.orElse(""));
 
 
-        if (firstNameError.isEmpty() &&
-                lastNameError.isEmpty() &&
-                validEmailError.isEmpty() &&
-                passwordMatchError.isEmpty() &&
-                passwordStrengthError.isEmpty()) {
+        if (firstNameError.isEmpty() && lastNameError.isEmpty() && validEmailError.isEmpty() && DoBError.isEmpty() && passwordMatchError.isEmpty() && passwordStrengthError.isEmpty()) {
             Gardener newGardener = new Gardener(firstName, lastName, DoB, email, password);
+            newGardener.grantAuthority("ROLE_USER");
             gardenerFormService.addGardener(newGardener);
-            return "redirect:/login";
+
+            // Auto-login when registering
+            // Create a new Authentication with Username and Password (authorities here are optional as the following function fetches these anyway)
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(newGardener.getEmail(), newGardener.getPassword(), newGardener.getAuthorities());
+            // Authenticate the token properly with the CustomAuthenticationProvider
+            Authentication authentication = authenticationManager.authenticate(token);
+
+            // Check if the authentication is actually authenticated (in this example any username/password is accepted so this should never be false)
+            if (authentication.isAuthenticated()) {
+                // Add the authentication to the current security context (Stateful)
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // Add the token to the request session (needed so the authentication can be properly used)
+                request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+                return "redirect:user";
+            }
+
         }
 
         return "register";
 
-    }
-
-    /**
-     * Gets all form responses
-     * @param model (map-like) representation of results to be used by thymeleaf
-     * @return thymeleaf demoResponseTemplate
-     */
-    @GetMapping("/register/responses")
-    public String responses(Model model) {
-        logger.info("GET /form/responses");
-        model.addAttribute("responses", gardenerFormService.getGardeners());
-        return "registerResponsesTemplate";
     }
 }

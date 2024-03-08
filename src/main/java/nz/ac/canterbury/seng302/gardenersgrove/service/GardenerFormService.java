@@ -45,6 +45,6 @@ public class GardenerFormService {
     }
 
     public Optional<Gardener> getUserByEmailAndPassword(String email, String password) {
-        return gardenerFormRepository.findByEmailAndPassword(email, password.hashCode());
+        return gardenerFormRepository.findByEmailAndPassword(email, Integer.valueOf(password));
     }
 }
