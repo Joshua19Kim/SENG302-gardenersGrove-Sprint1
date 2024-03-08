@@ -75,29 +75,17 @@ public class InputValidationService {
 
     }
 
-    /**
-     * Check emails match, done same as password check. To be used for querying database for duplicates
-     * @param emailOne
-     * @param emailTwo
-     * @return
-     */
-    public boolean checkEmailsMatch (String emailOne, String emailTwo) {
-        return emailOne.equals(emailTwo);
-    }
-
     /** Verifies that the user is old enough to register (13 years or more)
      * @param DoB
      * @return true if user is old enough
      */
-    public boolean checkMinAge (LocalDate DoB) {
-        return Period.between(DoB, LocalDate.now()).getYears() >= 13;
+    public Optional<String> checkDoB (LocalDate DoB) {
+        if (Period.between(DoB, LocalDate.now()).getYears() < 13) {
+            return Optional.of("You must be at least 13 years old to register");
+        } else {
+            return (Period.between(DoB, LocalDate.now()).getYears() > 120 ?
+                    Optional.of("You must be at most 120 years old to register") : Optional.empty());
+        }
     }
 
-    /** Verifies that the user is young enough to register (120 years or fewer)
-     * @param DoB
-     * @return true if user is young enough
-     */
-    public boolean checkMaxAge (LocalDate DoB) {
-        return Period.between(DoB, LocalDate.now()).getYears() <= 120;
-    }
 }
