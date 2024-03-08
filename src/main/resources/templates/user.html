@@ -60,7 +60,7 @@
 <script>
     function enableEditing() {
         document.getElementById('editButtonDiv').style.display = 'none';
-        document.getElementById('saveCancelButtonDiv').style.display = 'block';
+        document.getElementById('saveCancelButtonDiv').style.display = 'flex';
 
         document.getElementById('firstName').style.display = 'none';
         document.getElementById('firstNameEdit').style.display = 'inline';
@@ -86,7 +86,7 @@
     }
 
     function disableEditing() {
-        document.getElementById('editButtonDiv').style.display = 'block';
+        document.getElementById('editButtonDiv').style.display = 'flex';
         document.getElementById('saveCancelButtonDiv').style.display = 'none';
 
         document.getElementById('firstName').style.display = 'inline';
