@@ -18,13 +18,19 @@
         <br/>
         <label for="lastName"> Last Name: </label>
         <input class="form-control" data-cy="lastName" id="lastName" placeholder="Last Name"
-               th:name="lastName" type="text">
+               th:name="lastName" th:value="*{lastName}" type="text">
         <br/>
         <input class="form-control" data-cy="lastNameCheck" id="lastNameCheck" name="lastNameCheck"
                th:id="lastNameCheck" th:name="lastNameCheck" type="checkbox"/>
         <label for="lastNameCheck">I have no surname</label>
         <script>
-            document.getElementById('lastNameCheck').checked = false;
+            var lname = document.getElementById('lastName');
+            if (lname.value.trim() === "") {
+                document.getElementById('lastNameCheck').checked = true;
+                document.getElementById('lastName').disabled = true;
+            } else {
+                document.getElementById('lastNameCheck').checked = false;
+            }
             document.getElementById('lastNameCheck').onchange = function () {
                 document.getElementById('lastName').disabled = this.checked;
             };
@@ -33,12 +39,12 @@
         <br/>
         <label for="DoB"> Date of Birth: </label>
         <input class="form-control" data-cy="DoB" id="DoB"
-               th:name="DoB" type="date">
+               th:name="DoB" th:value="*{DoB}" type="date">
         <p th:text="${DoBValid}"></p>
         <br/>
         <label for="email"> Email: </label>
         <input class="form-control" data-cy="email" id="email" placeholder="Email"
-               th:name="email"type="text">
+               th:name="email" th:value="*{email}" type="text">
         <p th:text="${emailValid}"></p>
         <br/>
         <div>
