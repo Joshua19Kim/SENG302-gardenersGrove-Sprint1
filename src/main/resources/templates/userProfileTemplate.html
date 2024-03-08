@@ -8,6 +8,12 @@
 </head>
 <body>
 <h1>User Profile</h1>
+<div class="UserProfilePicContainer">
+    <div class="UserProfilePic">
+        <img th:src="@{~/images/defaultProfilePic.png}">
+    </div>
+</div>
+
 <form id="profileForm" action="/userProfile" method="get">
     <div class="centered-content">
         <table>

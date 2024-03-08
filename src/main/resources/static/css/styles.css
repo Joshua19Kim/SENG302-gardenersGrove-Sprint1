@@ -9,8 +9,32 @@ h1 {
     margin: 5%;
     justify-content: center;
     display: flex;
-    background-color: red;
+    background-color: blueviolet;
 }
+
+.UserProfilePicContainer {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+}
+
+.UserProfilePic {
+    width: 105px;
+    height: 130px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin: 25px;
+    border-radius: 12px;
+}
+
+.UserProfilePic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+}
+
 
 label {
     margin: 5px;
