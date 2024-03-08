@@ -2,6 +2,7 @@ package nz.ac.canterbury.seng302.gardenersgrove.controller;
 
 import nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener;
 import nz.ac.canterbury.seng302.gardenersgrove.service.GardenerFormService;
+import nz.ac.canterbury.seng302.gardenersgrove.service.InputValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDate;
 import java.util.Optional;
 
 /**
@@ -20,99 +24,76 @@ import java.util.Optional;
 
 @Controller
 public class UserProfileController {
-    Logger logger = LoggerFactory.getLogger(UserProfileController.class);
-
-    private GardenerFormService gardenerFormService;
+    private final Logger logger = LoggerFactory.getLogger(UserProfileController.class);
+    private final GardenerFormService gardenerFormService;
 
     @Autowired
     public UserProfileController(GardenerFormService gardenerFormService) {
         this.gardenerFormService = gardenerFormService;
     }
 
-    /**
-     * Display user's details as a profile, including first/last name, DoB, Email
-     * If the id number is not in the database, it shows "Not registered".
-     * @param id id number which is unique for each user in database
-     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
-     * @return thymeleaf userProfileTemplate
-     */
-    @GetMapping("/userProfile/{id}")
-    public String getUserProfilePage(@PathVariable long id, Model model) {
-        logger.info("GET /userProfile{id}");
-
-        Optional<Gardener> gardenerOptional = this.gardenerFormService.findById(id);
-        if (gardenerOptional.isPresent()) {
-            model.addAttribute("firstName", gardenerOptional.get().getFirstName());
-            model.addAttribute("lastName", gardenerOptional.get().getLastName());
-            model.addAttribute("DoB", gardenerOptional.get().getDoB());
-            model.addAttribute("email", gardenerOptional.get().getEmail());
-        } else {
-            model.addAttribute("firstName", "Not registered");
-        }
-
-        return "user";
-    }
-
-    /**
-     * For the case that the server has to show only user profile page, it displays "Not registered"
-     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
-     * @return thymeleaf userProfileTemplate
-     */
-    @GetMapping("/userProfile/")
-    public String getUserProfileIncorrectApproachOne(Model model) {
-        logger.info("GET /userProfile/");
-
-        model.addAttribute("firstName", "Not registered");
-        return "user";
-    }
-
-    /**
-     * For the case that the server has to show only user profile page, it displays "Not registered"
-     * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
-     * @return thymeleaf userProfileTemplate
-     */
     @GetMapping("/user")
-    public String getUserProfileIncorrectApproachTwo(Model model) {
-        logger.info("GET /userProfile");
+    public String getUserProfile(Model model) {
+        logger.info("GET /user");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
         Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
         if (gardenerOptional.isPresent()) {
-            model.addAttribute("firstName", gardenerOptional.get().getFirstName());
-            model.addAttribute("lastName", gardenerOptional.get().getLastName());
-            model.addAttribute("DoB", gardenerOptional.get().getDoB());
-            model.addAttribute("email", gardenerOptional.get().getEmail());
+            Gardener gardener = gardenerOptional.get();
+            model.addAttribute("firstName", gardener.getFirstName());
+            model.addAttribute("lastName", gardener.getLastName());
+            model.addAttribute("DoB", gardener.getDoB());
+            model.addAttribute("email", gardener.getEmail());
         } else {
             model.addAttribute("firstName", "Not registered");
         }
+
         return "user";
     }
 
+    @PostMapping("/user")
+    public String submitForm(
+            @RequestParam(name = "firstName") String firstName,
+            @RequestParam(name = "lastName", required = false) String lastName,
+            @RequestParam(name = "dob") LocalDate DoB,
+            @RequestParam(name = "email") String email,
+            @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
+            Model model) {
+        logger.info("POST /user");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+
+        Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
+        Gardener gardener = gardenerOptional.get();
+        model.addAttribute("firstName", gardener.getFirstName());
+        model.addAttribute("lastName", gardener.getFirstName());
+        model.addAttribute("DoB", gardener.getDoB());
+        model.addAttribute("email", gardener.getEmail());
+
+        InputValidationService inputValidator = new InputValidationService(gardenerFormService);
+        Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
+        model.addAttribute("firstNameValid", firstNameError.orElse(""));
+        Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
+        model.addAttribute("lastNameValid", lastNameError.orElse(""));
+
+//        Optional<String> DoBError = inputValidator.checkDoB(DoB);
+//        model.addAttribute("DoBValid", DoBError.orElse(""));
 
 
-//<!--for editing part-->
+//        Optional<String> validEmailError = inputValidator.checkValidEmail(email);
+//        model.addAttribute("emailValid", validEmailError.orElse(""));
 
-//    @PostMapping("/userProfile")
-//    public String submitForm( @RequestParam(name="firstName") String firstName,
-//                              @RequestParam(name="lastName", required = false) String lastName,
-//                              @RequestParam(name="DoB") LocalDate DoB,
-//                              @RequestParam(name="email") String email,
-//                              @RequestParam(name="password") String password,
-//                              Model model) {
-//        logger.info("POST /userProfile");
-//        model.addAttribute("firstName", firstName);
-//        model.addAttribute("lastName", lastName);
-//        model.addAttribute("DoB", DoB);
-//        model.addAttribute("email", email);
-//        model.addAttribute("password", password);
-//
-//        // have to add "updating Gardener function"
-//
-//
-//        return "userProfileTemplate";
-//    }
+        if (firstNameError.isEmpty() &&
+                lastNameError.isEmpty()
+//                validEmailError.isEmpty()
+        ) {
+            gardenerFormService.addGardener(gardener);
 
-
+            return "userProfileTemplate";
+        }
+        return "user";
+    }
 }
