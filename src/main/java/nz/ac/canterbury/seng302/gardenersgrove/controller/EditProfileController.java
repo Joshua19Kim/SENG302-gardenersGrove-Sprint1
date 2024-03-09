@@ -26,7 +26,6 @@ public class EditProfileController {
     private final GardenerFormService gardenerFormService;
     private Gardener gardener;
 
-
     @Autowired
     public EditProfileController(GardenerFormService gardenerFormService) {
         this.gardenerFormService = gardenerFormService;
@@ -94,7 +93,6 @@ public class EditProfileController {
                 DoBError.isEmpty()&&
                 emailError.isEmpty()) {
 
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             gardener.setFirstName(firstName);
             gardener.setLastName(lastName);
             gardener.setEmail(email);
