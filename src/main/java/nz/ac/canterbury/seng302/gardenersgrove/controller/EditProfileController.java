@@ -6,6 +6,8 @@ import nz.ac.canterbury.seng302.gardenersgrove.service.InputValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class EditProfileController {
 
     private final GardenerFormService gardenerFormService;
     private Gardener gardener;
+
+
     @Autowired
     public EditProfileController(GardenerFormService gardenerFormService) {
         this.gardenerFormService = gardenerFormService;
@@ -77,7 +81,6 @@ public class EditProfileController {
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
         model.addAttribute("lastNameValid", lastNameError.orElse(""));
 
-
         Optional<String> DoBError = inputValidator.checkDoB(DoB);
         model.addAttribute("DoBValid", DoBError.orElse(""));
         Optional<String> emailError = Optional.empty();
@@ -90,12 +93,15 @@ public class EditProfileController {
                 lastNameError.isEmpty() &&
                 DoBError.isEmpty()&&
                 emailError.isEmpty()) {
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             gardener.setFirstName(firstName);
             gardener.setLastName(lastName);
             gardener.setEmail(email);
             gardener.setDoB(DoB);
             gardenerFormService.addGardener(gardener);
-            // Currently Breaks if it goes straight to Profile due to authentication issues
+            Authentication newAuth = new UsernamePasswordAuthenticationToken(gardener.getEmail(), gardener.getPassword(), gardener.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication((newAuth));
             return "redirect:/user";
         }
 
@@ -106,16 +112,3 @@ public class EditProfileController {
         return "editProfile";
     }
 }
-//
-//    /**
-//     * Gets all form responses
-//     * @param model (map-like) representation of results to be used by thymeleaf
-//     * @return thymeleaf demoResponseTemplate
-//     */
-//    @GetMapping("/register/responses")
-//    public String responses(Model model) {
-//        logger.info("GET /form/responses");
-//        model.addAttribute("responses", gardenerFormService.getGardeners());
-//        return "registerResponsesTemplate";
-//    }
-//}
