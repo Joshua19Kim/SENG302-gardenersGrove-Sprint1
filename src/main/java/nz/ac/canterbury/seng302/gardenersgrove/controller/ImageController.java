@@ -41,9 +41,14 @@ public class ImageController {
         logger.info("POST /upload");
 
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            imageService.saveImage(file);
-            logger.info("101 we are here");
-            return "upload";
+            if (imageService.saveImage(file).isEmpty()) {
+                logger.info("Image has successfully uploaded. Passed checks.");
+                return "redirect:/user";
+            } else {
+                logger.info("Image not uploaded. Did not pass validations checks");
+                return "/upload";
+            }
+
         }
         logger.info("201 we are here");
         return "/login";

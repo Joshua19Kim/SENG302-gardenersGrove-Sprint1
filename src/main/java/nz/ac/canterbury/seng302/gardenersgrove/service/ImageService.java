@@ -16,7 +16,11 @@ import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+
 
 
 
@@ -27,13 +31,15 @@ public class ImageService {
     private final GardenerFormService gardenerFormService;
     private final String IMAGE_PATH = "/images/";
     public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images";
+    private static int MAX_SIZE = 10*1024*1024;
 
+    public List<String> validExtensions = new ArrayList<>(Arrays.asList("jpg", "png", "svg"));
     @Autowired
     public ImageService(GardenerFormService gardenerFormService) {
         this.gardenerFormService = gardenerFormService;
     }
 
-    public void saveImage(MultipartFile file) {
+    public Optional<String> saveImage(MultipartFile file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
         Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
@@ -46,15 +52,56 @@ public class ImageService {
                 String newFileName = gardener.getId() + "." + fileName.substring(fileName.lastIndexOf(".")+1); // mess around with better version of this
                 Path filePath = Paths.get(UPLOAD_DIRECTORY, newFileName);
                 logger.info("File location: " + filePath);
-                Files.write(filePath, file.getBytes());
-                gardener.setProfilePicture(newFileName);
-                gardenerFormService.addGardener(gardener);
 
+                if (checkValidImage(file, fileName).isEmpty()) {
+                    Files.write(filePath, file.getBytes());
+                    gardener.setProfilePicture(newFileName);
+                    gardenerFormService.addGardener(gardener);
+                    return Optional.empty();
+                } else {
+                    return checkValidImage(file, fileName);
+                }
+
+            } else {
+                return Optional.of("I made a boo boo");
             }
         } catch (Exception e) {
             logger.info(e.getMessage());
         }
-
+        return Optional.empty();
     }
+
+    public boolean isFileSizeValid(MultipartFile file) {
+        return file.getSize() <= MAX_SIZE;
+    }
+
+    public String getFileExtension(String fileName) {
+        int dotIndex = fileName.lastIndexOf(".");
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex + 1).toLowerCase();
+        }
+        return "";
+    }
+
+
+    public boolean checkValidExtension (String fileName) {
+        String extension = getFileExtension(fileName);
+        return validExtensions.contains(extension);
+    }
+
+    public Optional<String> checkValidImage(MultipartFile file, String fileName) {
+        if (checkValidExtension(fileName) && isFileSizeValid(file)) {
+            return Optional.empty();
+        } else if ((!checkValidExtension(fileName)) && isFileSizeValid(file)) {
+            return Optional.of("Image must be of type png, jpg or svg");
+        } else if (checkValidExtension(fileName) && (!isFileSizeValid(file))) {
+            return Optional.of("Image must be less than 10MB");
+        } else {
+            return Optional.of("Image must be of type png, jpg or svg" + "\n" +
+                    "Image must be less than 10MB");
+        }
+    }
+
+
 
 }
