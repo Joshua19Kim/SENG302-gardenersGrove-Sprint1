@@ -44,7 +44,7 @@ public class GardenerFormService {
         return gardenerFormRepository.findByEmail(email);
     }
 
-    public Optional<Gardener> getUserByEmailAndPassword(String email, String password) {
-        return gardenerFormRepository.findByEmailAndPassword(email, password.hashCode());
+    public Optional<Gardener> getUserByEmailAndPassword(String email, int password) {
+        return gardenerFormRepository.findByEmailAndPassword(email, password); // Creating some sort of thread problem?
     }
 }

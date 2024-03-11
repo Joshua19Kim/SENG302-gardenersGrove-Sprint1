@@ -43,7 +43,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Bad Credentials");
         }
 
-        Gardener u = gardenerFormService.getUserByEmailAndPassword(email, password).orElse(null);
+        Gardener u = gardenerFormService.getUserByEmailAndPassword(email, password.hashCode()).orElse(null);
         if (u == null) {
             throw new BadCredentialsException("Invalid username or password");
         }
