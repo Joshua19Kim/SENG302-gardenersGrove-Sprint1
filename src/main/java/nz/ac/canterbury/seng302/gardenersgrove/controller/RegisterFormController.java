@@ -121,6 +121,7 @@ public class RegisterFormController {
 
             // Check if the authentication is actually authenticated (in this example any username/password is accepted so this should never be false)
             if (authentication.isAuthenticated()) {
+                logger.info("user is authenticated");
                 // Add the authentication to the current security context (Stateful)
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 // Add the token to the request session (needed so the authentication can be properly used)

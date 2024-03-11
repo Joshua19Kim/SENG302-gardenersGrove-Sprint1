@@ -8,6 +8,16 @@
 <body>
 <nav th:insert="~{fragmentExample/fragments/nav.html}"></nav>
 <h1>User Profile</h1>
+
+<div class="UserProfilePicContainer">
+    <div class="UserProfilePic">
+        <img th:src="@{~/images/${profilePic}}" alt="Profile Picture">
+    </div>
+</div>
+<div class="ChangeProfilePictureButtonContainer">
+    <button type="button" id="changePicture" onclick="redirectToUploadPage()"> + </button>
+</div>
+
 <div>
 
     <form id="profileForm" action="/user" method="get">
@@ -58,6 +68,10 @@
     </form>
 </div>
 <script>
+
+    function redirectToUploadPage() {
+        window.location.href = '/upload';
+    }
     function enableEditing() {
         document.getElementById('editButtonDiv').style.display = 'none';
         document.getElementById('saveCancelButtonDiv').style.display = 'block';

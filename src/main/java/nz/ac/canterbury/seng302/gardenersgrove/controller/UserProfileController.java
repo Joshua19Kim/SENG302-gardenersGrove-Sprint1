@@ -48,6 +48,7 @@ public class UserProfileController {
             model.addAttribute("lastName", gardener.getLastName());
             model.addAttribute("DoB", gardener.getDoB());
             model.addAttribute("email", gardener.getEmail());
+            model.addAttribute("profilePic", gardener.getProfilePicture());
         } else {
             model.addAttribute("firstName", "Not registered");
         }

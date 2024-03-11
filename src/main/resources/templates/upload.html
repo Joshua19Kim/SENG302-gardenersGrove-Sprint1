@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gardener's Grove Upload Image</title>
+    <link rel="stylesheet" th:href="@{css/styles.css}">
+</head>
+<body>
+<h1>Upload Image</h1>
+
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <label for="file">Choose an image:</label>
+    <input type="file" id="file" name="file" accept="image/*">
+    <br>
+    <button type="submit">Upload</button>
+</form>
+
+<!-- Display uploaded image information -->
+<div th:if="${image != null}">
+    <h3>Uploaded Image Details:</h3>
+    <p th:text="'File Name: ' + ${image.fileName}"></p>
+</div>
+
+</body>
+</html>

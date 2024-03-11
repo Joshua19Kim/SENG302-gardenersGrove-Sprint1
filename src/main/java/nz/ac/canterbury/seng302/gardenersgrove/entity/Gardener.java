@@ -34,6 +34,9 @@ public class Gardener {
     @Column(nullable = false)
     private int password;
 
+    @Column(name = "profile_picture")
+    private String profilePicture;
+
     @Column()
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "gardener_id")
@@ -57,6 +60,7 @@ public class Gardener {
         this.DoB = DoB;
         this.email = email;
         this.password = password.hashCode();
+        this.profilePicture = "defaultProfilePic";
     }
 
     public void grantAuthority(String authority) {
@@ -99,6 +103,14 @@ public class Gardener {
     }
 
     public int getPassword() {return password; }
+
+    public void setProfilePicture(String imageLocation) {
+        this.profilePicture = imageLocation;
+    }
+
+    public String getProfilePicture() {
+        return this.profilePicture;
+    }
 
 
     @Override

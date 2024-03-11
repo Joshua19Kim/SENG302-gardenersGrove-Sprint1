@@ -1,0 +1,53 @@
+package nz.ac.canterbury.seng302.gardenersgrove.controller;
+
+
+import nz.ac.canterbury.seng302.gardenersgrove.service.ImageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import nz.ac.canterbury.seng302.gardenersgrove.entity.Image;
+@Controller
+public class ImageController {
+
+    @Autowired
+    private ImageService imageService;
+
+    private final Logger logger = LoggerFactory.getLogger(ImageController.class);
+
+
+
+    @GetMapping("/upload")
+    public String getUploadForm(Model model) {
+        model.addAttribute("image", new Image());
+
+        logger.info("GET /upload");
+
+        return "upload";
+    }
+
+    @PostMapping("/upload")
+    public String handleFileUpload(@RequestParam("file")MultipartFile file, Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("POST /upload");
+
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            imageService.saveImage(file);
+            logger.info("101 we are here");
+            return "upload";
+        }
+        logger.info("201 we are here");
+        return "/login";
+
+
+    }
+}

@@ -39,6 +39,37 @@ input[type=submit] {
     border-radius: 5px;
 }
 
+.UserProfilePicContainer {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+}
+
+.UserProfilePic {
+    width: 105px;
+    height: 130px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    border-radius: 12px;
+}
+
+.UserProfilePic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+}
+
+.ChangeProfilePictureButtonContainer {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
 #profileForm {
     margin: auto;
     width: 30%;
