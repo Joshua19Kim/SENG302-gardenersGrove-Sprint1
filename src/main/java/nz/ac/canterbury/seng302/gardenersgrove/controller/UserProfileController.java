@@ -35,7 +35,11 @@ public class UserProfileController {
     }
 
     @GetMapping("/user")
-    public String getUserProfile(Model model) {
+    public String getUserProfile(@RequestParam(name = "firstName", required = false) String firstName,
+                                 @RequestParam(name = "lastName", required = false) String lastName,
+                                 @RequestParam(name = "DoB", required = false) LocalDate DoB,
+                                 @RequestParam(name = "email", required = false) String email,
+                                 Model model) {
         logger.info("GET /user");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -44,6 +48,13 @@ public class UserProfileController {
         Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
         if (gardenerOptional.isPresent()) {
             Gardener gardener = gardenerOptional.get();
+            if (firstName != null || lastName != null || DoB != null || email != null) {
+                gardener.setFirstName(firstName);
+                gardener.setLastName(lastName);
+                gardener.setDoB(DoB);
+                gardener.setEmail(email);
+                gardenerFormService.addGardener(gardener);
+            }
             model.addAttribute("firstName", gardener.getFirstName());
             model.addAttribute("lastName", gardener.getLastName());
             model.addAttribute("DoB", gardener.getDoB());
@@ -57,30 +68,33 @@ public class UserProfileController {
     }
 
     @PostMapping("/user")
-    public String submitForm(
-            @RequestParam(name = "firstName") String firstName,
-            @RequestParam(name = "lastName", required = false) String lastName,
-            @RequestParam(name = "dob") LocalDate DoB,
-            @RequestParam(name = "email") String email,
-            @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
-            Model model) {
+    public String submitForm(@RequestParam(name = "firstName") String firstName, @RequestParam(name = "lastName", required = false) String lastName, @RequestParam(name = "dob") LocalDate DoB, @RequestParam(name = "email") String email, @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck, Model model) {
         logger.info("POST /user");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
         Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
-        Gardener gardener = gardenerOptional.get();
-        model.addAttribute("firstName", gardener.getFirstName());
-        model.addAttribute("lastName", gardener.getFirstName());
-        model.addAttribute("DoB", gardener.getDoB());
-        model.addAttribute("email", gardener.getEmail());
+        if (gardenerOptional.isPresent()) {
+            Gardener gardener = gardenerOptional.get();
+            model.addAttribute("firstName", gardener.getFirstName());
+            model.addAttribute("lastName", gardener.getFirstName());
+            model.addAttribute("DoB", gardener.getDoB());
+            model.addAttribute("email", gardener.getEmail());
 
-        InputValidationService inputValidator = new InputValidationService(gardenerFormService);
-        Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
-        model.addAttribute("firstNameValid", firstNameError.orElse(""));
-        Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
-        model.addAttribute("lastNameValid", lastNameError.orElse(""));
+            InputValidationService inputValidator = new InputValidationService(gardenerFormService);
+            Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
+            model.addAttribute("firstNameValid", firstNameError.orElse(""));
+            Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
+            model.addAttribute("lastNameValid", lastNameError.orElse(""));
+
+            if (firstNameError.isEmpty() && lastNameError.isEmpty()
+//                validEmailError.isEmpty()
+            ) {
+                gardenerFormService.addGardener(gardener);
+
+            }
+        }
 
 //        Optional<String> DoBError = inputValidator.checkDoB(DoB);
 //        model.addAttribute("DoBValid", DoBError.orElse(""));
@@ -89,16 +103,10 @@ public class UserProfileController {
 //        Optional<String> validEmailError = inputValidator.checkValidEmail(email);
 //        model.addAttribute("emailValid", validEmailError.orElse(""));
 
-        if (firstNameError.isEmpty() &&
-                lastNameError.isEmpty()
-//                validEmailError.isEmpty()
-        ) {
-            gardenerFormService.addGardener(gardener);
 
-            return "redirect:user";
-        }
         return "redirect:user";
     }
+
     @GetMapping("/redirectToUserPage")
     public RedirectView profileButton() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
