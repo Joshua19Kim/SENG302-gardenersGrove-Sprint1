@@ -60,7 +60,7 @@ public class Gardener {
         this.DoB = DoB;
         this.email = email;
         this.password = password.hashCode();
-        this.profilePicture = "defaultProfilePic";
+        this.profilePicture = "defaultProfilePic.png";
     }
 
     public void grantAuthority(String authority) {
