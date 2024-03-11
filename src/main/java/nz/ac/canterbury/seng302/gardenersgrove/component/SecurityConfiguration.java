@@ -59,7 +59,7 @@ public class SecurityConfiguration {
 
                 .authorizeHttpRequests(request ->
                         // Allow "/", "/register", and "/login" to anyone (permitAll)
-                        request.requestMatchers("/", "/register", "/login", "/user", "/upload")
+                        request.requestMatchers("/", "/register", "/login", "/upload")
                                 .permitAll()
                                 // Only allow admins to reach the "/admin" page
                                 .requestMatchers("/admin")

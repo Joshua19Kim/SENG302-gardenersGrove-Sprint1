@@ -26,7 +26,7 @@ public class ImageService {
     private final Logger logger = LoggerFactory.getLogger(ImageService.class);
     private final GardenerFormService gardenerFormService;
     private final String IMAGE_PATH = "/images/";
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images";
 
     @Autowired
     public ImageService(GardenerFormService gardenerFormService) {
@@ -45,7 +45,7 @@ public class ImageService {
                 Gardener gardener = gardenerOptional.get();
                 String newFileName = gardener.getId() + "." + fileName.substring(fileName.lastIndexOf(".")+1); // mess around with better version of this
                 Path filePath = Paths.get(UPLOAD_DIRECTORY, newFileName);
-
+                logger.info("File location: " + filePath);
                 Files.write(filePath, file.getBytes());
                 gardener.setProfilePicture(newFileName);
                 gardenerFormService.addGardener(gardener);
