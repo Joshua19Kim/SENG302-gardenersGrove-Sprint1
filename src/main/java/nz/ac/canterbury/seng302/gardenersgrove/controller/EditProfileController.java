@@ -75,6 +75,7 @@ public class EditProfileController {
         gardener = gardenerFormService.findByEmail(authentication.getName()).get();
 
         InputValidationService inputValidator = new InputValidationService(gardenerFormService);
+
         Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
         model.addAttribute("firstNameValid", firstNameError.orElse(""));
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
@@ -98,6 +99,7 @@ public class EditProfileController {
             gardener.setEmail(email);
             gardener.setDoB(DoB);
             gardenerFormService.addGardener(gardener);
+            // Re-authenticates user to catch case when they change their email
             Authentication newAuth = new UsernamePasswordAuthenticationToken(gardener.getEmail(), gardener.getPassword(), gardener.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication((newAuth));
             return "redirect:/user";
