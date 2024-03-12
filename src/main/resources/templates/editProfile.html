@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gardener's Grove Register</title>
+    <link rel="stylesheet" th:href="@{css/styles.css}">
+</head>
+<body>
+<h1>Edit User Profile</h1>
+
+<div>
+
+    <form method="post" th:action="@{editProfile}">
+        <label for="firstName"> First Name: </label>
+        <input autofocus class="form-control" data-cy="firstName" id="firstName"
+               placeholder="First Name" required th:name="firstName" th:value="*{firstName}" type="text">
+        <p th:text="${firstNameValid}"></p>
+        <br/>
+        <label for="lastName"> Last Name: </label>
+        <input class="form-control" data-cy="lastName" id="lastName" placeholder="Last Name"
+               th:name="lastName" th:value="*{lastName}" type="text">
+        <br/>
+        <input class="form-control" data-cy="lastNameCheck" id="lastNameCheck" name="lastNameCheck"
+               th:id="lastNameCheck" th:name="lastNameCheck" type="checkbox"/>
+        <label for="lastNameCheck">I have no surname</label>
+        <script>
+            var lname = document.getElementById('lastName');
+            if (lname.value.trim() === "") {
+                document.getElementById('lastNameCheck').checked = true;
+                document.getElementById('lastName').disabled = true;
+            } else {
+                document.getElementById('lastNameCheck').checked = false;
+            }
+            document.getElementById('lastNameCheck').onchange = function () {
+                document.getElementById('lastName').disabled = this.checked;
+            };
+        </script>
+        <p th:text="${lastNameValid}"></p>
+        <br/>
+        <label for="DoB"> Date of Birth: </label>
+        <input class="form-control" data-cy="DoB" id="DoB"
+               th:name="DoB" th:value="*{DoB}" type="date">
+        <p th:text="${DoBValid}"></p>
+        <br/>
+        <label for="email"> Email: </label>
+        <input class="form-control" data-cy="email" id="email" placeholder="Email"
+               th:name="email" th:value="*{email}" type="text">
+        <p th:text="${emailValid}"></p>
+        <br/>
+        <div>
+            <input type="submit" value="Confirm"/>
+            <button type="reset" id="cancel" onclick="window.location='./user'">Cancel</button>
+        </div>
+    </form>
+
+
+</div>
+</body>
+</html>

@@ -29,91 +29,41 @@ public class UserProfileController {
     private final Logger logger = LoggerFactory.getLogger(UserProfileController.class);
     private final GardenerFormService gardenerFormService;
 
+    private Authentication authentication;
+    private Gardener gardener;
+
     @Autowired
     public UserProfileController(GardenerFormService gardenerFormService) {
         this.gardenerFormService = gardenerFormService;
     }
 
     @GetMapping("/user")
-    public String getUserProfile(@RequestParam(name = "firstName", required = false) String firstName,
-                                 @RequestParam(name = "lastName", required = false) String lastName,
-                                 @RequestParam(name = "DoB", required = false) LocalDate DoB,
-                                 @RequestParam(name = "email", required = false) String email,
-                                 Model model) {
+    public String getUserProfile(Model model) {
         logger.info("GET /user");
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
         Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
         if (gardenerOptional.isPresent()) {
-            Gardener gardener = gardenerOptional.get();
-            if (firstName != null || lastName != null || DoB != null || email != null) {
-                gardener.setFirstName(firstName);
-                gardener.setLastName(lastName);
-                gardener.setDoB(DoB);
-                gardener.setEmail(email);
-                gardenerFormService.addGardener(gardener);
-            }
+            gardener = gardenerOptional.get();
             model.addAttribute("firstName", gardener.getFirstName());
             model.addAttribute("lastName", gardener.getLastName());
             model.addAttribute("DoB", gardener.getDoB());
             model.addAttribute("email", gardener.getEmail());
             model.addAttribute("profilePic", gardener.getProfilePicture());
         } else {
-            model.addAttribute("firstName", "Not registered");
+            model.addAttribute("firstName", "Not Registered");
         }
 
         return "user";
     }
 
     @PostMapping("/user")
-    public String submitForm(@RequestParam(name = "firstName") String firstName, @RequestParam(name = "lastName", required = false) String lastName, @RequestParam(name = "dob") LocalDate DoB, @RequestParam(name = "email") String email, @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck, Model model) {
+    public String submitForm() {
         logger.info("POST /user");
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUserEmail = authentication.getName();
-
-        Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
-        if (gardenerOptional.isPresent()) {
-            Gardener gardener = gardenerOptional.get();
-            model.addAttribute("firstName", gardener.getFirstName());
-            model.addAttribute("lastName", gardener.getFirstName());
-            model.addAttribute("DoB", gardener.getDoB());
-            model.addAttribute("email", gardener.getEmail());
-
-            InputValidationService inputValidator = new InputValidationService(gardenerFormService);
-            Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
-            model.addAttribute("firstNameValid", firstNameError.orElse(""));
-            Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
-            model.addAttribute("lastNameValid", lastNameError.orElse(""));
-
-            if (firstNameError.isEmpty() && lastNameError.isEmpty()
-//                validEmailError.isEmpty()
-            ) {
-                gardenerFormService.addGardener(gardener);
-
-            }
-        }
-
-//        Optional<String> DoBError = inputValidator.checkDoB(DoB);
-//        model.addAttribute("DoBValid", DoBError.orElse(""));
-
-
-//        Optional<String> validEmailError = inputValidator.checkValidEmail(email);
-//        model.addAttribute("emailValid", validEmailError.orElse(""));
-
-
-        return "redirect:user";
+        return "redirect:editProfile";
     }
 
-    @GetMapping("/redirectToUserPage")
-    public RedirectView profileButton() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        logger.info("Authentication: " + authentication);
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            return new RedirectView("/user");
-        }
-        return new RedirectView("/login");
-    }
+
 }
