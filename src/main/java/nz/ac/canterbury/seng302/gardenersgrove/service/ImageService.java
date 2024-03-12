@@ -30,7 +30,7 @@ public class ImageService {
     private final Logger logger = LoggerFactory.getLogger(ImageService.class);
     private final GardenerFormService gardenerFormService;
     private final String IMAGE_PATH = "/images/";
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images";
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
     private static int MAX_SIZE = 10*1024*1024;
 
     public List<String> validExtensions = new ArrayList<>(Arrays.asList("jpg", "png", "svg"));
