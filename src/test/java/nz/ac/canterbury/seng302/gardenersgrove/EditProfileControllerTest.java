@@ -55,9 +55,16 @@ public class EditProfileControllerTest {
 //        Mockito.when(SecurityContextHolder.getContext().getAuthentication()).thenReturn();
 //        Gardener testGardener = new Gardener("Ben", "Moore", LocalDate.of(2001, 11, 11),"test@test.test", "password");
 //        Authentication newAuth = new UsernamePasswordAuthenticationToken(testGardener.getEmail(), testGardener.getPassword(), testGardener.getAuthorities());
-        editProfileController.submitForm("Ben", "Moore", LocalDate.of(2001, 11, 11),"new@new.new", false, modelMock);
+        Mockito.when(authentication.getName()).thenReturn("new1@new.new");
+        editProfileController.submitForm("Ben", "Moore", LocalDate.of(2001, 11, 11),"new1@new.new", false, modelMock);
         Mockito.verify(gardenerFormService, times(1)).addGardener(Mockito.any(Gardener.class));
     }
+
+
+
+
+
+
 
 //    @Test
 //    void GivenInvalidFirstNameEdit_WhenUserConfirms_GardenerEditNotUploaded() {
