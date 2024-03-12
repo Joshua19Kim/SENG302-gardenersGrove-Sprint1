@@ -40,6 +40,7 @@ public class UserProfileControllerTest {
     void GivenGardenerEmailNotExistingInServer_WhenToShowDetails_ControllerCannotFindDetailsWithEmail() {
         Mockito.when(gardenerFormService.findByEmail("test@test.test")).thenThrow(NullPointerException.class);
         userProfileController.getUserProfile(modelMock);
+
     }
 
 

@@ -21,11 +21,8 @@ import static org.mockito.Mockito.times;
 public class EditProfileControllerTest {
 
     private EditProfileController editProfileController;
-
     private GardenerFormService gardenerFormService;
-
     private Model modelMock;
-
     private Gardener gardener;
 
 
