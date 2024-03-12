@@ -15,7 +15,9 @@
         <input name="username" placeholder="Username" type="text"/>
     </div>
     <div th:if="${param.error}">
-        <p>Invalid username and password.</p>
+        <p data-th-text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"> </p>
+
+
     </div>
     <div>
         <input name="password" placeholder="Password" type="password"/>
