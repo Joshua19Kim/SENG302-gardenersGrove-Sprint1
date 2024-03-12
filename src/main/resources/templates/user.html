@@ -15,7 +15,7 @@
     </div>
 </div>
 <div class="ChangeProfilePictureButtonContainer">
-    <button type="button" id="changePicture" onclick="redirectToUploadPage()"> + </button>
+    <button type="button" id="changePicture" onclick=window.location.href='/upload'> + </button>
 </div>
 
 <div>
@@ -35,10 +35,6 @@
         <span id="email" th:text="${email}"></span>
         <br/>
         <button type="reset" onclick="window.location='./editProfile'"> Edit </button>
-
-        <div id="editButtonDiv">
-            <button type="button" onclick="enableEditing()">Edit</button>
-        </div>
         <div id="saveCancelButtonDiv" style="display: none;">
             <button type="submit" onclick="saveProfile()">Save</button>
             <button type="button" onclick="disableEditing()">Cancel</button>

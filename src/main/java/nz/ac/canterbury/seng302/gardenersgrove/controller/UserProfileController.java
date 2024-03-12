@@ -65,5 +65,14 @@ public class UserProfileController {
         return "redirect:editProfile";
     }
 
+    @GetMapping("/redirectToUserPage")
+    public RedirectView profileButton() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("Authentication: " + authentication);
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            return new RedirectView("/user");
+        }
+        return new RedirectView("/login");
+    }
 
 }
