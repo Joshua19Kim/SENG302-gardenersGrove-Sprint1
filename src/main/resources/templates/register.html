@@ -13,7 +13,7 @@
     <form method="post" th:action="@{register}">
         <label for="firstName"> First Name: </label>
         <input autofocus class="form-control" data-cy="firstName" id="firstName"
-               placeholder="First Name" required th:name="firstName" th:value="*{firstName}" type="text">
+               placeholder="First Name" th:name="firstName" th:value="*{firstName}" type="text">
         <p th:text="${firstNameValid}" th:value="*{firstNameValid}"></p>
         <br/>
         <label for="lastName"> Last Name: </label>
@@ -55,7 +55,7 @@
 
         <br/>
         <div>
-            <input type="submit" value="Log in"/>
+            <input type="submit" value="Register"/>
             <button type="reset" id="cancel" onclick="window.location='./'">Cancel</button>
         </div>
     </form>
