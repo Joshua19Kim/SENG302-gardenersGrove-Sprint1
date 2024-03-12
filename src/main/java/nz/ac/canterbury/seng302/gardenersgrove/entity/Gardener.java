@@ -108,16 +108,6 @@ public class Gardener {
 
     public int getPassword() {return password; }
 
-    public void updateUserDetails(String newFirstName, String newLastName,
-                                  LocalDate newDoB, String newEmail) {
-        this.firstName = newFirstName;
-        this.lastName = newLastName;
-        this.DoB = newDoB;
-        this.email = newEmail;
-    }
-
-
-
     @Override
     public String toString() {
         String gardenerString = "Gardener{" +

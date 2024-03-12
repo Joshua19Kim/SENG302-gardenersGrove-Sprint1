@@ -27,6 +27,7 @@ public class UserProfileController {
     private final Logger logger = LoggerFactory.getLogger(UserProfileController.class);
     private final GardenerFormService gardenerFormService;
 
+    Authentication authentication;
     private Gardener gardener;
 
     @Autowired
@@ -38,44 +39,25 @@ public class UserProfileController {
     public String getUserProfile( Model model) {
         logger.info("GET /user");
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
-//        logger.info(currentUserEmail);
-        // This causes errors due to how the user is updated
         Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
-//        logger.info(gardenerFormService.findByEmail("kush@gmail.com").get().getFirstName());
-
-
-        gardener = gardenerOptional.get();
-        model.addAttribute("firstName", gardener.getFirstName());
-        model.addAttribute("lastName", gardener.getLastName());
-        model.addAttribute("DoB", gardener.getDoB());
-        model.addAttribute("email", gardener.getEmail());
+        if (gardenerOptional.isPresent()) {
+            gardener = gardenerOptional.get();
+            model.addAttribute("firstName", gardener.getFirstName());
+            model.addAttribute("lastName", gardener.getLastName());
+            model.addAttribute("DoB", gardener.getDoB());
+            model.addAttribute("email", gardener.getEmail());
+        } else {
+            model.addAttribute("firstName", "Not Registered");
+        }
 
         return "user";
     }
     @PostMapping("/user")
-    public String submitForm(
-            @RequestParam(name = "firstName") String firstName,
-            @RequestParam(name = "lastName", required = false) String lastName,
-            @RequestParam(name = "dob") LocalDate DoB,
-            @RequestParam(name = "email") String email,
-            Model model) {
+    public String submitForm() {
         logger.info("POST /user");
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUserEmail = authentication.getName();
-
-        Optional<Gardener> gardenerOptional = gardenerFormService.findByEmail(currentUserEmail);
-        Gardener gardener = gardenerOptional.get();
-        model.addAttribute("firstName", gardener.getFirstName());
-        model.addAttribute("lastName", gardener.getFirstName());
-        model.addAttribute("DoB", gardener.getDoB());
-        model.addAttribute("email", gardener.getEmail());
-
-
-
         return "redirect:editProfile";
     }
 
