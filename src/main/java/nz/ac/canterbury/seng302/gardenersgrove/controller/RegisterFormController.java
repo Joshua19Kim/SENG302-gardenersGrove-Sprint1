@@ -101,7 +101,10 @@ public class RegisterFormController {
         Optional<Gardener> gardenerOptional = this.gardenerFormService.findByEmail(email);
 
         Optional<String> validEmailError = inputValidator.checkValidEmail(email);
-        model.addAttribute("emailValid", validEmailError.orElse(""));
+        Optional<String> emailInUseError = inputValidator.checkEmailInUse(email);
+
+        // emailValid is either the String stored in validEmailError OR ELSE it is equal to the String stored in emailInUseError otherwise its empty
+        model.addAttribute("emailValid", validEmailError.orElse(emailInUseError.orElse("")));
         Optional<String> passwordMatchError = inputValidator.checkPasswordsMatch(password, passwordConfirm);
         model.addAttribute("passwordsMatch", passwordMatchError.orElse(""));
         Optional<String> passwordStrengthError = inputValidator.checkStrongPassword(password);

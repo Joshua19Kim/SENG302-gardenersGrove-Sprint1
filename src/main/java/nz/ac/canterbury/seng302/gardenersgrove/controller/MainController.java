@@ -14,30 +14,19 @@ import org.springframework.web.bind.annotation.GetMapping;
  * This controller defines endpoints as functions with specific HTTP mappings
  */
 @Controller
-public class LoginController {
-    Logger logger = LoggerFactory.getLogger(LoginController.class);
+public class MainController {
+    Logger logger = LoggerFactory.getLogger(MainController.class);
 
-    /**
-     * Redirects GET default url '/' to '/login'
-     * @return redirect to /login
-     */
-    @GetMapping("/")
-    public String home() {
-        logger.info("GET /");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        logger.info("Authentication: " + authentication);
-        return "redirect:/login";
-    }
 
-    @GetMapping("/login")
+    @GetMapping("/main")
     public String login() {
-        logger.info("GET /");
+        logger.info("GET /Main");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         logger.info("Authentication: " + authentication);
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            return "redirect:/main";
+            return "main";
+        } else {
+            return "redirect:/login";
         }
-        return "login";
     }
-
 }

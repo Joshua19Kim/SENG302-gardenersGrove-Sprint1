@@ -67,12 +67,16 @@ public class InputValidationService {
      */
     public Optional<String> checkValidEmail (String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        if (gardenerFormService.findByEmail(email).isPresent()) {
-            return Optional.of("This email address is already in use");
-        } else {
-            return (email.matches(emailRegex) ? Optional.empty() : Optional.of("Email address must be in the form ‘jane@doe.nz"));
-        }
+        return (email.matches(emailRegex) ? Optional.empty() : Optional.of("Email address must be in the form ‘jane@doe.nz"));
+    }
 
+    /**
+     * Checks if the email is already in use
+     * @param email provided by user input
+     * @return true if passes verification
+     */
+    public Optional<String> checkEmailInUse(String email) {
+        return (gardenerFormService.findByEmail(email).isPresent() ? Optional.of("This email address is already in use") : Optional.empty());
     }
 
     /** Verifies that the user is old enough to register (13 years or more)

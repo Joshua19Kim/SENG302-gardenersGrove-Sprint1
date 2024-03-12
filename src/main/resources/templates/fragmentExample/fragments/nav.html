@@ -1,12 +1,12 @@
 <ul>
     <li>
-        <form method="POST" th:action="@{logout}">
-            <input type="submit" value="Logout"/>
+        <form method="GET" th:action="@{redirectToUserPage}">
+            <input type="submit" value="Profile"/>
         </form>
     </li>
     <li>
-        <form method="GET" th:action="@{redirectToUserPage}">
-            <input type="submit" value="Profile"/>
+        <form method="POST" th:action="@{logout}">
+            <input type="submit" value="Logout"/>
         </form>
     </li>
 </ul>
