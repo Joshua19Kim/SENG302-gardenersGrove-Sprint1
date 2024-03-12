@@ -55,13 +55,13 @@ public class Gardener {
      * @param email user's email
      * @param password user's password
      */
-    public Gardener(String firstName, String lastName, LocalDate DoB, String email, String password) {
+    public Gardener(String firstName, String lastName, LocalDate DoB, String email, String password, String profilePicture) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.DoB = DoB;
         this.email = email;
         this.password = password.hashCode();
-        this.profilePicture = "defaultProfilePic.png";
+        this.profilePicture = profilePicture;
     }
 
     public void grantAuthority(String authority) {

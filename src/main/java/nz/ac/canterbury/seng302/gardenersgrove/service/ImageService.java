@@ -33,7 +33,7 @@ public class ImageService {
     public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
     private static int MAX_SIZE = 10*1024*1024;
 
-    public List<String> validExtensions = new ArrayList<>(Arrays.asList("jpg", "png", "svg"));
+    public List<String> validExtensions = new ArrayList<>(Arrays.asList("image/jpeg", "image/png", "image/svg+xml"));
     @Autowired
     public ImageService(GardenerFormService gardenerFormService) {
         this.gardenerFormService = gardenerFormService;
@@ -53,17 +53,17 @@ public class ImageService {
                 Path filePath = Paths.get(UPLOAD_DIRECTORY, newFileName);
                 logger.info("File location: " + filePath);
 
-                if (checkValidImage(file, fileName).isEmpty()) {
+                if (checkValidImage(file).isEmpty()) {
                     Files.write(filePath, file.getBytes());
                     gardener.setProfilePicture(newFileName);
                     gardenerFormService.addGardener(gardener);
                     return Optional.empty();
                 } else {
-                    return checkValidImage(file, fileName);
+                    return checkValidImage(file);
                 }
 
             } else {
-                return Optional.of("I made a boo boo");
+                return Optional.of("I made a boo boo"); // Sam THE GOAT
             }
         } catch (Exception e) {
             logger.info(e.getMessage());
@@ -75,26 +75,17 @@ public class ImageService {
         return file.getSize() <= MAX_SIZE;
     }
 
-    public String getFileExtension(String fileName) {
-        int dotIndex = fileName.lastIndexOf(".");
-        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
-            return fileName.substring(dotIndex + 1).toLowerCase();
-        }
-        return "";
+
+    public boolean checkValidExtension (MultipartFile file) {
+        return validExtensions.contains(file.getContentType());
     }
 
-
-    public boolean checkValidExtension (String fileName) {
-        String extension = getFileExtension(fileName);
-        return validExtensions.contains(extension);
-    }
-
-    public Optional<String> checkValidImage(MultipartFile file, String fileName) {
-        if (checkValidExtension(fileName) && isFileSizeValid(file)) {
+    public Optional<String> checkValidImage(MultipartFile file) {
+        if (checkValidExtension(file) && isFileSizeValid(file)) {
             return Optional.empty();
-        } else if ((!checkValidExtension(fileName)) && isFileSizeValid(file)) {
+        } else if ((!checkValidExtension(file)) && isFileSizeValid(file)) {
             return Optional.of("Image must be of type png, jpg or svg");
-        } else if (checkValidExtension(fileName) && (!isFileSizeValid(file))) {
+        } else if (checkValidExtension(file) && (!isFileSizeValid(file))) {
             return Optional.of("Image must be less than 10MB");
         } else {
             return Optional.of("Image must be of type png, jpg or svg " + "\n" +

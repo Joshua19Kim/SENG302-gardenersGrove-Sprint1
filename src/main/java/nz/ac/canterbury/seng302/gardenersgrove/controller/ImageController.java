@@ -46,18 +46,12 @@ public class ImageController {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             Optional<String> uploadMessage =  imageService.saveImage(file);
             if (uploadMessage.isEmpty()) {
-                logger.info("Image has successfully uploaded. Passed checks.");
                 return "redirect:/user";
             } else {
-                logger.info(uploadMessage.get());
                 model.addAttribute("uploadMessage", uploadMessage.get());
                 return "/upload";
             }
-
         }
-        logger.info("201 we are here");
         return "/login";
-
-
     }
 }

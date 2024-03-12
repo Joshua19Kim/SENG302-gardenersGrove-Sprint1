@@ -112,7 +112,7 @@ public class RegisterFormController {
 
 
         if (firstNameError.isEmpty() && lastNameError.isEmpty() && validEmailError.isEmpty() && emailInUseError.isEmpty() && DoBError.isEmpty() && passwordMatchError.isEmpty() && passwordStrengthError.isEmpty()) {
-            Gardener newGardener = new Gardener(firstName, lastName, DoB, email, password);
+            Gardener newGardener = new Gardener(firstName, lastName, DoB, email, password, "defaultProfilePic.png");
             newGardener.grantAuthority("ROLE_USER");
             gardenerFormService.addGardener(newGardener);
 
