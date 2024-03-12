@@ -50,6 +50,7 @@ public class ImageController {
                 return "redirect:/user";
             } else {
                 logger.info(uploadMessage.get());
+                model.addAttribute("uploadMessage", uploadMessage.get());
                 return "/upload";
             }
 

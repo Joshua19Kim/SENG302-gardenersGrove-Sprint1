@@ -97,7 +97,7 @@ public class ImageService {
         } else if (checkValidExtension(fileName) && (!isFileSizeValid(file))) {
             return Optional.of("Image must be less than 10MB");
         } else {
-            return Optional.of("Image must be of type png, jpg or svg" + "\n" +
+            return Optional.of("Image must be of type png, jpg or svg " + "\n" +
                     "Image must be less than 10MB");
         }
     }

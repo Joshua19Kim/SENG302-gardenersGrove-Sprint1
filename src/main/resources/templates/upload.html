@@ -25,6 +25,10 @@
     </form>
 </div>
 
+<div class="warningMessageContainer">
+    <p th:text="${uploadMessage}" th:value="*{uploadMessage}"></p>
+</div>
+
 
 <!--&lt;!&ndash; Display uploaded image information &ndash;&gt;-->
 <!--<div th:if="${image != null}">-->
