@@ -1,9 +1,6 @@
 package nz.ac.canterbury.seng302.gardenersgrove.service;
 
-
-import nz.ac.canterbury.seng302.gardenersgrove.entity.FormResult;
 import nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener;
-import nz.ac.canterbury.seng302.gardenersgrove.repository.FormRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -11,18 +8,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.slf4j.Logger;
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-
-
 
 @Service
 public class ImageService {
@@ -92,7 +84,4 @@ public class ImageService {
                     "Image must be less than 10MB");
         }
     }
-
-
-
 }

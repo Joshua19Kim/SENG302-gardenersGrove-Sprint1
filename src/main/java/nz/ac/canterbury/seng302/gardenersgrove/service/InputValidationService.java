@@ -1,11 +1,6 @@
 package nz.ac.canterbury.seng302.gardenersgrove.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import nz.ac.canterbury.seng302.gardenersgrove.service.GardenerFormService;
-
-
 import java.util.Optional;
-
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -16,7 +11,6 @@ public class InputValidationService {
     public InputValidationService(GardenerFormService gardenerFormService) {
         this.gardenerFormService = gardenerFormService;
     }
-
 
     /**
      * Verify correctness of password entry by checking if match

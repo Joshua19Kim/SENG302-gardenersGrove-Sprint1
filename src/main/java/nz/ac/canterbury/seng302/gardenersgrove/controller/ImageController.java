@@ -26,14 +26,10 @@ public class ImageController {
 
     private final Logger logger = LoggerFactory.getLogger(ImageController.class);
 
-
-
     @GetMapping("/upload")
     public String getUploadForm(Model model) {
         model.addAttribute("image", new Image());
-
         logger.info("GET /upload");
-
         return "upload";
     }
 

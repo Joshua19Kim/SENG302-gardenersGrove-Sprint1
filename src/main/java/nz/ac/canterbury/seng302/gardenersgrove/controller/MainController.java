@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
     Logger logger = LoggerFactory.getLogger(MainController.class);
 
-
     @GetMapping("/main")
     public String login() {
         logger.info("GET /Main");
