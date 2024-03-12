@@ -111,7 +111,7 @@ public class RegisterFormController {
         model.addAttribute("passwordStrong", passwordStrengthError.orElse(""));
 
 
-        if (firstNameError.isEmpty() && lastNameError.isEmpty() && validEmailError.isEmpty() && DoBError.isEmpty() && passwordMatchError.isEmpty() && passwordStrengthError.isEmpty()) {
+        if (firstNameError.isEmpty() && lastNameError.isEmpty() && validEmailError.isEmpty() && emailInUseError.isEmpty() && DoBError.isEmpty() && passwordMatchError.isEmpty() && passwordStrengthError.isEmpty()) {
             Gardener newGardener = new Gardener(firstName, lastName, DoB, email, password);
             newGardener.grantAuthority("ROLE_USER");
             gardenerFormService.addGardener(newGardener);
