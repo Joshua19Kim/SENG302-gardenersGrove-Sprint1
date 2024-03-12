@@ -39,6 +39,35 @@ input[type=submit] {
     border-radius: 5px;
 }
 
+/* ------------------------------Upload CSS ------------------------------ */
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.imageInstructionsContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+
+#uploadForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#submitPhotoButton {
+    margin-top: 15px;
+    width: fit-content;
+    padding: 5px;
+}
+
+/* ------------------------------- END ------------------------------------*/
+
 .UserProfilePicContainer {
     justify-content: center;
     align-items: center;

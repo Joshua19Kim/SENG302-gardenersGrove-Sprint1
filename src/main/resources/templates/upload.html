@@ -6,20 +6,31 @@
     <link rel="stylesheet" th:href="@{css/styles.css}">
 </head>
 <body>
-<h1>Upload Image</h1>
-
-<form action="/upload" method="post" enctype="multipart/form-data">
-    <label for="file">Choose an image:</label>
-    <input type="file" id="file" name="file" accept="image/*">
-    <br>
-    <button type="submit">Upload</button>
-</form>
-
-<!-- Display uploaded image information -->
-<div th:if="${image != null}">
-    <h3>Uploaded Image Details:</h3>
-    <p th:text="'File Name: ' + ${image.fileName}"></p>
+<h1>Upload New Profile Image</h1>
+<div class="imageInstructionsContainer">
+    <h4>Picture must be less than 10MB</h4>
+    <h4>Picture must be of type jpg, png, or svg</h4>
 </div>
+
+
+<div class="formContainer">
+    <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+        <div class="uploadLabelContainer">
+            <label for="file">Choose an image:</label>
+            <input type="file" id="file" name="file" accept="image/*" placeholder="Choose an image">
+        </div>
+        <div class="submitButtonContainer">
+            <button id="submitPhotoButton" type="submit">Upload</button>
+        </div>
+    </form>
+</div>
+
+
+<!--&lt;!&ndash; Display uploaded image information &ndash;&gt;-->
+<!--<div th:if="${image != null}">-->
+<!--    <h3>Uploaded Image Details:</h3>-->
+<!--    <p th:text="'File Name: ' + ${image.fileName}"></p>-->
+<!--</div>-->
 
 </body>
 </html>

@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import nz.ac.canterbury.seng302.gardenersgrove.entity.Image;
+
+import java.util.Optional;
+
 @Controller
 public class ImageController {
 
@@ -41,11 +44,12 @@ public class ImageController {
         logger.info("POST /upload");
 
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            if (imageService.saveImage(file).isEmpty()) {
+            Optional<String> uploadMessage =  imageService.saveImage(file);
+            if (uploadMessage.isEmpty()) {
                 logger.info("Image has successfully uploaded. Passed checks.");
                 return "redirect:/user";
             } else {
-                logger.info("Image not uploaded. Did not pass validations checks");
+                logger.info(uploadMessage.get());
                 return "/upload";
             }
 
