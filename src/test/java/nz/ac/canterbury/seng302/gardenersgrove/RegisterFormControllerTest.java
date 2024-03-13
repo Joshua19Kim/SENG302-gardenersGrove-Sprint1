@@ -8,24 +8,14 @@ import nz.ac.canterbury.seng302.gardenersgrove.service.GardenerFormService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.ui.Model;
 import org.springframework.ui.Model;
 
 import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 public class RegisterFormControllerTest {
 
@@ -98,6 +88,17 @@ public class RegisterFormControllerTest {
     void GivenPasswordsDontMatch_WhenUserRegisters_NewGardenerNotCreated() {
         registerFormController.submitForm(request, "Kush", "Desai", LocalDate.of(2024, 1, 15),"test@gmail.com", "Password1!", "Password2!", true, model);
         Mockito.verify(gardenerFormService, Mockito.never()).addGardener(Mockito.any(Gardener.class));
+    }
+
+    @Test
+    void GivenEmptyDoB_WhenUserRegisters_NewGardenerCreated() {
+        authentication = Mockito.mock(Authentication.class);
+        sessionMock = Mockito.mock(HttpSession.class);
+        Mockito.when(authenticationManager.authenticate(Mockito.any())).thenReturn(authentication);
+        Mockito.when(authentication.isAuthenticated()).thenReturn(true);
+        Mockito.when(request.getSession()).thenReturn(sessionMock);
+        registerFormController.submitForm(request, "Kush", "Desai", null,"test@gmail.com", "Password1!", "Password1!", true, model);
+        Mockito.verify(gardenerFormService, times(1)).addGardener(Mockito.any(Gardener.class));
     }
 
 }
