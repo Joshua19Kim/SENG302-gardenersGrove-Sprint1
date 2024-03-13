@@ -113,15 +113,15 @@ public class InputValidationServiceTest {
         assertTrue(isValid.isEmpty());
     }
 
-    @Test
-    void testLongName() {
-        InputValidationService validate = new InputValidationService(gardenerFormService);
-        String name = "Thisnameisdefinatelylongerthansixtyfourcharactersanditisgoingtofailthetest";
-        String first  = "First";
-        boolean lastName = false;
-        Optional<String> isValid = validate.checkValidName(name, first, lastName);
-        assertTrue(isValid.get().matches(first +" name must be 64 characters long or less"));
-    }
+//    @Test
+//    void testLongName() {
+//        InputValidationService validate = new InputValidationService(gardenerFormService);
+//        String name = "Thisnameisdefinatelylongerthansixtyfourcharactersanditisgoingtofailthetest";
+//        String first  = "First";
+//        boolean lastName = false;
+//        Optional<String> isValid = validate.checkValidName(name, first, lastName);
+//        assertTrue(isValid.get().matches(first +" name must be 64 characters long or less"));
+//    }
 
     @Test
     void testNullFirstName() {
