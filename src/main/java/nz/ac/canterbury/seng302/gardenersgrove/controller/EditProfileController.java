@@ -65,7 +65,7 @@ public class EditProfileController {
     @PostMapping("/editProfile")
     public String submitForm(@RequestParam(name = "firstName") String firstName,
                              @RequestParam(name = "lastName", required = false) String lastName,
-                             @RequestParam(name = "DoB") LocalDate DoB,
+                             @RequestParam(name = "DoB", required = false) LocalDate DoB,
                              @RequestParam(name = "email") String email,
                              @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
                              Model model) {
@@ -79,8 +79,10 @@ public class EditProfileController {
         model.addAttribute("firstNameValid", firstNameError.orElse(""));
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
         model.addAttribute("lastNameValid", lastNameError.orElse(""));
-
-        Optional<String> DoBError = inputValidator.checkDoB(DoB);
+        Optional<String> DoBError = Optional.empty();
+        if (DoB != null) {
+            DoBError = inputValidator.checkDoB(DoB);
+        }
         model.addAttribute("DoBValid", DoBError.orElse(""));
         Optional<String> emailError = Optional.empty();
         if (!email.equals(gardener.getEmail())) {

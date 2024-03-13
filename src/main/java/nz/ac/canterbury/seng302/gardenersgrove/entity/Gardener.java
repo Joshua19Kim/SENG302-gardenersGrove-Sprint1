@@ -26,7 +26,7 @@ public class Gardener {
     @Column()
     private String lastName;
 
-    @Column(nullable = false)
+    @Column()
     private LocalDate DoB;
 
     @Column(nullable = false)

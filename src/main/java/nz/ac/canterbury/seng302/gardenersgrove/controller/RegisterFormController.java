@@ -52,7 +52,7 @@ public class RegisterFormController {
     @GetMapping("/register")
     public String form(@RequestParam(name="firstName", required = false, defaultValue = "") String firstName,
                        @RequestParam(name="lastName", required = false, defaultValue = "") String lastName,
-                       @RequestParam(name="DoB", required = false, defaultValue = "2024-01-01") LocalDate DoB,
+                       @RequestParam(name="DoB", required = false, defaultValue = "") LocalDate DoB,
                        @RequestParam(name="email", required = false, defaultValue = "") String email,
                        @RequestParam(name="password", required = false, defaultValue = "") String password,
                        @RequestParam(name="passwordConfirm", required = false, defaultValue = "") String passwordConfirm,
@@ -85,7 +85,7 @@ public class RegisterFormController {
     public String submitForm( HttpServletRequest request,
                               @RequestParam(name="firstName") String firstName,
                               @RequestParam(name="lastName", required = false) String lastName,
-                              @RequestParam(name="DoB") LocalDate DoB,
+                              @RequestParam(name="DoB", required = false) LocalDate DoB,
                               @RequestParam(name="email") String email,
                               @RequestParam(name="password") String password,
                               @RequestParam(name = "passwordConfirm") String passwordConfirm,
@@ -105,7 +105,10 @@ public class RegisterFormController {
         Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
         model.addAttribute("lastNameValid", lastNameError.orElse(""));
 
-        Optional<String> DoBError = inputValidator.checkDoB(DoB);
+        Optional<String> DoBError = Optional.empty();
+        if (DoB != null) {
+            DoBError = inputValidator.checkDoB(DoB);
+        }
         model.addAttribute("DoBValid", DoBError.orElse(""));
 
         Optional<String> validEmailError = inputValidator.checkValidEmail(email);
