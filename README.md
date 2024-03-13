@@ -53,18 +53,18 @@ Everything should now be up and running, so you can load up your preferred brows
 home '/', we suggest you have a play around with these to understand the basics of the new technologies involved.
 
 #### 3 - What's included to play with
-Routes implemented:
+Routes implemented:\
 / \
 /login \
 /register \
 /user (need to be logged in to access) \
-/main \
+/main
 
 This template project includes basic users to test the application.\
 User 1 - email: a@gmail.com, password: Password1!\
 User 2 - email: b@gmail.com, password: Password1!\
 User 3 - email: c@gmail.com, password: Password1!\
-User 4 - email: d@gmail.com, password: Password1!\
+User 4 - email: d@gmail.com, password: Password1!
 
 #### 4 - Commands to run test suites:
 
