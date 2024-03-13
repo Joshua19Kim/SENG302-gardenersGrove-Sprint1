@@ -41,7 +41,7 @@ public class UserProfileControllerTest {
     void GivenGardenerEmailExistingInServer_WhenToShowDetails_ControllerFindsDetailsWithEmail() {
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getName()).thenReturn("testSameEmail@test.test");
-        userProfileController.getUserProfile(modelMock);
+        userProfileController.getUserProfile(null, null, null, null, modelMock);
         Mockito.verify(gardenerFormService, times(1)).findByEmail(gardener.getEmail());
     }
 //    @Test
