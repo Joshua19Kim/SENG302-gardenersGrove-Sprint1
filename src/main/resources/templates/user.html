@@ -15,8 +15,37 @@
     </div>
 </div>
 <div >
-    <button class="ChangeProfilePictureButtonContainer" type="button" id="changePicture" onclick=window.location.href='/editProfile'> + </button>
+    <button class="ChangeProfilePictureButtonContainer" type="button" id="changePicture" onclick=toggleUploadContainer()> + </button>
 </div>
+
+<!-------------------------------------------TEST--------------------------------------------->
+<div id="uploadContainer">
+    <h3 id="upLoadTitle">Upload New Profile Image</h3>
+    <div class="imageInstructionsContainer">
+        <h4>Picture must be less than 10MB</h4>
+        <h4>Picture must be of type jpg, png, or svg</h4>
+    </div>
+
+
+    <div class="formContainer">
+        <form id="uploadForm" action="/user" method="post" enctype="multipart/form-data">
+            <div class="uploadLabelContainer">
+                <label for="file">Choose an image:</label>
+                <input type="file" id="file" name="file" accept="image/*" placeholder="Choose an image">
+            </div>
+            <div class="submitButtonContainer">
+                <button class="buttonDesign" type="submit">Upload</button>
+                <button class="buttonDesign" type="reset" onclick="window.location='./user'">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="warningMessageContainer">
+        <p th:text="${uploadMessage}" th:value="*{uploadMessage}"></p>
+    </div>
+</div>
+
+<!-------------------------------------------TEST--------------------------------------------->
 
 <div>
     <form id="profileForm" action="/user" method="get">
@@ -74,12 +103,20 @@
         </div>
     </form>
 </div>
+
+
 <script>
 
-    function redirectToUploadPage() {
-        window.location.href = '/upload';
+    function toggleUploadContainer() {
+        var toggleState = document.getElementById("uploadContainer");
+        if (toggleState.style.display === "flex") {
+            toggleState.style.display = "none";
+        } else {
+            toggleState.style.display = "flex";
+        }
     }
     function enableEditing() {
+        toggleUploadContainer();
         document.getElementById('editButtonDiv').style.display = 'none';
         document.getElementById('saveCancelButtonDiv').style.display = 'block';
 
@@ -105,6 +142,7 @@
     }
 
     function disableEditing() {
+        toggleUploadContainer();
         document.getElementById('editButtonDiv').style.display = 'block';
         document.getElementById('saveCancelButtonDiv').style.display = 'none';
 

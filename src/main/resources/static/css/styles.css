@@ -83,6 +83,19 @@ input[type=submit] {
 
 /* ------------------------------- END ------------------------------------*/
 
+/* ------------------Upload container at bottom of user profile------------*/
+
+#uploadContainer {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+
+    margin-bottom: 30px;
+}
+
+/* ------------------------------- END ------------------------------------*/
+
+
 .UserProfilePicContainer {
     justify-content: center;
     align-items: center;

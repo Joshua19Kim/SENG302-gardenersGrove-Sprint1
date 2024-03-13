@@ -2,6 +2,7 @@ package nz.ac.canterbury.seng302.gardenersgrove.controller;
 
 import nz.ac.canterbury.seng302.gardenersgrove.entity.Gardener;
 import nz.ac.canterbury.seng302.gardenersgrove.service.GardenerFormService;
+import nz.ac.canterbury.seng302.gardenersgrove.service.ImageService;
 import nz.ac.canterbury.seng302.gardenersgrove.service.InputValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDate;
@@ -32,6 +34,9 @@ public class UserProfileController {
 
     private Authentication authentication;
     private Gardener gardener;
+
+    @Autowired
+    private ImageService imageService;
 
     @Autowired
     public UserProfileController(GardenerFormService gardenerFormService) {
@@ -122,9 +127,22 @@ public class UserProfileController {
     }
 
     @PostMapping("/user")
-    public String submitForm() {
-        logger.info("POST /user");
-        return "redirect:editProfile";
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("POST /upload");
+
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            Optional<String> uploadMessage =  imageService.saveImage(file);
+            if (uploadMessage.isEmpty()) {
+                return "redirect:/user";
+            } else {
+                model.addAttribute("uploadMessage", uploadMessage.get());
+                model.addAttribute("profilePic", gardenerFormService.findByEmail(authentication.getName()).get().getProfilePicture());
+                return "/user";
+            }
+        }
+        return "/login";
     }
 
     @GetMapping("/redirectToUserPage")

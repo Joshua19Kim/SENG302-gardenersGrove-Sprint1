@@ -55,11 +55,11 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(auth -> auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h2/**"),AntPathRequestMatcher.antMatcher("/css/**")).permitAll())
                 .headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable())
                 .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2/**")))
-                .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/upload")))
+                .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/user")))
 
                 .authorizeHttpRequests(request ->
                         // Allow "/", "/register", and "/login" to anyone (permitAll)
-                        request.requestMatchers("/", "/register", "/login", "/upload")
+                        request.requestMatchers("/", "/register", "/login", "user")
                                 .permitAll()
                                 // Only allow admins to reach the "/admin" page
                                 .requestMatchers("/admin")

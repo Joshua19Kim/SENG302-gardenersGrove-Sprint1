@@ -30,7 +30,7 @@ public class ImageController {
     public String getUploadForm(Model model) {
         model.addAttribute("image", new Image());
         logger.info("GET /upload");
-        return "upload";
+        return "user";
     }
 
     @PostMapping("/upload")
@@ -45,7 +45,7 @@ public class ImageController {
                 return "redirect:/user";
             } else {
                 model.addAttribute("uploadMessage", uploadMessage.get());
-                return "/editProfile";
+                return "/user";
             }
         }
         return "/login";
