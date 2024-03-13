@@ -43,6 +43,7 @@ public class UserProfileController {
                                  @RequestParam(name = "lastName", required = false) String lastName,
                                  @RequestParam(name = "DoB", required = false) LocalDate DoB,
                                  @RequestParam(name = "email", required = false) String email,
+                                 @RequestParam(name = "isLastNameOptional", required = false) boolean isLastNameOptional,
                                  Model model) {
 
         logger.info("GET /user");
@@ -71,13 +72,13 @@ public class UserProfileController {
 
         Optional<String> firstNameError = Optional.empty();
         if (firstName != null) {
-            firstNameError = inputValidator.checkValidName(firstName, "First", false);
+            firstNameError = inputValidator.checkValidName(firstName, "First", isLastNameOptional);
         }
         model.addAttribute("firstNameValid", firstNameError.orElse(""));
 
         Optional<String> lastNameError = Optional.empty();
         if (lastName != null) {
-            lastNameError = inputValidator.checkValidName(lastName, "Last", true);
+            lastNameError = inputValidator.checkValidName(lastName, "Last", isLastNameOptional);
         }
         model.addAttribute("lastNameValid", lastNameError.orElse(""));
 

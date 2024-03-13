@@ -32,12 +32,12 @@
         <input class="form-control" data-cy="lastName" id="lastNameEdit" placeholder="Last Name"
                th:name="lastName" th:value="*{lastName}" type="text" style="display: none">
         <br/>
-        <input class="form-control" data-cy="lastNameCheck" id="lastNameCheck" name="lastNameCheck" placeholder="Last Name Tick Box Check"
-               th:name="lastNameCheck" th:value="lastNameCheck" type="checkbox" style="display: none;">
-        <label id="lastNameCheckLabelEdit" style="display: none;">I have no surname</label>
+        <input class="form-control" data-cy="isLastNameOptional" id="isLastNameOptional" name="isLastNameOptional" placeholder="Last Name Tick Box Check"
+               th:name="isLastNameOptional" th:value="isLastNameOptional" type="checkbox" style="display: none;">
+        <label id="isLastNameOptionalLabelEdit" style="display: none;">I have no surname</label>
         <script>
-            document.getElementById('lastNameCheck').checked = false;
-            document.getElementById('lastNameCheck').onchange = function () {
+            document.getElementById('isLastNameOptional').checked = false;
+            document.getElementById('isLastNameOptional').onchange = function () {
                 document.getElementById('lastNameEdit').disabled = this.checked;
             };
         </script>
@@ -88,11 +88,11 @@
 
         document.getElementById('lastName').style.display = 'none';
         document.getElementById('lastNameEdit').style.display = 'inline';
-        document.getElementById('lastNameCheck').style.display = 'inline';
-        document.getElementById('lastNameCheckLabelEdit').style.display = 'inline';
+        document.getElementById('isLastNameOptional').style.display = 'inline';
+        document.getElementById('isLastNameOptionalLabelEdit').style.display = 'inline';
         var lName = document.getElementById('lastNameEdit');
         if (lName.value.trim() === "") {
-            document.getElementById('lastNameCheck').checked = true;
+            document.getElementById('isLastNameOptional').checked = true;
             document.getElementById('lastNameEdit').disabled = true;
         }
 
@@ -113,8 +113,8 @@
 
         document.getElementById('lastName').style.display = 'inline';
         document.getElementById('lastNameEdit').style.display = 'none';
-        document.getElementById('lastNameCheck').style.display = 'none';
-        document.getElementById('lastNameCheckLabelEdit').style.display = 'none';
+        document.getElementById('isLastNameOptional').style.display = 'none';
+        document.getElementById('isLastNameOptionalLabelEdit').style.display = 'none';
 
         document.getElementById('DoB').style.display = 'inline';
         document.getElementById('DoBEdit').style.display = 'none';

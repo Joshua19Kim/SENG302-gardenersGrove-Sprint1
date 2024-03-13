@@ -45,7 +45,7 @@ public class RegisterFormController {
      * @param email user's email
      * @param password user's password
      * @param passwordConfirm user's confirmed password
-     * @param lastNameCheck is the last name checkbox selected
+     * @param isLastNameOptional is the last name checkbox selected
      * @param model (map-like) representation of name, language and isJava boolean for use in thymeleaf
      * @return thymeleaf demoFormTemplate
      */
@@ -56,7 +56,7 @@ public class RegisterFormController {
                        @RequestParam(name="email", required = false, defaultValue = "") String email,
                        @RequestParam(name="password", required = false, defaultValue = "") String password,
                        @RequestParam(name="passwordConfirm", required = false, defaultValue = "") String passwordConfirm,
-                       @RequestParam(name="lastNameCheck", required = false) boolean lastNameCheck,
+                       @RequestParam(name= "isLastNameOptional", required = false) boolean isLastNameOptional,
                        Model model) {
         logger.info("GET /register");
 
@@ -89,7 +89,7 @@ public class RegisterFormController {
                               @RequestParam(name="email") String email,
                               @RequestParam(name="password") String password,
                               @RequestParam(name = "passwordConfirm") String passwordConfirm,
-                              @RequestParam(name = "lastNameCheck", required = false) boolean lastNameCheck,
+                              @RequestParam(name = "isLastNameOptional", required = false) boolean isLastNameOptional,
                               Model model) {
         logger.info("POST /register");
 
@@ -102,7 +102,7 @@ public class RegisterFormController {
         InputValidationService inputValidator = new InputValidationService(gardenerFormService);
         Optional<String> firstNameError = inputValidator.checkValidName(firstName, "First", false);
         model.addAttribute("firstNameValid", firstNameError.orElse(""));
-        Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", lastNameCheck);
+        Optional<String> lastNameError = inputValidator.checkValidName(lastName, "Last", isLastNameOptional);
         model.addAttribute("lastNameValid", lastNameError.orElse(""));
 
         Optional<String> DoBError = Optional.empty();

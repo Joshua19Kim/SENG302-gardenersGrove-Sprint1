@@ -39,9 +39,9 @@ public class InputValidationService {
      * @param name provided by user input
      * @return true if passes verification
      */
-    public Optional<String> checkValidName (String name, String firstOrLast, boolean lastNameCheck) {
+    public Optional<String> checkValidName (String name, String firstOrLast, boolean isLastNameOptional) {
         String nameRegex = "^[A-Za-zÄÖÜäöüßĀĒĪŌŪāēīōū]+[A-Za-zÄÖÜäöüßĀĒĪŌŪāēīōū' -]*$";
-        if (lastNameCheck) {
+        if (isLastNameOptional) {
             return Optional.empty();
         } else if (name.length() > 64) {
             return Optional.of(firstOrLast +" name must\n" +
