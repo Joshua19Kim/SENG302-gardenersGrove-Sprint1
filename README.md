@@ -1,10 +1,10 @@
 # SENG302 Template Project Overview
-Welcome to the template project for SENG302 2024. In this README we have included some useful information to help you
-get started. We advise you take some time reading through this entire document, as doing so may save you many headaches
-down the line!
+This project, Gardeners Grove, is an application targeted towards gardeners. The application allows gardeners to engage with the wider community or the environment in general. Gardener’s Grove is designed to make the life of gardeners better by recording the different plants in their garden, find information on ways to best care for plants, access historical and upcoming weather data. Gardeners can interact with the wider community by sharing images of their garden, offering advice on forums, giving away or selling plants and produce to those in their community.
 
 ## Dependencies
 This project requires Java version >= 21, [click here to get the latest stable OpenJDK release (as of time of writing)](https://jdk.java.net/21/)
+
+This projects requires Spring Security ( add implementation "org.springframework.boot:spring-boot-starter-security" in build.gradle)
 
 
 ## Technologies
@@ -16,6 +16,7 @@ This project makes use of several technologies that you will have to work with. 
 - [Thymeleaf](https://www.thymeleaf.org/) - A templating engine to render HTML on the server, as opposed to a separate client-side application (such as React)
 - [Gradle](https://gradle.org/) - A build tool that greatly simplifies getting application up and running, even managing our dependencies (for those who did SENG202, you can think of Gradle as a Maven replacement)
 - [Spring Boot Gradle Plugin](https://docs.spring.io/spring-boot/docs/3.0.2/gradle-plugin/reference/html/) - Allows us to more easily integrate our Spring Boot application with Gradle
+- [Spring Security](https://spring.io/projects/spring-security) - Allows us to provide authentication and authorization to our application for users
 
 
 ## Quickstart Guide
@@ -45,26 +46,20 @@ Everything should now be up and running, so you can load up your preferred brows
 home '/', we suggest you have a play around with these to understand the basics of the new technologies involved.
 
 #### 3 - What's included to play with
-This template project includes basic demo functionality for handling forms and persisting the submissions at `/demo/forms`
-as well as a some basic Thymeleaf fragments at `/demo/fragments`.
+This template project includes basic users to test the application.
+User 1 - email: a@gmail.com, password: Password1!
+User 2 - email: b@gmail.com, password: Password1!
+User 3 - email: c@gmail.com, password: Password1!
+User 4 - email: d@gmail.com, password: Password1!
 
-For more information see these relevant resources:
-- [More information about persistence using JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-- [Examples for using Thymeleaf fragments](https://www.baeldung.com/spring-thymeleaf-fragments)
-- [Thymeleaf URL syntax](https://www.thymeleaf.org/doc/articles/standardurlsyntax.html)
-- [More information about the Autowired annotation](https://www.baeldung.com/spring-autowire)
+#### 4 - Commands to run test suites:
 
-## Information about included build files/scripts
-Whilst these scripts and files will not be of use until later in the course when you set up continuous integration (CI) we have included files with default behaviour, and some for reference.
-- `deployment-files-fyi/nginx/sites-available.conf`
-  - Reference file showing the VMs NGINX config.
-- `deployment-files-fyi/systemd-service/production.service`
-  - Reference file showing the production environment service configuration. [See here for more information about .service files](https://www.shellhacks.com/systemd-service-file-example/)
-- `deployment-files-fyi/systemd-service/staging.service`
-  - Reference file showing the staging environment service configuration.
-- `runner-scripts/production.sh`
-  - Deployment shell script for running the production environment on a VM.
-- `runner-scripts/staging.sh`
-  - Deployment shell script for running the staging environment on a VM.
-- `.gitlab-ci.yml`
-  - The (GitLab specific) CI script for the project. This will cause your pipelines to fail/timeout until gitlab-runners are set up so feel free to ignore these for now. [For more information refer to GitLab's Documentation Here](https://docs.gitlab.com/ee/ci/yaml/gitlab_ci_yaml.html)
+On Linux:
+```
+./gradlew test
+```
+
+On Windows:
+```
+gradlew test
+```
