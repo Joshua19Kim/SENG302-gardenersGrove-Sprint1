@@ -45,7 +45,7 @@ public class ImageController {
                 return "redirect:/user";
             } else {
                 model.addAttribute("uploadMessage", uploadMessage.get());
-                return "/upload";
+                return "/editProfile";
             }
         }
         return "/login";

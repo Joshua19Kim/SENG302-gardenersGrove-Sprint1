@@ -62,6 +62,34 @@
     </form>
 
 
+
 </div>
+<!-------------------------------------------TEST--------------------------------------------->
+
+<h3 id="upLoadTitle">Upload New Profile Image</h3>
+<div class="imageInstructionsContainer">
+    <h4>Picture must be less than 10MB</h4>
+    <h4>Picture must be of type jpg, png, or svg</h4>
+</div>
+
+
+<div class="formContainer">
+    <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+        <div class="uploadLabelContainer">
+            <label for="file">Choose an image:</label>
+            <input type="file" id="file" name="file" accept="image/*" placeholder="Choose an image">
+        </div>
+        <div class="submitButtonContainer">
+            <button class="buttonDesign" type="submit">Upload</button>
+            <button class="buttonDesign" type="reset" onclick="window.location='./user'">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<div class="warningMessageContainer">
+    <p th:text="${uploadMessage}" th:value="*{uploadMessage}"></p>
+</div>
+<!-------------------------------------------TEST--------------------------------------------->
+
 </body>
 </html>
