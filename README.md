@@ -23,7 +23,7 @@ This project makes use of several technologies that you will have to work with. 
 - [Thymeleaf](https://www.thymeleaf.org/) - A templating engine to render HTML on the server, as opposed to a separate client-side application (such as React)
 - [Gradle](https://gradle.org/) - A build tool that greatly simplifies getting application up and running, even managing our dependencies (for those who did SENG202, you can think of Gradle as a Maven replacement)
 - [Spring Boot Gradle Plugin](https://docs.spring.io/spring-boot/docs/3.0.2/gradle-plugin/reference/html/) - Allows us to more easily integrate our Spring Boot application with Gradle
-- Spring Security(https://spring.io/projects/spring-security) - Allows us to provide authentication and authorization to our application for users
+- [Spring Security](https://spring.io/projects/spring-security) - Allows us to provide authentication and authorization to our application for users
 
 
 ## Quickstart Guide
@@ -54,17 +54,17 @@ home '/', we suggest you have a play around with these to understand the basics 
 
 #### 3 - What's included to play with
 Routes implemented:
-/
-/login
-/register
-/user (need to be logged in to access)
-/main
+/ \
+/login \
+/register \
+/user (need to be logged in to access) \
+/main \
 
-This template project includes basic users to test the application.
-User 1 - email: a@gmail.com, password: Password1!
-User 2 - email: b@gmail.com, password: Password1!
-User 3 - email: c@gmail.com, password: Password1!
-User 4 - email: d@gmail.com, password: Password1!
+This template project includes basic users to test the application.\
+User 1 - email: a@gmail.com, password: Password1!\
+User 2 - email: b@gmail.com, password: Password1!\
+User 3 - email: c@gmail.com, password: Password1!\
+User 4 - email: d@gmail.com, password: Password1!\
 
 #### 4 - Commands to run test suites:
 
