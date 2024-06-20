@@ -1,5 +1,7 @@
 # SENG302 Template Project Overview
-This project, Gardeners Grove, is an application targeted towards gardeners. The application allows gardeners to engage with the wider community or the environment in general. Gardener’s Grove is designed to make the life of gardeners better by recording the different plants in their garden, find information on ways to best care for plants, access historical and upcoming weather data. Gardeners can interact with the wider community by sharing images of their garden, offering advice on forums, giving away or selling plants and produce to those in their community.
+**NOTE : This repository was only for the first sprint(out of 6 for whole year) because our code was merged with the code of the other team(They had different user stories) for the rest of sprints**
+
+This project, Gardeners Grove, is an application targeted towards gardeners. The application allows gardeners to engage with the wider community or the environment in general. Gardener’s Grove is designed to make the life of gardeners better by recording the different plants in their garden, find information on ways to best care for plants, access historical and upcoming weather data. Gardeners can interact with the wider community by sharing images of their garden, offering advice on forums, giving away or selling plants and produce to those in their community. \
 
 ## Authors
 - SENG302 teaching team
